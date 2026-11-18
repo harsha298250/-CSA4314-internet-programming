@@ -1,0 +1,783 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>InsureEasy Insurance Management</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #f2f3fa;
+        }
+
+        header {
+            background: linear-gradient(120deg, #29245f, #6554c0);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        nav {
+            background: #29245f;
+            padding: 15px;
+            text-align: center;
+        }
+
+        nav button {
+            background: white;
+            color: #29245f;
+            border: none;
+            padding: 10px 14px;
+            margin: 4px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        nav button:hover {
+            background: #dcd7ff;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .box {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px #ccc;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+
+        input, select, textarea {
+            width: 90%;
+            padding: 11px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .action {
+            background: #6554c0;
+            color: white;
+            padding: 11px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .action:hover {
+            background: #40358c;
+        }
+
+        .plan {
+            background: #f0efff;
+            padding: 18px;
+            margin: 15px 0;
+            border-left: 5px solid #6554c0;
+            border-radius: 8px;
+        }
+
+        .plan h3 {
+            color: #40358c;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #40358c;
+            color: white;
+        }
+
+        .banner {
+            background: #e6e2ff;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        footer {
+            background: #29245f;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+
+        @media(max-width:600px) {
+            nav button {
+                padding: 8px;
+                font-size: 12px;
+            }
+
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🛡️ InsureEasy</h1>
+    <p>Your Protection, Our Responsibility</p>
+</header>
+
+<nav>
+    <button onclick="showPage('home')">Home</button>
+    <button onclick="showPage('register')">Register</button>
+    <button onclick="showPage('login')">Login</button>
+    <button onclick="showPage('plans')">Insurance Plans</button>
+    <button onclick="showPage('purchase')">Buy Policy</button>
+    <button onclick="showPage('claims')">Claims</button>
+    <button onclick="showPage('myPolicies')">My Policies</button>
+    <button onclick="showPage('profile')">Profile</button>
+    <button onclick="showPage('admin')">Admin</button>
+</nav>
+
+<div class="container">
+
+    <!-- HOME PAGE -->
+
+    <div id="home" class="page active">
+
+        <div class="banner">
+            <h2>Protect What Matters Most</h2>
+            <p>Choose the right insurance plan for a secure future.</p>
+
+            <button class="action"
+                    onclick="showPage('plans')">
+                Explore Plans
+            </button>
+        </div>
+
+        <div class="box">
+            <h2>Welcome to InsureEasy</h2>
+
+            <p>
+                InsureEasy is an online insurance management
+                system that helps customers manage their
+                insurance plans and claims easily.
+            </p>
+
+            <h3>Our Services</h3>
+
+            <ul>
+                <li>Customer Registration and Login</li>
+                <li>View Insurance Plans</li>
+                <li>Purchase Insurance Policies</li>
+                <li>Submit Insurance Claims</li>
+                <li>Check Policy Details</li>
+                <li>View Claim Status</li>
+                <li>Admin Policy Management</li>
+            </ul>
+        </div>
+
+        <div class="box">
+            <h2>Types of Insurance</h2>
+            <p>🏥 Health Insurance</p>
+            <p>🚗 Vehicle Insurance</p>
+            <p>❤️ Life Insurance</p>
+            <p>🏠 Home Insurance</p>
+        </div>
+
+    </div>
+
+    <!-- REGISTER -->
+
+    <div id="register" class="page">
+        <div class="box">
+            <h2>Customer Registration</h2>
+
+            <input type="text" id="regName"
+                   placeholder="Full Name">
+
+            <input type="email" id="regEmail"
+                   placeholder="Email Address">
+
+            <input type="text" id="regPhone"
+                   placeholder="Phone Number">
+
+            <input type="password" id="regPassword"
+                   placeholder="Create Password">
+
+            <button class="action" onclick="register()">
+                Register
+            </button>
+
+            <p id="registerMessage"></p>
+        </div>
+    </div>
+
+    <!-- LOGIN -->
+
+    <div id="login" class="page">
+        <div class="box">
+            <h2>Customer Login</h2>
+
+            <input type="email" id="loginEmail"
+                   placeholder="Enter Email">
+
+            <input type="password" id="loginPassword"
+                   placeholder="Enter Password">
+
+            <button class="action" onclick="login()">
+                Login
+            </button>
+
+            <p id="loginMessage"></p>
+        </div>
+    </div>
+
+    <!-- INSURANCE PLANS -->
+
+    <div id="plans" class="page">
+        <div class="box">
+            <h2>Available Insurance Plans</h2>
+
+            <div class="plan">
+                <h3>🏥 Health Insurance</h3>
+                <p>Medical expenses and hospital coverage.</p>
+                <p>Premium: ₹5,000 / year</p>
+                <button class="action" onclick="selectPlan('Health Insurance')">
+                    Select Plan
+                </button>
+            </div>
+
+            <div class="plan">
+                <h3>🚗 Vehicle Insurance</h3>
+                <p>Protection against vehicle accidents and damage.</p>
+                <p>Premium: ₹3,000 / year</p>
+                <button class="action" onclick="selectPlan('Vehicle Insurance')">
+                    Select Plan
+                </button>
+            </div>
+
+            <div class="plan">
+                <h3>❤️ Life Insurance</h3>
+                <p>Financial protection for your family.</p>
+                <p>Premium: ₹8,000 / year</p>
+                <button class="action" onclick="selectPlan('Life Insurance')">
+                    Select Plan
+                </button>
+            </div>
+
+            <div class="plan">
+                <h3>🏠 Home Insurance</h3>
+                <p>Protection for your house and property.</p>
+                <p>Premium: ₹4,000 / year</p>
+                <button class="action" onclick="selectPlan('Home Insurance')">
+                    Select Plan
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PURCHASE POLICY -->
+
+    <div id="purchase" class="page">
+        <div class="box">
+            <h2>Purchase Insurance Policy</h2>
+
+            <input type="text" id="customerName"
+                   placeholder="Customer Name">
+
+            <select id="selectedPlan">
+                <option value="">Select Insurance Plan</option>
+                <option>Health Insurance</option>
+                <option>Vehicle Insurance</option>
+                <option>Life Insurance</option>
+                <option>Home Insurance</option>
+            </select>
+
+            <select id="duration">
+                <option value="">Select Duration</option>
+                <option>1 Year</option>
+                <option>2 Years</option>
+                <option>5 Years</option>
+            </select>
+
+            <input type="date" id="startDate">
+
+            <button class="action" onclick="buyPolicy()">
+                Purchase Policy
+            </button>
+
+            <p id="purchaseMessage"></p>
+        </div>
+    </div>
+
+    <!-- CLAIMS -->
+
+    <div id="claims" class="page">
+        <div class="box">
+            <h2>Submit Insurance Claim</h2>
+
+            <input type="text" id="claimPolicy"
+                   placeholder="Enter Policy ID">
+
+            <select id="claimType">
+                <option value="">Select Claim Type</option>
+                <option>Medical Claim</option>
+                <option>Vehicle Damage Claim</option>
+                <option>Life Insurance Claim</option>
+                <option>Home Damage Claim</option>
+            </select>
+
+            <textarea id="claimDescription"
+                      placeholder="Describe Your Claim"></textarea>
+
+            <input type="number" id="claimAmount"
+                   placeholder="Claim Amount">
+
+            <button class="action" onclick="submitClaim()">
+                Submit Claim
+            </button>
+
+            <p id="claimMessage"></p>
+        </div>
+    </div>
+
+    <!-- MY POLICIES -->
+
+    <div id="myPolicies" class="page">
+        <div class="box">
+            <h2>My Insurance Policies</h2>
+
+            <div id="policyList"></div>
+        </div>
+
+        <div class="box">
+            <h2>My Claim Status</h2>
+
+            <div id="claimList"></div>
+        </div>
+    </div>
+
+    <!-- PROFILE -->
+
+    <div id="profile" class="page">
+        <div class="box">
+            <h2>Customer Profile</h2>
+
+            <p id="profileName">Name: Not logged in</p>
+            <p id="profileEmail">Email: -</p>
+            <p id="profilePhone">Phone: -</p>
+
+            <button class="action" onclick="logout()">
+                Logout
+            </button>
+        </div>
+    </div>
+
+    <!-- ADMIN -->
+
+    <div id="admin" class="page">
+
+        <div class="box">
+            <h2>Admin Login</h2>
+
+            <input type="text" id="adminUser"
+                   placeholder="Admin Username">
+
+            <input type="password" id="adminPass"
+                   placeholder="Admin Password">
+
+            <button class="action" onclick="adminLogin()">
+                Admin Login
+            </button>
+
+            <p id="adminMessage"></p>
+        </div>
+
+        <div class="box" id="dashboard"
+             style="display:none">
+
+            <h2>Admin Dashboard</h2>
+
+            <h3>Customer Details</h3>
+            <div id="customerList"></div>
+
+            <h3>Policy Details</h3>
+            <div id="adminPolicyList"></div>
+
+            <h3>Claim Management</h3>
+            <div id="adminClaimList"></div>
+        </div>
+
+    </div>
+
+</div>
+
+<footer>
+    <p>InsureEasy Insurance Management System © 2026</p>
+</footer>
+
+<script>
+
+    // PAGE NAVIGATION
+
+    function showPage(page) {
+        document.querySelectorAll(".page").forEach(p => {
+            p.classList.remove("active");
+        });
+
+        document.getElementById(page).classList.add("active");
+
+        if(page === "myPolicies") displayPolicies();
+        if(page === "profile") displayProfile();
+    }
+
+    // DATA STORAGE
+
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+    let policies = JSON.parse(localStorage.getItem("policies")) || [];
+    let claims = JSON.parse(localStorage.getItem("claims")) || [];
+    let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+
+    function saveData() {
+        localStorage.setItem("users", JSON.stringify(users));
+        localStorage.setItem("policies", JSON.stringify(policies));
+        localStorage.setItem("claims", JSON.stringify(claims));
+        localStorage.setItem("currentUser", JSON.stringify(currentUser));
+    }
+
+    // REGISTRATION
+
+    function register() {
+        let name = document.getElementById("regName").value;
+        let email = document.getElementById("regEmail").value;
+        let phone = document.getElementById("regPhone").value;
+        let password = document.getElementById("regPassword").value;
+
+        if(!name || !email || !phone || !password) {
+            alert("Enter all details");
+            return;
+        }
+
+        if(users.some(u => u.email === email)) {
+            alert("Email already registered");
+            return;
+        }
+
+        users.push({
+            name:name,
+            email:email,
+            phone:phone,
+            password:password
+        });
+
+        saveData();
+
+        document.getElementById("registerMessage").innerHTML =
+            "Registration Successful!";
+    }
+
+    // LOGIN
+
+    function login() {
+        let email = document.getElementById("loginEmail").value;
+        let password = document.getElementById("loginPassword").value;
+
+        let user = users.find(u =>
+            u.email === email && u.password === password
+        );
+
+        if(user) {
+            currentUser = user;
+            saveData();
+
+            document.getElementById("loginMessage").innerHTML =
+                "Login Successful!";
+
+            showPage("home");
+        } else {
+            document.getElementById("loginMessage").innerHTML =
+                "Invalid Email or Password";
+        }
+    }
+
+    // LOGOUT
+
+    function logout() {
+        currentUser = null;
+        saveData();
+        alert("Logged out successfully");
+        showPage("home");
+    }
+
+    // PROFILE
+
+    function displayProfile() {
+        if(currentUser) {
+            document.getElementById("profileName").innerHTML =
+                "Name: " + currentUser.name;
+
+            document.getElementById("profileEmail").innerHTML =
+                "Email: " + currentUser.email;
+
+            document.getElementById("profilePhone").innerHTML =
+                "Phone: " + currentUser.phone;
+        } else {
+            document.getElementById("profileName").innerHTML =
+                "Name: Not logged in";
+            document.getElementById("profileEmail").innerHTML = "Email: -";
+            document.getElementById("profilePhone").innerHTML = "Phone: -";
+        }
+    }
+
+    // SELECT PLAN
+
+    function selectPlan(plan) {
+        document.getElementById("selectedPlan").value = plan;
+        showPage("purchase");
+    }
+
+    // PURCHASE POLICY
+
+    function buyPolicy() {
+        if(!currentUser) {
+            alert("Please login first");
+            showPage("login");
+            return;
+        }
+
+        let name = document.getElementById("customerName").value;
+        let plan = document.getElementById("selectedPlan").value;
+        let duration = document.getElementById("duration").value;
+        let date = document.getElementById("startDate").value;
+
+        if(!name || !plan || !duration || !date) {
+            alert("Enter all policy details");
+            return;
+        }
+
+        let policyID = "POL" + (policies.length + 1);
+
+        policies.push({
+            id:policyID,
+            name:name,
+            email:currentUser.email,
+            plan:plan,
+            duration:duration,
+            date:date,
+            status:"Active"
+        });
+
+        saveData();
+
+        document.getElementById("purchaseMessage").innerHTML =
+            "Policy Purchased Successfully! Policy ID: " + policyID;
+    }
+
+    // SUBMIT CLAIM
+
+    function submitClaim() {
+        if(!currentUser) {
+            alert("Please login first");
+            showPage("login");
+            return;
+        }
+
+        let policyID = document.getElementById("claimPolicy").value;
+        let type = document.getElementById("claimType").value;
+        let description = document.getElementById("claimDescription").value;
+        let amount = document.getElementById("claimAmount").value;
+
+        let policy = policies.find(p =>
+            p.id === policyID && p.email === currentUser.email
+        );
+
+        if(!policy || !type || !description || amount <= 0) {
+            alert("Enter valid claim details and your Policy ID");
+            return;
+        }
+
+        claims.push({
+            policyID:policyID,
+            email:currentUser.email,
+            type:type,
+            description:description,
+            amount:amount,
+            status:"Pending"
+        });
+
+        saveData();
+
+        document.getElementById("claimMessage").innerHTML =
+            "Claim Submitted Successfully!";
+    }
+
+    // DISPLAY CUSTOMER POLICIES AND CLAIMS
+
+    function displayPolicies() {
+        if(!currentUser) {
+            document.getElementById("policyList").innerHTML =
+                "Please login to view policies.";
+
+            document.getElementById("claimList").innerHTML = "";
+            return;
+        }
+
+        let output = "<table><tr><th>Policy ID</th><th>Plan</th><th>Duration</th><th>Status</th></tr>";
+
+        let myPolicies = policies.filter(p =>
+            p.email === currentUser.email
+        );
+
+        myPolicies.forEach(p => {
+            output += `
+                <tr>
+                    <td>${p.id}</td>
+                    <td>${p.plan}</td>
+                    <td>${p.duration}</td>
+                    <td>${p.status}</td>
+                </tr>
+            `;
+        });
+
+        output += "</table>";
+
+        document.getElementById("policyList").innerHTML =
+            myPolicies.length ? output : "No policies found.";
+
+        let claimOutput = "<table><tr><th>Policy ID</th><th>Claim Type</th><th>Amount</th><th>Status</th></tr>";
+
+        let myClaims = claims.filter(c =>
+            c.email === currentUser.email
+        );
+
+        myClaims.forEach(c => {
+            claimOutput += `
+                <tr>
+                    <td>${c.policyID}</td>
+                    <td>${c.type}</td>
+                    <td>₹${c.amount}</td>
+                    <td>${c.status}</td>
+                </tr>
+            `;
+        });
+
+        claimOutput += "</table>";
+
+        document.getElementById("claimList").innerHTML =
+            myClaims.length ? claimOutput : "No claims found.";
+    }
+
+    // ADMIN LOGIN
+
+    function adminLogin() {
+        let username = document.getElementById("adminUser").value;
+        let password = document.getElementById("adminPass").value;
+
+        if(username === "admin" && password === "admin123") {
+            document.getElementById("adminMessage").innerHTML =
+                "Admin Login Successful!";
+
+            document.getElementById("dashboard").style.display = "block";
+
+            displayAdmin();
+        } else {
+            alert("Invalid Admin Details");
+        }
+    }
+
+    // ADMIN DASHBOARD
+
+    function displayAdmin() {
+
+        let userOutput = "<table><tr><th>Name</th><th>Email</th><th>Phone</th></tr>";
+
+        users.forEach(u => {
+            userOutput += `
+                <tr>
+                    <td>${u.name}</td>
+                    <td>${u.email}</td>
+                    <td>${u.phone}</td>
+                </tr>
+            `;
+        });
+
+        userOutput += "</table>";
+
+        document.getElementById("customerList").innerHTML = userOutput;
+
+        let policyOutput = "<table><tr><th>Policy ID</th><th>Customer</th><th>Plan</th><th>Status</th></tr>";
+
+        policies.forEach(p => {
+            policyOutput += `
+                <tr>
+                    <td>${p.id}</td>
+                    <td>${p.name}</td>
+                    <td>${p.plan}</td>
+                    <td>${p.status}</td>
+                </tr>
+            `;
+        });
+
+        policyOutput += "</table>";
+
+        document.getElementById("adminPolicyList").innerHTML = policyOutput;
+
+        let claimOutput = "<table><tr><th>Policy ID</th><th>Claim Type</th><th>Amount</th><th>Status</th><th>Action</th></tr>";
+
+        claims.forEach((c, index) => {
+            claimOutput += `
+                <tr>
+                    <td>${c.policyID}</td>
+                    <td>${c.type}</td>
+                    <td>₹${c.amount}</td>
+                    <td>${c.status}</td>
+                    <td>
+                        <button onclick="updateClaim(${index}, 'Approved')">
+                            Approve
+                        </button>
+                        <button onclick="updateClaim(${index}, 'Rejected')">
+                            Reject
+                        </button>
+                    </td>
+                </tr>
+            `;
+        });
+
+        claimOutput += "</table>";
+
+        document.getElementById("adminClaimList").innerHTML = claimOutput;
+    }
+
+    // UPDATE CLAIM STATUS
+
+    function updateClaim(index, status) {
+        claims[index].status = status;
+
+        saveData();
+        displayAdmin();
+
+        alert("Claim Status Updated");
+    }
+
+</script>
+
+</body>
+</html>

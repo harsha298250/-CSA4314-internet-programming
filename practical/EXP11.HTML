@@ -1,0 +1,662 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home Finder Website</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #f2f5f3;
+        }
+
+        header {
+            background: #176b50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav {
+            background: #104b39;
+            padding: 12px;
+            text-align: center;
+        }
+
+        nav button {
+            background: white;
+            color: #176b50;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .box {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #ccc;
+        }
+
+        input, select, textarea {
+            width: 90%;
+            padding: 10px;
+            margin: 8px 0;
+        }
+
+        .action {
+            background: #176b50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+
+        .property {
+            background: #e9f5ef;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        .property img {
+            width: 100%;
+            max-width: 400px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background: #176b50;
+            color: white;
+        }
+
+        footer {
+            background: #104b39;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🏡 Home Finder</h1>
+    <p>Find Your Dream Home</p>
+</header>
+
+<nav>
+    <button onclick="showPage('home')">Home</button>
+    <button onclick="showPage('login')">Login</button>
+    <button onclick="showPage('register')">Register</button>
+    <button onclick="showPage('properties')">Properties</button>
+    <button onclick="showPage('favorites')">Favourites</button>
+    <button onclick="showPage('add')">Add Property</button>
+    <button onclick="showPage('profile')">Profile</button>
+    <button onclick="showPage('admin')">Admin</button>
+</nav>
+
+<div class="container">
+
+    <!-- HOME -->
+
+    <div id="home" class="page active">
+        <div class="box">
+            <h2>Welcome to Home Finder</h2>
+            <p>Search, buy and rent your dream property easily.</p>
+
+            <h3>Our Services</h3>
+            <ul>
+                <li>Search Properties</li>
+                <li>Buy and Rent Houses</li>
+                <li>View Property Details</li>
+                <li>Save Favourite Properties</li>
+                <li>Register and Login</li>
+                <li>Admin Property Management</li>
+            </ul>
+
+            <button class="action"
+                    onclick="showPage('properties')">
+                Explore Properties
+            </button>
+        </div>
+    </div>
+
+    <!-- LOGIN -->
+
+    <div id="login" class="page">
+        <div class="box">
+            <h2>User Login</h2>
+
+            <input type="email" id="loginEmail"
+                   placeholder="Enter Email">
+
+            <input type="password" id="loginPassword"
+                   placeholder="Enter Password">
+
+            <button class="action" onclick="login()">
+                Login
+            </button>
+
+            <p id="loginMessage"></p>
+        </div>
+    </div>
+
+    <!-- REGISTER -->
+
+    <div id="register" class="page">
+        <div class="box">
+            <h2>User Registration</h2>
+
+            <input type="text" id="regName"
+                   placeholder="Enter Name">
+
+            <input type="email" id="regEmail"
+                   placeholder="Enter Email">
+
+            <input type="text" id="regPhone"
+                   placeholder="Enter Phone Number">
+
+            <input type="password" id="regPassword"
+                   placeholder="Enter Password">
+
+            <button class="action" onclick="register()">
+                Register
+            </button>
+
+            <p id="registerMessage"></p>
+        </div>
+    </div>
+
+    <!-- SEARCH PROPERTIES -->
+
+    <div id="properties" class="page">
+        <div class="box">
+            <h2>Search Properties</h2>
+
+            <input type="text" id="search"
+                   placeholder="Search by Location"
+                   onkeyup="displayProperties()">
+
+            <select id="propertyType"
+                    onchange="displayProperties()">
+                <option value="">All Properties</option>
+                <option>House</option>
+                <option>Apartment</option>
+                <option>Villa</option>
+            </select>
+
+            <button class="action"
+                    onclick="displayProperties()">
+                Search
+            </button>
+        </div>
+
+        <div id="propertyList"></div>
+    </div>
+
+    <!-- FAVOURITES -->
+
+    <div id="favorites" class="page">
+        <div class="box">
+            <h2>My Favourite Properties</h2>
+            <div id="favoriteList"></div>
+        </div>
+    </div>
+
+    <!-- ADD PROPERTY -->
+
+    <div id="add" class="page">
+        <div class="box">
+            <h2>Add New Property</h2>
+
+            <input type="text" id="newName"
+                   placeholder="Property Name">
+
+            <input type="text" id="newLocation"
+                   placeholder="Location">
+
+            <select id="newType">
+                <option value="">Select Property Type</option>
+                <option>House</option>
+                <option>Apartment</option>
+                <option>Villa</option>
+            </select>
+
+            <select id="newPurpose">
+                <option value="">Select Purpose</option>
+                <option>Sale</option>
+                <option>Rent</option>
+            </select>
+
+            <input type="number" id="newPrice"
+                   placeholder="Property Price">
+
+            <button class="action" onclick="addProperty()">
+                Add Property
+            </button>
+
+            <p id="propertyMessage"></p>
+        </div>
+    </div>
+
+    <!-- PROFILE -->
+
+    <div id="profile" class="page">
+        <div class="box">
+            <h2>My Profile</h2>
+
+            <p id="profileName">Name: Not logged in</p>
+            <p id="profileEmail">Email: -</p>
+            <p id="profilePhone">Phone: -</p>
+
+            <button class="action" onclick="logout()">
+                Logout
+            </button>
+        </div>
+    </div>
+
+    <!-- ADMIN -->
+
+    <div id="admin" class="page">
+        <div class="box">
+            <h2>Admin Login</h2>
+
+            <input type="text" id="adminUser"
+                   placeholder="Admin Username">
+
+            <input type="password" id="adminPass"
+                   placeholder="Admin Password">
+
+            <button class="action" onclick="adminLogin()">
+                Admin Login
+            </button>
+
+            <p id="adminMessage"></p>
+        </div>
+
+        <div class="box" id="dashboard"
+             style="display:none">
+
+            <h2>Admin Dashboard</h2>
+
+            <h3>Property Management</h3>
+            <div id="adminProperties"></div>
+
+            <h3>Registered Users</h3>
+            <div id="adminUsers"></div>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <p>Home Finder Real Estate Website © 2026</p>
+</footer>
+
+<script>
+
+    // PAGE NAVIGATION
+
+    function showPage(page) {
+        document.querySelectorAll(".page").forEach(p => {
+            p.classList.remove("active");
+        });
+
+        document.getElementById(page).classList.add("active");
+
+        if(page === "properties") displayProperties();
+        if(page === "favorites") displayFavorites();
+        if(page === "profile") displayProfile();
+    }
+
+    // SAMPLE PROPERTIES
+
+    let properties = JSON.parse(localStorage.getItem("properties")) || [
+        {id:1, name:"Family House", location:"Chennai",
+         type:"House", purpose:"Sale", price:4500000},
+
+        {id:2, name:"Luxury Apartment", location:"Coimbatore",
+         type:"Apartment", purpose:"Rent", price:15000},
+
+        {id:3, name:"Garden Villa", location:"Bangalore",
+         type:"Villa", purpose:"Sale", price:8000000}
+    ];
+
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+    let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+
+    function saveData() {
+        localStorage.setItem("properties", JSON.stringify(properties));
+        localStorage.setItem("users", JSON.stringify(users));
+        localStorage.setItem("favorites", JSON.stringify(favorites));
+        localStorage.setItem("currentUser", JSON.stringify(currentUser));
+    }
+
+    // USER REGISTRATION
+
+    function register() {
+        let name = document.getElementById("regName").value;
+        let email = document.getElementById("regEmail").value;
+        let phone = document.getElementById("regPhone").value;
+        let password = document.getElementById("regPassword").value;
+
+        if(!name || !email || !phone || !password) {
+            alert("Enter all details");
+            return;
+        }
+
+        if(users.some(u => u.email === email)) {
+            alert("Email already registered");
+            return;
+        }
+
+        users.push({
+            name:name,
+            email:email,
+            phone:phone,
+            password:password
+        });
+
+        saveData();
+
+        document.getElementById("registerMessage").innerHTML =
+            "Registration Successful!";
+    }
+
+    // USER LOGIN
+
+    function login() {
+        let email = document.getElementById("loginEmail").value;
+        let password = document.getElementById("loginPassword").value;
+
+        let user = users.find(u =>
+            u.email === email && u.password === password
+        );
+
+        if(user) {
+            currentUser = user;
+            saveData();
+
+            document.getElementById("loginMessage").innerHTML =
+                "Login Successful!";
+
+            showPage("home");
+        } else {
+            document.getElementById("loginMessage").innerHTML =
+                "Invalid Email or Password";
+        }
+    }
+
+    // LOGOUT
+
+    function logout() {
+        currentUser = null;
+        saveData();
+        alert("Logged out successfully");
+        showPage("home");
+    }
+
+    // USER PROFILE
+
+    function displayProfile() {
+        if(currentUser) {
+            document.getElementById("profileName").innerHTML =
+                "Name: " + currentUser.name;
+
+            document.getElementById("profileEmail").innerHTML =
+                "Email: " + currentUser.email;
+
+            document.getElementById("profilePhone").innerHTML =
+                "Phone: " + currentUser.phone;
+        } else {
+            document.getElementById("profileName").innerHTML =
+                "Name: Not logged in";
+            document.getElementById("profileEmail").innerHTML = "Email: -";
+            document.getElementById("profilePhone").innerHTML = "Phone: -";
+        }
+    }
+
+    // DISPLAY PROPERTIES
+
+    function displayProperties() {
+        let search = document.getElementById("search").value.toLowerCase();
+        let type = document.getElementById("propertyType").value;
+
+        let output = "";
+
+        properties.forEach(p => {
+            if(p.location.toLowerCase().includes(search) &&
+               (!type || p.type === type)) {
+
+                output += `
+                    <div class="property">
+                        <h3>${p.name}</h3>
+                        <p>Location: ${p.location}</p>
+                        <p>Type: ${p.type}</p>
+                        <p>Purpose: ${p.purpose}</p>
+                        <p>Price: ₹${p.price.toLocaleString("en-IN")}</p>
+
+                        <button class="action"
+                                onclick="addFavorite(${p.id})">
+                            Add Favourite
+                        </button>
+                    </div>
+                `;
+            }
+        });
+
+        if(output === "") {
+            output = "<div class='box'>No properties found.</div>";
+        }
+
+        document.getElementById("propertyList").innerHTML = output;
+    }
+
+    // ADD FAVOURITE
+
+    function addFavorite(id) {
+        if(!currentUser) {
+            alert("Please login first");
+            showPage("login");
+            return;
+        }
+
+        let key = currentUser.email + "_" + id;
+
+        if(!favorites.includes(key)) {
+            favorites.push(key);
+            saveData();
+            alert("Added to Favourites");
+        } else {
+            alert("Already in Favourites");
+        }
+    }
+
+    // DISPLAY FAVOURITES
+
+    function displayFavorites() {
+        let output = "";
+
+        if(!currentUser) {
+            document.getElementById("favoriteList").innerHTML =
+                "Please login to view favourites";
+            return;
+        }
+
+        properties.forEach(p => {
+            let key = currentUser.email + "_" + p.id;
+
+            if(favorites.includes(key)) {
+                output += `
+                    <div class="property">
+                        <h3>${p.name}</h3>
+                        <p>Location: ${p.location}</p>
+                        <p>Price: ₹${p.price.toLocaleString("en-IN")}</p>
+                    </div>
+                `;
+            }
+        });
+
+        document.getElementById("favoriteList").innerHTML =
+            output || "No favourite properties";
+    }
+
+    // ADD NEW PROPERTY
+
+    function addProperty() {
+        let name = document.getElementById("newName").value;
+        let location = document.getElementById("newLocation").value;
+        let type = document.getElementById("newType").value;
+        let purpose = document.getElementById("newPurpose").value;
+        let price = Number(document.getElementById("newPrice").value);
+
+        if(!name || !location || !type || !purpose || price <= 0) {
+            alert("Enter all property details");
+            return;
+        }
+
+        properties.push({
+            id:Date.now(),
+            name:name,
+            location:location,
+            type:type,
+            purpose:purpose,
+            price:price
+        });
+
+        saveData();
+
+        document.getElementById("propertyMessage").innerHTML =
+            "Property Added Successfully!";
+
+        displayProperties();
+    }
+
+    // ADMIN LOGIN
+
+    function adminLogin() {
+        let username = document.getElementById("adminUser").value;
+        let password = document.getElementById("adminPass").value;
+
+        if(username === "admin" && password === "admin123") {
+            document.getElementById("adminMessage").innerHTML =
+                "Admin Login Successful";
+
+            document.getElementById("dashboard").style.display = "block";
+
+            displayAdmin();
+        } else {
+            alert("Invalid Admin Details");
+        }
+    }
+
+    // ADMIN DASHBOARD
+
+    function displayAdmin() {
+        let output = `
+            <table>
+                <tr>
+                    <th>Property</th>
+                    <th>Location</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+        `;
+
+        properties.forEach(p => {
+            output += `
+                <tr>
+                    <td>${p.name}</td>
+                    <td>${p.location}</td>
+                    <td>₹${p.price.toLocaleString("en-IN")}</td>
+                    <td>
+                        <button onclick="deleteProperty(${p.id})">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            `;
+        });
+
+        output += "</table>";
+
+        document.getElementById("adminProperties").innerHTML = output;
+
+        let userOutput = `
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                </tr>
+        `;
+
+        users.forEach(u => {
+            userOutput += `
+                <tr>
+                    <td>${u.name}</td>
+                    <td>${u.email}</td>
+                </tr>
+            `;
+        });
+
+        userOutput += "</table>";
+
+        document.getElementById("adminUsers").innerHTML = userOutput;
+    }
+
+    // DELETE PROPERTY
+
+    function deleteProperty(id) {
+        if(confirm("Delete this property?")) {
+            properties = properties.filter(p => p.id !== id);
+            favorites = favorites.filter(f => !f.endsWith("_" + id));
+
+            saveData();
+            displayAdmin();
+        }
+    }
+
+    // INITIAL DISPLAY
+
+    displayProperties();
+
+</script>
+
+</body>
+</html>

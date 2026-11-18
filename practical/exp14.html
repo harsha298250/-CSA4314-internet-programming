@@ -1,0 +1,1141 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ReNewMarket - Second Hand Marketplace</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #f3f6fa;
+            color: #26344a;
+        }
+
+        header {
+            background: #172b4d;
+            color: white;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        header h1 {
+            margin: 5px;
+            color: #ffb547;
+        }
+
+        .search {
+            width: 300px;
+            padding: 12px;
+            border-radius: 6px;
+            border: none;
+        }
+
+        nav {
+            background: white;
+            padding: 14px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        nav button {
+            background: transparent;
+            border: none;
+            padding: 10px 15px;
+            color: #172b4d;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        nav button:hover {
+            color: #f39a24;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 210px 1fr;
+            gap: 20px;
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        aside {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            height: fit-content;
+        }
+
+        aside button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 5px 0;
+            border: none;
+            background: #f0f3f8;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        aside button:hover {
+            background: #ffedcf;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+
+        .banner {
+            background: linear-gradient(120deg, #172b4d, #315d91);
+            color: white;
+            padding: 35px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .banner h2 {
+            color: #ffbd59;
+            font-size: 30px;
+        }
+
+        .box {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #dce2ea;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 18px;
+        }
+
+        .product {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px #dce2ea;
+            padding-bottom: 15px;
+        }
+
+        .product img {
+            width: 100%;
+            height: 155px;
+            object-fit: cover;
+        }
+
+        .product-content {
+            padding: 12px;
+        }
+
+        .product h3 {
+            color: #172b4d;
+        }
+
+        .price {
+            color: #e58b17;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .tag {
+            background: #e5f2e9;
+            color: #267443;
+            padding: 5px 9px;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+
+        input, select, textarea {
+            width: 95%;
+            padding: 11px;
+            margin: 8px 0;
+            border: 1px solid #ccd5e0;
+            border-radius: 5px;
+        }
+
+        .action {
+            background: #f3a12e;
+            color: #172b4d;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 4px;
+            font-weight: bold;
+        }
+
+        .action:hover {
+            background: #e38a12;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            padding: 11px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #172b4d;
+            color: white;
+        }
+
+        footer {
+            background: #172b4d;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        @media(max-width:700px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                justify-content: center;
+                text-align: center;
+            }
+
+            .search {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div>
+        <h1>♻ ReNewMarket</h1>
+        <p>Buy Smart. Sell Easy. Reuse More.</p>
+    </div>
+
+    <input class="search" type="text" id="search"
+           placeholder="Search used products..."
+           onkeyup="displayProducts()">
+
+    <button class="action" onclick="showPage('sell')">
+        + Sell Item
+    </button>
+</header>
+
+<nav>
+    <button onclick="showPage('home')">Home</button>
+    <button onclick="showPage('market')">Marketplace</button>
+    <button onclick="showPage('login')">Login</button>
+    <button onclick="showPage('register')">Register</button>
+    <button onclick="showPage('sell')">Sell Product</button>
+    <button onclick="showPage('wishlist')">Wishlist</button>
+    <button onclick="showPage('orders')">My Orders</button>
+    <button onclick="showPage('account')">Account</button>
+    <button onclick="showPage('admin')">Admin</button>
+</nav>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+
+    <aside>
+        <h3>Categories</h3>
+
+        <button onclick="filterCategory('All')">All Products</button>
+        <button onclick="filterCategory('Electronics')">📱 Electronics</button>
+        <button onclick="filterCategory('Furniture')">🪑 Furniture</button>
+        <button onclick="filterCategory('Books')">📚 Books</button>
+        <button onclick="filterCategory('Vehicles')">🚲 Vehicles</button>
+        <button onclick="filterCategory('Fashion')">👕 Fashion</button>
+
+        <hr>
+
+        <h3>Quick Links</h3>
+        <button onclick="showPage('sell')">Sell an Item</button>
+        <button onclick="showPage('wishlist')">My Wishlist</button>
+        <button onclick="showPage('orders')">My Orders</button>
+    </aside>
+
+    <main>
+
+        <!-- HOME -->
+
+        <div id="home" class="page active">
+
+            <div class="banner">
+                <h2>Give Your Old Items a New Life!</h2>
+
+                <p>
+                    Discover affordable pre-owned products
+                    and sell things you no longer need.
+                </p>
+
+                <button class="action" onclick="showPage('market')">
+                    Explore Marketplace
+                </button>
+
+                <button class="action" onclick="showPage('sell')">
+                    Start Selling
+                </button>
+            </div>
+
+            <div class="box">
+                <h2>Welcome to ReNewMarket</h2>
+
+                <p>
+                    ReNewMarket is an online platform where
+                    people can buy and sell second-hand goods
+                    at affordable prices.
+                </p>
+
+                <h3>Our Services</h3>
+
+                <ul>
+                    <li>Buy and Sell Used Products</li>
+                    <li>Search Products by Category</li>
+                    <li>View Product Condition and Price</li>
+                    <li>Add Products to Wishlist</li>
+                    <li>Contact Product Sellers</li>
+                    <li>Place and Track Orders</li>
+                    <li>Admin Product Management</li>
+                </ul>
+            </div>
+
+            <div class="box">
+                <h2>Popular Products</h2>
+                <div id="homeProducts" class="product-grid"></div>
+            </div>
+
+        </div>
+
+        <!-- MARKETPLACE -->
+
+        <div id="market" class="page">
+
+            <div class="box">
+                <h2>Explore Marketplace</h2>
+
+                <select id="categoryFilter"
+                        onchange="displayProducts()">
+                    <option value="All">All Categories</option>
+                    <option>Electronics</option>
+                    <option>Furniture</option>
+                    <option>Books</option>
+                    <option>Vehicles</option>
+                    <option>Fashion</option>
+                </select>
+
+                <select id="conditionFilter"
+                        onchange="displayProducts()">
+                    <option value="All">All Conditions</option>
+                    <option>Like New</option>
+                    <option>Good</option>
+                    <option>Used</option>
+                </select>
+
+                <input type="text" id="locationFilter"
+                       placeholder="Search by location"
+                       onkeyup="displayProducts()">
+            </div>
+
+            <div id="productList" class="product-grid"></div>
+
+        </div>
+
+        <!-- PRODUCT DETAILS -->
+
+        <div id="details" class="page">
+            <div class="box">
+                <h2>Product Details</h2>
+                <div id="productDetails"></div>
+            </div>
+        </div>
+
+        <!-- REGISTER -->
+
+        <div id="register" class="page">
+            <div class="box">
+                <h2>Create Buyer / Seller Account</h2>
+
+                <input type="text" id="regName"
+                       placeholder="Full Name">
+
+                <input type="email" id="regEmail"
+                       placeholder="Email">
+
+                <input type="text" id="regPhone"
+                       placeholder="Phone Number">
+
+                <input type="password" id="regPassword"
+                       placeholder="Password">
+
+                <button class="action" onclick="register()">
+                    Register
+                </button>
+
+                <p id="registerMessage"></p>
+            </div>
+        </div>
+
+        <!-- LOGIN -->
+
+        <div id="login" class="page">
+            <div class="box">
+                <h2>Member Login</h2>
+
+                <input type="email" id="loginEmail"
+                       placeholder="Enter Email">
+
+                <input type="password" id="loginPassword"
+                       placeholder="Enter Password">
+
+                <button class="action" onclick="login()">
+                    Login
+                </button>
+
+                <p id="loginMessage"></p>
+            </div>
+        </div>
+
+        <!-- SELL ITEM -->
+
+        <div id="sell" class="page">
+            <div class="box">
+                <h2>List Your Used Product</h2>
+
+                <input type="text" id="newName"
+                       placeholder="Product Name">
+
+                <select id="newCategory">
+                    <option value="">Select Category</option>
+                    <option>Electronics</option>
+                    <option>Furniture</option>
+                    <option>Books</option>
+                    <option>Vehicles</option>
+                    <option>Fashion</option>
+                </select>
+
+                <select id="newCondition">
+                    <option value="">Select Condition</option>
+                    <option>Like New</option>
+                    <option>Good</option>
+                    <option>Used</option>
+                </select>
+
+                <input type="number" id="newPrice"
+                       placeholder="Selling Price">
+
+                <input type="text" id="newLocation"
+                       placeholder="Your Location">
+
+                <input type="text" id="newImage"
+                       placeholder="Product Image URL (Optional)">
+
+                <textarea id="newDescription"
+                          placeholder="Product Description"></textarea>
+
+                <button class="action" onclick="addProduct()">
+                    Publish Listing
+                </button>
+
+                <p id="sellMessage"></p>
+            </div>
+        </div>
+
+        <!-- WISHLIST -->
+
+        <div id="wishlist" class="page">
+            <div class="box">
+                <h2>My Saved Products ❤️</h2>
+                <div id="wishlistItems"></div>
+            </div>
+        </div>
+
+        <!-- ORDERS -->
+
+        <div id="orders" class="page">
+            <div class="box">
+                <h2>My Purchase History</h2>
+                <div id="orderList"></div>
+            </div>
+        </div>
+
+        <!-- ACCOUNT -->
+
+        <div id="account" class="page">
+            <div class="box">
+                <h2>My Account</h2>
+
+                <p id="accountName">Name: Not logged in</p>
+                <p id="accountEmail">Email: -</p>
+                <p id="accountPhone">Phone: -</p>
+
+                <button class="action" onclick="logout()">
+                    Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- ADMIN -->
+
+        <div id="admin" class="page">
+
+            <div class="box">
+                <h2>Administrator Login</h2>
+
+                <input type="text" id="adminUser"
+                       placeholder="Admin Username">
+
+                <input type="password" id="adminPass"
+                       placeholder="Admin Password">
+
+                <button class="action" onclick="adminLogin()">
+                    Admin Login
+                </button>
+
+                <p id="adminMessage"></p>
+            </div>
+
+            <div class="box" id="dashboard" style="display:none">
+
+                <h2>Marketplace Dashboard</h2>
+
+                <h3>Product Listings</h3>
+                <div id="adminProducts"></div>
+
+                <h3>Registered Members</h3>
+                <div id="adminUsers"></div>
+
+                <h3>Order Management</h3>
+                <div id="adminOrders"></div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<footer>
+    <h2>♻ ReNewMarket</h2>
+    <p>Reuse More. Waste Less. Save More.</p>
+    <p>© 2026 ReNewMarket</p>
+</footer>
+
+<script>
+
+    // PAGE NAVIGATION
+
+    function showPage(page) {
+
+        document.querySelectorAll(".page").forEach(p => {
+            p.classList.remove("active");
+        });
+
+        document.getElementById(page).classList.add("active");
+
+        if(page === "market") displayProducts();
+        if(page === "wishlist") displayWishlist();
+        if(page === "orders") displayOrders();
+        if(page === "account") displayAccount();
+    }
+
+    // SAMPLE PRODUCTS
+
+    let products = JSON.parse(localStorage.getItem("products")) || [
+
+        {
+            id:1,
+            name:"Used Smartphone",
+            category:"Electronics",
+            condition:"Good",
+            price:8500,
+            location:"Chennai",
+            image:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500",
+            description:"A well-maintained smartphone in good working condition."
+        },
+
+        {
+            id:2,
+            name:"Wooden Study Table",
+            category:"Furniture",
+            condition:"Like New",
+            price:2500,
+            location:"Coimbatore",
+            image:"https://images.unsplash.com/photo-1499933374294-4584851497cc?w=500",
+            description:"Strong wooden study table with a clean finish."
+        },
+
+        {
+            id:3,
+            name:"Programming Books",
+            category:"Books",
+            condition:"Used",
+            price:500,
+            location:"Chennai",
+            image:"https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=500",
+            description:"Collection of programming and computer science books."
+        },
+
+        {
+            id:4,
+            name:"Mountain Bicycle",
+            category:"Vehicles",
+            condition:"Good",
+            price:4500,
+            location:"Bangalore",
+            image:"https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=500",
+            description:"Second-hand bicycle in good condition."
+        }
+    ];
+
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+    let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+    let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+
+    // SAVE DATA
+
+    function saveData() {
+        localStorage.setItem("products", JSON.stringify(products));
+        localStorage.setItem("users", JSON.stringify(users));
+        localStorage.setItem("wishlist", JSON.stringify(wishlist));
+        localStorage.setItem("orders", JSON.stringify(orders));
+        localStorage.setItem("currentUser", JSON.stringify(currentUser));
+    }
+
+    // DISPLAY PRODUCTS
+
+    function displayProducts() {
+
+        let search = document.getElementById("search").value.toLowerCase();
+
+        let category = document.getElementById("categoryFilter").value;
+        let condition = document.getElementById("conditionFilter").value;
+        let location = document.getElementById("locationFilter").value.toLowerCase();
+
+        let output = "";
+
+        products.forEach(p => {
+
+            if((p.name.toLowerCase().includes(search) ||
+                p.category.toLowerCase().includes(search)) &&
+                (category === "All" || p.category === category) &&
+                (condition === "All" || p.condition === condition) &&
+                p.location.toLowerCase().includes(location)) {
+
+                output += `
+                    <div class="product">
+
+                        <img src="${p.image}"
+                             alt="${p.name}"
+                             onerror="this.src='https://placehold.co/400x250?text=ReNewMarket'">
+
+                        <div class="product-content">
+
+                            <span class="tag">${p.condition}</span>
+
+                            <h3>${p.name}</h3>
+
+                            <p>${p.category}</p>
+
+                            <p>📍 ${p.location}</p>
+
+                            <p class="price">₹${p.price}</p>
+
+                            <button class="action"
+                                    onclick="viewProduct(${p.id})">
+                                View Item
+                            </button>
+
+                            <button class="action"
+                                    onclick="addWishlist(${p.id})">
+                                ♡ Save
+                            </button>
+
+                        </div>
+                    </div>
+                `;
+            }
+        });
+
+        document.getElementById("productList").innerHTML =
+            output || "<p>No products found.</p>";
+    }
+
+    // HOME PRODUCTS
+
+    function displayHome() {
+
+        let output = "";
+
+        products.slice(0, 3).forEach(p => {
+
+            output += `
+                <div class="product">
+                    <img src="${p.image}" alt="${p.name}">
+                    <div class="product-content">
+                        <h3>${p.name}</h3>
+                        <p class="price">₹${p.price}</p>
+                        <button class="action"
+                                onclick="viewProduct(${p.id})">
+                            View Item
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+
+        document.getElementById("homeProducts").innerHTML = output;
+    }
+
+    // CATEGORY FILTER
+
+    function filterCategory(category) {
+
+        document.getElementById("categoryFilter").value = category;
+
+        showPage("market");
+        displayProducts();
+    }
+
+    // PRODUCT DETAILS
+
+    function viewProduct(id) {
+
+        let p = products.find(item => item.id === id);
+
+        if(!p) return;
+
+        document.getElementById("productDetails").innerHTML = `
+
+            <img src="${p.image}"
+                 style="width:100%;max-width:450px;height:220px;object-fit:cover;">
+
+            <h2>${p.name}</h2>
+
+            <p>Category: ${p.category}</p>
+            <p>Condition: ${p.condition}</p>
+            <p>Location: ${p.location}</p>
+
+            <h2 class="price">₹${p.price}</h2>
+
+            <p>${p.description}</p>
+
+            <button class="action"
+                    onclick="buyProduct(${p.id})">
+                Buy Now
+            </button>
+
+            <button class="action"
+                    onclick="addWishlist(${p.id})">
+                Add to Wishlist
+            </button>
+
+            <button class="action"
+                    onclick="contactSeller()">
+                Contact Seller
+            </button>
+        `;
+
+        showPage("details");
+    }
+
+    // BUY PRODUCT
+
+    function buyProduct(id) {
+
+        if(!currentUser) {
+            alert("Please login first.");
+            showPage("login");
+            return;
+        }
+
+        let p = products.find(item => item.id === id);
+
+        if(!p) return;
+
+        orders.push({
+            id:"RN" + (orders.length + 1),
+            email:currentUser.email,
+            product:p.name,
+            price:p.price,
+            status:"Order Placed"
+        });
+
+        products = products.filter(item => item.id !== id);
+
+        saveData();
+
+        alert("Purchase request placed successfully!");
+
+        showPage("orders");
+    }
+
+    // CONTACT SELLER
+
+    function contactSeller() {
+
+        if(!currentUser) {
+            alert("Please login to contact seller.");
+            showPage("login");
+            return;
+        }
+
+        alert("Your enquiry has been sent to the seller!");
+    }
+
+    // WISHLIST
+
+    function addWishlist(id) {
+
+        if(!currentUser) {
+            alert("Please login first.");
+            showPage("login");
+            return;
+        }
+
+        let key = currentUser.email + "_" + id;
+
+        if(!wishlist.includes(key)) {
+            wishlist.push(key);
+            saveData();
+            alert("Product added to Wishlist!");
+        } else {
+            alert("Product already saved.");
+        }
+    }
+
+    // DISPLAY WISHLIST
+
+    function displayWishlist() {
+
+        if(!currentUser) {
+            document.getElementById("wishlistItems").innerHTML =
+                "Please login to view your wishlist.";
+            return;
+        }
+
+        let output = "";
+
+        products.forEach(p => {
+
+            if(wishlist.includes(currentUser.email + "_" + p.id)) {
+
+                output += `
+                    <div class="box">
+                        <h3>${p.name}</h3>
+                        <p>₹${p.price}</p>
+                        <button class="action"
+                                onclick="viewProduct(${p.id})">
+                            View Item
+                        </button>
+                    </div>
+                `;
+            }
+        });
+
+        document.getElementById("wishlistItems").innerHTML =
+            output || "No saved products.";
+    }
+
+    // REGISTRATION
+
+    function register() {
+
+        let name = document.getElementById("regName").value;
+        let email = document.getElementById("regEmail").value;
+        let phone = document.getElementById("regPhone").value;
+        let password = document.getElementById("regPassword").value;
+
+        if(!name || !email || !phone || !password) {
+            alert("Enter all details.");
+            return;
+        }
+
+        if(users.some(u => u.email === email)) {
+            alert("Email already registered.");
+            return;
+        }
+
+        users.push({
+            name:name,
+            email:email,
+            phone:phone,
+            password:password
+        });
+
+        saveData();
+
+        document.getElementById("registerMessage").innerHTML =
+            "Registration Successful!";
+    }
+
+    // LOGIN
+
+    function login() {
+
+        let email = document.getElementById("loginEmail").value;
+        let password = document.getElementById("loginPassword").value;
+
+        let user = users.find(u =>
+            u.email === email && u.password === password
+        );
+
+        if(user) {
+
+            currentUser = user;
+            saveData();
+
+            document.getElementById("loginMessage").innerHTML =
+                "Login Successful!";
+
+            showPage("home");
+
+        } else {
+            document.getElementById("loginMessage").innerHTML =
+                "Invalid Email or Password.";
+        }
+    }
+
+    // LOGOUT
+
+    function logout() {
+
+        currentUser = null;
+        saveData();
+
+        alert("Logged out successfully.");
+        showPage("home");
+    }
+
+    // ACCOUNT
+
+    function displayAccount() {
+
+        if(currentUser) {
+
+            document.getElementById("accountName").innerHTML =
+                "Name: " + currentUser.name;
+
+            document.getElementById("accountEmail").innerHTML =
+                "Email: " + currentUser.email;
+
+            document.getElementById("accountPhone").innerHTML =
+                "Phone: " + currentUser.phone;
+
+        } else {
+
+            document.getElementById("accountName").innerHTML =
+                "Name: Not logged in";
+
+            document.getElementById("accountEmail").innerHTML = "Email: -";
+            document.getElementById("accountPhone").innerHTML = "Phone: -";
+        }
+    }
+
+    // SELL PRODUCT
+
+    function addProduct() {
+
+        if(!currentUser) {
+            alert("Please login before selling.");
+            showPage("login");
+            return;
+        }
+
+        let name = document.getElementById("newName").value;
+        let category = document.getElementById("newCategory").value;
+        let condition = document.getElementById("newCondition").value;
+        let price = Number(document.getElementById("newPrice").value);
+        let location = document.getElementById("newLocation").value;
+        let image = document.getElementById("newImage").value;
+        let description = document.getElementById("newDescription").value;
+
+        if(!name || !category || !condition || price <= 0 || !location) {
+            alert("Enter all required product details.");
+            return;
+        }
+
+        products.push({
+            id:Date.now(),
+            name:name,
+            category:category,
+            condition:condition,
+            price:price,
+            location:location,
+            image:image || "https://placehold.co/400x250?text=Used+Product",
+            description:description || "Second-hand product for sale."
+        });
+
+        saveData();
+
+        document.getElementById("sellMessage").innerHTML =
+            "Product Listed Successfully!";
+
+        displayHome();
+    }
+
+    // DISPLAY ORDERS
+
+    function displayOrders() {
+
+        if(!currentUser) {
+            document.getElementById("orderList").innerHTML =
+                "Please login to view your orders.";
+            return;
+        }
+
+        let output = "<table><tr><th>Order ID</th><th>Product</th><th>Price</th><th>Status</th></tr>";
+
+        let myOrders = orders.filter(o =>
+            o.email === currentUser.email
+        );
+
+        myOrders.forEach(o => {
+
+            output += `
+                <tr>
+                    <td>${o.id}</td>
+                    <td>${o.product}</td>
+                    <td>₹${o.price}</td>
+                    <td>${o.status}</td>
+                </tr>
+            `;
+        });
+
+        output += "</table>";
+
+        document.getElementById("orderList").innerHTML =
+            myOrders.length ? output : "No orders found.";
+    }
+
+    // ADMIN LOGIN
+
+    function adminLogin() {
+
+        let username = document.getElementById("adminUser").value;
+        let password = document.getElementById("adminPass").value;
+
+        if(username === "admin" && password === "admin123") {
+
+            document.getElementById("adminMessage").innerHTML =
+                "Admin Login Successful!";
+
+            document.getElementById("dashboard").style.display =
+                "block";
+
+            displayAdmin();
+
+        } else {
+            alert("Invalid Admin Details.");
+        }
+    }
+
+    // ADMIN DASHBOARD
+
+    function displayAdmin() {
+
+        let output = "<table><tr><th>Product</th><th>Category</th><th>Price</th><th>Action</th></tr>";
+
+        products.forEach(p => {
+
+            output += `
+                <tr>
+                    <td>${p.name}</td>
+                    <td>${p.category}</td>
+                    <td>₹${p.price}</td>
+                    <td>
+                        <button onclick="deleteProduct(${p.id})">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            `;
+        });
+
+        output += "</table>";
+
+        document.getElementById("adminProducts").innerHTML = output;
+
+        let userOutput = "<table><tr><th>Name</th><th>Email</th><th>Phone</th></tr>";
+
+        users.forEach(u => {
+
+            userOutput += `
+                <tr>
+                    <td>${u.name}</td>
+                    <td>${u.email}</td>
+                    <td>${u.phone}</td>
+                </tr>
+            `;
+        });
+
+        userOutput += "</table>";
+
+        document.getElementById("adminUsers").innerHTML = userOutput;
+
+        let orderOutput = "<table><tr><th>Order ID</th><th>Product</th><th>Price</th><th>Status</th></tr>";
+
+        orders.forEach(o => {
+
+            orderOutput += `
+                <tr>
+                    <td>${o.id}</td>
+                    <td>${o.product}</td>
+                    <td>₹${o.price}</td>
+                    <td>${o.status}</td>
+                </tr>
+            `;
+        });
+
+        orderOutput += "</table>";
+
+        document.getElementById("adminOrders").innerHTML = orderOutput;
+    }
+
+    // DELETE PRODUCT
+
+    function deleteProduct(id) {
+
+        if(confirm("Delete this product?")) {
+
+            products = products.filter(p => p.id !== id);
+
+            saveData();
+            displayAdmin();
+
+            alert("Product Deleted Successfully!");
+        }
+    }
+
+    // INITIAL DISPLAY
+
+    displayProducts();
+    displayHome();
+
+</script>
+
+</body>
+</html>

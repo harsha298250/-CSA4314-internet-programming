@@ -1,0 +1,363 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>StyleHub Online Fashion Shopping</title>
+</head>
+<body>
+
+    <h1>StyleHub - Online Fashion Store</h1>
+    <p>Discover the Latest Fashion Trends</p>
+    <hr>
+
+    <h2>1. User Registration</h2>
+    <form>
+        Name: <input type="text" required><br><br>
+        Email: <input type="email" required><br><br>
+        Password: <input type="password" required><br><br>
+        Phone: <input type="tel"><br><br>
+        Address: <textarea rows="3" cols="30"></textarea><br><br>
+        <input type="submit" value="Register">
+    </form>
+
+    <h2>2. User Login</h2>
+    <form>
+        Email: <input type="email"><br><br>
+        Password: <input type="password"><br><br>
+        <input type="submit" value="Login">
+    </form>
+
+    <hr>
+    <h2>3. Product Categories</h2>
+    <ul>
+        <li>Men's Fashion
+            <ul>
+                <li>T-Shirts</li>
+                <li>Shirts</li>
+                <li>Jeans and Trousers</li>
+                <li>Formal Wear</li>
+            </ul>
+        </li>
+        <li>Women's Fashion
+            <ul>
+                <li>Dresses</li>
+                <li>Sarees and Kurtis</li>
+                <li>Tops</li>
+                <li>Formal Wear</li>
+            </ul>
+        </li>
+        <li>Kids' Fashion
+            <ul>
+                <li>Kids' Clothing</li>
+                <li>School Wear</li>
+            </ul>
+        </li>
+        <li>Footwear</li>
+        <li>Accessories</li>
+        <li>Seasonal Collections</li>
+        <li>Casual Wear</li>
+        <li>Formal Wear</li>
+    </ul>
+
+    <h2>4. Search and Filter Products</h2>
+    <form>
+        Search Product: <input type="text" placeholder="Enter product name"><br><br>
+
+        Category:
+        <select>
+            <option>All Categories</option>
+            <option>Men's Fashion</option>
+            <option>Women's Fashion</option>
+            <option>Kids' Fashion</option>
+            <option>Footwear</option>
+            <option>Accessories</option>
+        </select><br><br>
+
+        Size:
+        <select>
+            <option>All Sizes</option>
+            <option>XS</option>
+            <option>S</option>
+            <option>M</option>
+            <option>L</option>
+            <option>XL</option>
+            <option>XXL</option>
+        </select><br><br>
+
+        Minimum Price: <input type="number" min="0"><br><br>
+        Maximum Price: <input type="number" min="0"><br><br>
+
+        <input type="submit" value="Search Products">
+    </form>
+
+    <h2>5. Product Catalogue</h2>
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Product ID</th>
+            <th>Product</th>
+            <th>Category</th>
+            <th>Subcategory</th>
+            <th>Size</th>
+            <th>Price</th>
+            <th>Availability</th>
+        </tr>
+        <tr>
+            <td>S101</td>
+            <td>Men's T-Shirt</td>
+            <td>Men</td>
+            <td>Casual Wear</td>
+            <td>M, L, XL</td>
+            <td>Rs. 599</td>
+            <td>Available</td>
+        </tr>
+        <tr>
+            <td>S102</td>
+            <td>Women's Dress</td>
+            <td>Women</td>
+            <td>Western Wear</td>
+            <td>S, M, L</td>
+            <td>Rs. 1299</td>
+            <td>Available</td>
+        </tr>
+        <tr>
+            <td>S103</td>
+            <td>Sports Shoes</td>
+            <td>Footwear</td>
+            <td>Casual Shoes</td>
+            <td>7, 8, 9, 10</td>
+            <td>Rs. 1799</td>
+            <td>Available</td>
+        </tr>
+        <tr>
+            <td>S104</td>
+            <td>Handbag</td>
+            <td>Accessories</td>
+            <td>Fashion Bags</td>
+            <td>Free Size</td>
+            <td>Rs. 999</td>
+            <td>Available</td>
+        </tr>
+    </table>
+
+    <h2>6. Product Details and Size Guide</h2>
+    <form>
+        Product ID: <input type="text"><br><br>
+        Product Name: <input type="text"><br><br>
+        Description:<br>
+        <textarea rows="3" cols="35"></textarea><br><br>
+
+        Select Size:
+        <select>
+            <option>S</option>
+            <option>M</option>
+            <option>L</option>
+            <option>XL</option>
+            <option>XXL</option>
+        </select><br><br>
+
+        <input type="submit" value="View Details">
+    </form>
+
+    <h3>Size Guide</h3>
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Size</th>
+            <th>Chest (inches)</th>
+            <th>Waist (inches)</th>
+        </tr>
+        <tr><td>S</td><td>34-36</td><td>28-30</td></tr>
+        <tr><td>M</td><td>38-40</td><td>32-34</td></tr>
+        <tr><td>L</td><td>42-44</td><td>36-38</td></tr>
+        <tr><td>XL</td><td>46-48</td><td>40-42</td></tr>
+    </table>
+
+    <h2>7. Check Product Availability</h2>
+    <form>
+        Product Name: <input type="text"><br><br>
+        Size: <input type="text"><br><br>
+        Quantity: <input type="number" min="1"><br><br>
+        <input type="submit" value="Check Availability">
+    </form>
+
+    <h2>8. Shopping Cart</h2>
+    <form>
+        Product Name: <input type="text"><br><br>
+        Size: <input type="text"><br><br>
+        Quantity: <input type="number" min="1" value="1"><br><br>
+
+        Action:
+        <select>
+            <option>Add Item</option>
+            <option>Edit Quantity</option>
+            <option>Remove Item</option>
+        </select><br><br>
+
+        <input type="submit" value="Update Cart">
+    </form>
+
+    <h2>9. Wish List</h2>
+    <form>
+        Product Name: <input type="text"><br><br>
+        <input type="submit" value="Add to Wishlist">
+    </form>
+
+    <h2>10. Checkout and Payment</h2>
+    <form>
+        Customer Name: <input type="text" required><br><br>
+        Email: <input type="email" required><br><br>
+        Delivery Address: <textarea rows="3" cols="30"></textarea><br><br>
+        Phone: <input type="tel" required><br><br>
+
+        Payment Method:
+        <select>
+            <option>UPI</option>
+            <option>Debit Card</option>
+            <option>Credit Card</option>
+            <option>Net Banking</option>
+            <option>Cash on Delivery</option>
+        </select><br><br>
+
+        <input type="submit" value="Place Order">
+    </form>
+
+    <h2>11. Order Status</h2>
+    <form>
+        Order ID: <input type="text"><br><br>
+        <input type="submit" value="Track Order">
+    </form>
+
+    <p>Order Status: Pending / Confirmed / Shipped / Delivered / Cancelled</p>
+
+    <h2>12. Order History</h2>
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Order ID</th>
+            <th>Product</th>
+            <th>Amount</th>
+            <th>Status</th>
+        </tr>
+        <tr>
+            <td>ORD101</td>
+            <td>Men's T-Shirt</td>
+            <td>Rs. 599</td>
+            <td>Delivered</td>
+        </tr>
+    </table>
+
+    <h2>13. Returns and Exchanges</h2>
+    <form>
+        Order ID: <input type="text"><br><br>
+
+        Request Type:
+        <select>
+            <option>Return Product</option>
+            <option>Exchange Product</option>
+        </select><br><br>
+
+        Reason:<br>
+        <textarea rows="3" cols="35"></textarea><br><br>
+
+        <input type="submit" value="Submit Request">
+    </form>
+
+    <h2>14. Customer Reviews</h2>
+    <form>
+        Product Name: <input type="text"><br><br>
+        Rating:
+        <select>
+            <option>5 - Excellent</option>
+            <option>4 - Very Good</option>
+            <option>3 - Good</option>
+            <option>2 - Average</option>
+            <option>1 - Poor</option>
+        </select><br><br>
+
+        Review:<br>
+        <textarea rows="4" cols="35"></textarea><br><br>
+        <input type="submit" value="Submit Review">
+    </form>
+
+    <h2>15. Discounts and Flash Sales</h2>
+    <ul>
+        <li>Seasonal Fashion Discounts</li>
+        <li>Weekend Flash Sales</li>
+        <li>Special Offers on Footwear</li>
+        <li>Exclusive Online Deals</li>
+    </ul>
+
+    <h2>16. Personalized Style Recommendations</h2>
+    <p>Recommended products based on browsing history,
+       previous purchases, and selected fashion preferences.</p>
+
+    <hr>
+    <h2>17. Admin Login</h2>
+    <form>
+        Username: <input type="text"><br><br>
+        Password: <input type="password"><br><br>
+        <input type="submit" value="Admin Login">
+    </form>
+
+    <h2>18. Admin Product Management</h2>
+    <form>
+        Product ID: <input type="text"><br><br>
+        Product Name: <input type="text"><br><br>
+
+        Category:
+        <select>
+            <option>Men</option>
+            <option>Women</option>
+            <option>Children</option>
+            <option>Footwear</option>
+            <option>Accessories</option>
+        </select><br><br>
+
+        Subcategory: <input type="text"><br><br>
+        Price: <input type="number" min="0"><br><br>
+        Stock Quantity: <input type="number" min="0"><br><br>
+
+        Description:<br>
+        <textarea rows="3" cols="35"></textarea><br><br>
+
+        Upload Product Image: <input type="file"><br><br>
+
+        Action:
+        <select>
+            <option>Add Product</option>
+            <option>Update Product</option>
+            <option>Modify Price</option>
+            <option>Update Description</option>
+            <option>Remove Product</option>
+        </select><br><br>
+
+        <input type="submit" value="Save Product">
+    </form>
+
+    <h2>19. Admin Customer and Order Management</h2>
+    <form>
+        Customer Name: <input type="text"><br><br>
+        Customer Email: <input type="email"><br><br>
+        Order ID: <input type="text"><br><br>
+
+        Order Status:
+        <select>
+            <option>Pending</option>
+            <option>Confirmed</option>
+            <option>Processing</option>
+            <option>Shipped</option>
+            <option>Delivered</option>
+            <option>Cancelled</option>
+        </select><br><br>
+
+        <input type="submit" value="Update Order">
+    </form>
+
+    <h2>20. Logout</h2>
+    <form>
+        <input type="submit" value="Logout">
+    </form>
+
+    <h2>21. Leave the Website</h2>
+    <p>Thank you for shopping at StyleHub!</p>
+
+</body>
+</html>

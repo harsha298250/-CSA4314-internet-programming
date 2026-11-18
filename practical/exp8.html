@@ -1,0 +1,282 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MedCare Hospital Appointment System</title>
+</head>
+<body>
+
+    <h1>MedCare Hospital Appointment Booking System</h1>
+    <hr>
+
+    <h2>1. Patient Registration</h2>
+    <form>
+        Name: <input type="text" required><br><br>
+        Email: <input type="email" required><br><br>
+        Phone: <input type="tel" required><br><br>
+        Password: <input type="password" required><br><br>
+        <input type="submit" value="Sign Up">
+    </form>
+
+    <h2>2. Patient Login</h2>
+    <form>
+        Email: <input type="email"><br><br>
+        Password: <input type="password"><br><br>
+        <input type="submit" value="Login">
+    </form>
+
+    <hr>
+    <h2>3. Search Hospitals and Doctors</h2>
+    <form>
+        Hospital Name: <input type="text"><br><br>
+        Location: <input type="text" placeholder="Enter city or area"><br><br>
+
+        Specialty:
+        <select>
+            <option>General Medicine</option>
+            <option>Cardiology</option>
+            <option>Dermatology</option>
+            <option>Neurology</option>
+            <option>Orthopedics</option>
+            <option>Pediatrics</option>
+            <option>Ophthalmology</option>
+            <option>Dental</option>
+        </select><br><br>
+
+        Doctor Name: <input type="text"><br><br>
+        <input type="submit" value="Search">
+    </form>
+
+    <h2>4. Hospital List</h2>
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Hospital Name</th>
+            <th>Location</th>
+            <th>Specialty</th>
+            <th>View Map</th>
+        </tr>
+        <tr>
+            <td>MedCare Main Hospital</td>
+            <td>Chennai</td>
+            <td>General Medicine</td>
+            <td><a href="https://maps.google.com/?q=Chennai+hospital"
+            target="_blank">Google Maps</a></td>
+        </tr>
+        <tr>
+            <td>City Care Hospital</td>
+            <td>Tambaram</td>
+            <td>Cardiology</td>
+            <td><a href="https://maps.google.com/?q=Tambaram+hospital"
+            target="_blank">Google Maps</a></td>
+        </tr>
+    </table>
+
+    <h2>5. Available Doctors</h2>
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Doctor Name</th>
+            <th>Specialty</th>
+            <th>Hospital</th>
+            <th>Rating</th>
+        </tr>
+        <tr>
+            <td>Dr. Kumar</td>
+            <td>Cardiology</td>
+            <td>MedCare Main Hospital</td>
+            <td>4.8/5</td>
+        </tr>
+        <tr>
+            <td>Dr. Priya</td>
+            <td>Dermatology</td>
+            <td>City Care Hospital</td>
+            <td>4.5/5</td>
+        </tr>
+    </table>
+
+    <hr>
+    <h2>6. Book an Appointment</h2>
+    <form>
+        Patient Name: <input type="text" required><br><br>
+        Select Hospital:
+        <select>
+            <option>MedCare Main Hospital</option>
+            <option>City Care Hospital</option>
+        </select><br><br>
+
+        Select Doctor:
+        <select>
+            <option>Dr. Kumar</option>
+            <option>Dr. Priya</option>
+        </select><br><br>
+
+        Appointment Date: <input type="date" required><br><br>
+        Appointment Time: <input type="time" required><br><br>
+
+        Reason for Visit:<br>
+        <textarea rows="3" cols="35"></textarea><br><br>
+
+        <input type="submit" value="Book Appointment">
+    </form>
+
+    <h2>7. Appointment Status and Management</h2>
+    <form>
+        Appointment ID: <input type="text"><br><br>
+        Action:
+        <select>
+            <option>Check Status</option>
+            <option>Reschedule Appointment</option>
+            <option>Cancel Appointment</option>
+        </select><br><br>
+
+        New Date: <input type="date"><br><br>
+        New Time: <input type="time"><br><br>
+        <input type="submit" value="Update Appointment">
+    </form>
+
+    <h2>8. Patient Check-in Form</h2>
+    <form>
+        Patient Name: <input type="text"><br><br>
+        Appointment ID: <input type="text"><br><br>
+        Date of Birth: <input type="date"><br><br>
+        Symptoms:<br>
+        <textarea rows="3" cols="35"></textarea><br><br>
+
+        Previous Medical Details:<br>
+        <textarea rows="3" cols="35"></textarea><br><br>
+
+        <input type="submit" value="Submit Check-in">
+    </form>
+
+    <h2>9. Past Appointments and Medical History</h2>
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Date</th>
+            <th>Doctor</th>
+            <th>Hospital</th>
+            <th>Visit Details</th>
+        </tr>
+        <tr>
+            <td>01-10-2026</td>
+            <td>Dr. Kumar</td>
+            <td>MedCare Main Hospital</td>
+            <td>General Consultation</td>
+        </tr>
+    </table>
+
+    <h2>10. Patient Personal Details</h2>
+    <form>
+        Name: <input type="text"><br><br>
+        Email: <input type="email"><br><br>
+        Phone: <input type="tel"><br><br>
+        Address: <textarea rows="2" cols="30"></textarea><br><br>
+        <input type="submit" value="Update Details">
+    </form>
+
+    <h2>11. Doctor Rating and Feedback</h2>
+    <form>
+        Doctor Name: <input type="text"><br><br>
+        Rating:
+        <select>
+            <option>5 - Excellent</option>
+            <option>4 - Very Good</option>
+            <option>3 - Good</option>
+            <option>2 - Average</option>
+            <option>1 - Poor</option>
+        </select><br><br>
+
+        Review:<br>
+        <textarea rows="4" cols="40"></textarea><br><br>
+        <input type="submit" value="Submit Review">
+    </form>
+
+    <hr>
+    <h2>12. Hospital Registration</h2>
+    <form>
+        Hospital Name: <input type="text"><br><br>
+        Email: <input type="email"><br><br>
+        Phone: <input type="tel"><br><br>
+        Password: <input type="password"><br><br>
+        Location: <input type="text"><br><br>
+        Hospital Address: <textarea rows="3" cols="30"></textarea><br><br>
+        <input type="submit" value="Register Hospital">
+    </form>
+
+    <h2>13. Hospital Login</h2>
+    <form>
+        Hospital Email: <input type="email"><br><br>
+        Password: <input type="password"><br><br>
+        <input type="submit" value="Hospital Login">
+    </form>
+
+    <h2>14. Manage Hospital Details</h2>
+    <form>
+        Hospital Name: <input type="text"><br><br>
+        Update Location: <input type="text"><br><br>
+        Update Address: <textarea rows="3" cols="30"></textarea><br><br>
+        Contact Number: <input type="tel"><br><br>
+        <input type="submit" value="Update Hospital Details">
+    </form>
+
+    <h2>15. Admin Login</h2>
+    <form>
+        Username: <input type="text"><br><br>
+        Password: <input type="password"><br><br>
+        <input type="submit" value="Admin Login">
+    </form>
+
+    <h2>16. Admin Panel</h2>
+    <form>
+        Manage Doctors:
+        <select>
+            <option>Add Doctor</option>
+            <option>Update Doctor</option>
+            <option>Remove Doctor</option>
+        </select><br><br>
+
+        Doctor Name: <input type="text"><br><br>
+        Specialty: <input type="text"><br><br>
+        Hospital: <input type="text"><br><br>
+        Available Date: <input type="date"><br><br>
+        Available Time: <input type="time"><br><br>
+
+        <input type="submit" value="Save Doctor Details">
+    </form>
+
+    <h3>Manage Appointments</h3>
+    <form>
+        Appointment ID: <input type="text"><br><br>
+        Status:
+        <select>
+            <option>Pending</option>
+            <option>Confirmed</option>
+            <option>Completed</option>
+            <option>Cancelled</option>
+        </select><br><br>
+        <input type="submit" value="Update Status">
+    </form>
+
+    <h3>Appointment Statistics</h3>
+    <ul>
+        <li>Total Appointments</li>
+        <li>Confirmed Appointments</li>
+        <li>Cancelled Appointments</li>
+        <li>Completed Appointments</li>
+        <li>Doctor Ratings and Reviews</li>
+    </ul>
+
+    <h2>17. Appointment Reminders</h2>
+    <p>Appointment confirmation by email or SMS.</p>
+    <p>Reminder before the appointment date and time.</p>
+    <p>Notifications for cancellation or rescheduling.</p>
+
+    <h2>18. Contact Us</h2>
+    <form>
+        Name: <input type="text"><br><br>
+        Email: <input type="email"><br><br>
+        Message:<br>
+        <textarea rows="4" cols="40"></textarea><br><br>
+        <input type="submit" value="Send Message">
+    </form>
+
+</body>
+</html>

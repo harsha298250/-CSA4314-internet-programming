@@ -1,0 +1,913 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>ComplainEase - Complaint Management</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: #f5f6fa;
+    color: #303746;
+}
+
+header {
+    background: #202c40;
+    color: white;
+    padding: 18px 25px;
+}
+
+header h2 {
+    margin: 0;
+    color: #ffbb54;
+}
+
+.layout {
+    display: flex;
+    min-height: 85vh;
+}
+
+aside {
+    width: 210px;
+    background: #29374e;
+    padding: 20px 10px;
+}
+
+aside button {
+    display: block;
+    width: 100%;
+    padding: 13px;
+    margin-bottom: 7px;
+    background: transparent;
+    color: white;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+aside button:hover {
+    background: #43546c;
+}
+
+main {
+    flex: 1;
+    padding: 25px;
+    min-width: 0;
+}
+
+.page {
+    display: none;
+}
+
+.active {
+    display: block;
+}
+
+h2, h3 {
+    color: #29374e;
+}
+
+.box {
+    background: white;
+    padding: 22px;
+    margin: 15px 0;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px #dfe3ea;
+}
+
+.welcome {
+    background: #ffbb54;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.welcome h2 {
+    margin-top: 0;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 11px;
+    margin: 8px 0 15px;
+    border: 1px solid #cdd4df;
+    border-radius: 5px;
+}
+
+textarea {
+    height: 90px;
+}
+
+.btn {
+    background: #ed9632;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 3px;
+}
+
+.btn:hover {
+    background: #c97819;
+}
+
+.danger {
+    background: #d9534f;
+}
+
+.card {
+    display: inline-block;
+    background: white;
+    width: 30%;
+    min-width: 180px;
+    padding: 20px;
+    margin: 8px;
+    border-radius: 8px;
+    border-left: 4px solid #ed9632;
+}
+
+.card h2 {
+    margin-bottom: 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    border-bottom: 1px solid #e0e4eb;
+    padding: 11px;
+    text-align: left;
+}
+
+th {
+    background: #29374e;
+    color: white;
+}
+
+.status {
+    background: #fff0d5;
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+
+a {
+    color: #b36b18;
+}
+
+footer {
+    text-align: center;
+    background: #202c40;
+    color: white;
+    padding: 15px;
+}
+
+@media(max-width: 700px) {
+    .layout {
+        display: block;
+    }
+
+    aside {
+        width: 100%;
+        display: flex;
+        overflow-x: auto;
+    }
+
+    aside button {
+        min-width: 125px;
+    }
+
+    main {
+        padding: 15px;
+    }
+
+    .card {
+        width: 100%;
+        margin: 8px 0;
+    }
+
+    .box {
+        overflow-x: auto;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h2>ComplainEase</h2>
+    <small>Online Complaint Registration & Resolution Portal</small>
+</header>
+
+<div class="layout">
+
+<aside>
+    <button onclick="showPage('home')">Dashboard</button>
+    <button onclick="showPage('register')">Register</button>
+    <button onclick="showPage('login')">User Login</button>
+    <button onclick="showPage('complaint')">Post Complaint</button>
+    <button onclick="showPage('myComplaints')">My Complaints</button>
+    <button onclick="showPage('solutions')">Help & Solutions</button>
+    <button onclick="showPage('officer')">Officer Portal</button>
+    <button onclick="showPage('admin')">Admin Panel</button>
+</aside>
+
+<main>
+
+<!-- HOME -->
+
+<section id="home" class="page active">
+
+    <div class="welcome">
+        <h2>Welcome to ComplainEase</h2>
+        <p>Report issues, track complaints and get solutions easily.</p>
+        <button class="btn" onclick="showPage('complaint')">
+            Register Complaint
+        </button>
+    </div>
+
+    <div class="card">
+        <h3>Submit</h3>
+        <p>Register your complaint online.</p>
+    </div>
+
+    <div class="card">
+        <h3>Track</h3>
+        <p>Check complaint progress.</p>
+    </div>
+
+    <div class="card">
+        <h3>Resolve</h3>
+        <p>Receive updates from officers.</p>
+    </div>
+
+    <div class="box">
+        <h3>Admin Contact</h3>
+        <p>Email: support@complainease.example</p>
+        <p>Phone: Demo contact - 0000000000</p>
+    </div>
+
+</section>
+
+<!-- REGISTER -->
+
+<section id="register" class="page">
+
+    <div class="box">
+        <h2>User Registration</h2>
+
+        <input id="regName" placeholder="Full Name">
+        <input id="regEmail" type="email" placeholder="Email">
+        <input id="regPhone" placeholder="Phone Number">
+        <input id="regPass" type="password" placeholder="Password">
+
+        <button class="btn" onclick="registerUser()">Register</button>
+    </div>
+
+</section>
+
+<!-- LOGIN -->
+
+<section id="login" class="page">
+
+    <div class="box">
+        <h2>User Login</h2>
+
+        <input id="loginEmail" placeholder="Email">
+        <input id="loginPass" type="password" placeholder="Password">
+
+        <button class="btn" onclick="loginUser()">Login</button>
+    </div>
+
+</section>
+
+<!-- COMPLAINT -->
+
+<section id="complaint" class="page">
+
+    <div class="box">
+        <h2>Register New Complaint</h2>
+
+        <label>Complaint Title</label>
+        <input id="complaintTitle" placeholder="Enter issue title">
+
+        <label>Category</label>
+        <select id="complaintCategory">
+            <option>Road Damage</option>
+            <option>Water Supply</option>
+            <option>Electricity</option>
+            <option>Garbage Collection</option>
+            <option>Other</option>
+        </select>
+
+        <label>Description</label>
+        <textarea id="complaintDesc"
+            placeholder="Describe your complaint"></textarea>
+
+        <label>Location</label>
+        <input id="complaintLocation"
+            placeholder="Enter area or address">
+
+        <label>Supporting Document</label>
+        <input type="file" id="complaintFile">
+
+        <button class="btn" onclick="submitComplaint()">
+            Submit Complaint
+        </button>
+    </div>
+
+</section>
+
+<!-- MY COMPLAINTS -->
+
+<section id="myComplaints" class="page">
+
+    <h2>My Complaints</h2>
+
+    <div class="box">
+        <div id="complaintList"></div>
+    </div>
+
+    <div class="box">
+        <h3>Add Feedback or Evidence</h3>
+
+        <input id="feedbackId" placeholder="Complaint ID">
+
+        <textarea id="feedbackText"
+            placeholder="Enter feedback or additional information"></textarea>
+
+        <button class="btn" onclick="addFeedback()">
+            Submit Feedback
+        </button>
+    </div>
+
+</section>
+
+<!-- HELP -->
+
+<section id="solutions" class="page">
+
+    <h2>Common Issues & Solutions</h2>
+
+    <div class="box">
+        <input id="searchIssue"
+            placeholder="Search common issues"
+            oninput="displaySolutions()">
+
+        <div id="solutionList"></div>
+    </div>
+
+</section>
+
+<!-- OFFICER -->
+
+<section id="officer" class="page">
+
+    <div class="box">
+        <h2>Officer Login</h2>
+
+        <input id="officerId" placeholder="Officer ID">
+        <input id="officerPass" type="password"
+            placeholder="Password">
+
+        <button class="btn" onclick="officerLogin()">Login</button>
+    </div>
+
+    <div id="officerPanel" style="display:none;">
+
+        <div class="box">
+            <h2>Officer Dashboard</h2>
+            <div id="officerComplaints"></div>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ADMIN -->
+
+<section id="admin" class="page">
+
+    <div class="box">
+        <h2>Admin Login</h2>
+
+        <input id="adminId" placeholder="Username">
+        <input id="adminPass" type="password"
+            placeholder="Password">
+
+        <button class="btn" onclick="adminLogin()">Login</button>
+    </div>
+
+    <div id="adminPanel" style="display:none;">
+
+        <div class="box">
+            <h2>Admin Dashboard</h2>
+
+            <p id="totalUsers"></p>
+            <p id="totalComplaints"></p>
+            <p id="resolvedComplaints"></p>
+        </div>
+
+        <div class="box">
+            <h3>Create Officer Account</h3>
+
+            <input id="newOfficer" placeholder="Officer Name">
+            <input id="newOfficerId" placeholder="Officer ID">
+            <input id="newOfficerPass" placeholder="Password">
+
+            <button class="btn" onclick="addOfficer()">
+                Create Officer
+            </button>
+        </div>
+
+        <div class="box">
+            <h3>Manage Officers</h3>
+            <div id="officerList"></div>
+        </div>
+
+        <div class="box">
+            <h3>All Complaints</h3>
+            <div id="adminComplaints"></div>
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+</div>
+
+<footer>
+    ComplainEase | Online Complaint Management System
+</footer>
+
+<script>
+
+// DATA
+
+let users = JSON.parse(localStorage.getItem("ce_users")) || [];
+
+let officers = JSON.parse(localStorage.getItem("ce_officers")) || [];
+
+let complaints = JSON.parse(localStorage.getItem("ce_complaints")) || [];
+
+let currentUser = localStorage.getItem("ce_currentUser") || "";
+
+let currentOfficer = "";
+
+let adminActive = false;
+
+
+// SAVE
+
+function saveData() {
+    localStorage.setItem("ce_users", JSON.stringify(users));
+    localStorage.setItem("ce_officers", JSON.stringify(officers));
+    localStorage.setItem("ce_complaints", JSON.stringify(complaints));
+}
+
+
+// NAVIGATION
+
+function showPage(page) {
+    document.querySelectorAll(".page").forEach(function(p) {
+        p.classList.remove("active");
+    });
+
+    document.getElementById(page).classList.add("active");
+
+    if(page === "myComplaints") displayMyComplaints();
+    if(page === "solutions") displaySolutions();
+}
+
+
+// USER REGISTRATION
+
+function registerUser() {
+
+    let name = document.getElementById("regName").value.trim();
+    let email = document.getElementById("regEmail").value.trim();
+    let phone = document.getElementById("regPhone").value.trim();
+    let password = document.getElementById("regPass").value;
+
+    if(!name || !email || !phone || !password) {
+        alert("Please fill all fields");
+        return;
+    }
+
+    if(users.some(u => u.email === email)) {
+        alert("Email already registered");
+        return;
+    }
+
+    users.push({name, email, phone, password});
+    saveData();
+
+    alert("Registration successful");
+    showPage("login");
+}
+
+
+// USER LOGIN
+
+function loginUser() {
+
+    let email = document.getElementById("loginEmail").value;
+    let password = document.getElementById("loginPass").value;
+
+    let user = users.find(u =>
+        u.email === email && u.password === password
+    );
+
+    if(user) {
+        currentUser = email;
+        localStorage.setItem("ce_currentUser", email);
+        alert("Login successful");
+        showPage("home");
+    } else {
+        alert("Invalid login details");
+    }
+}
+
+
+// SUBMIT COMPLAINT
+
+function submitComplaint() {
+
+    if(!currentUser) {
+        alert("Please login first");
+        showPage("login");
+        return;
+    }
+
+    let title = document.getElementById("complaintTitle").value.trim();
+    let category = document.getElementById("complaintCategory").value;
+    let description = document.getElementById("complaintDesc").value.trim();
+    let location = document.getElementById("complaintLocation").value.trim();
+    let file = document.getElementById("complaintFile").files[0];
+
+    if(!title || !description || !location) {
+        alert("Please complete complaint details");
+        return;
+    }
+
+    let complaint = {
+        id: Date.now(),
+        user: currentUser,
+        title: title,
+        category: category,
+        description: description,
+        location: location,
+        file: file ? file.name : "No file",
+        status: "Pending",
+        proof: "",
+        feedback: "",
+        date: new Date().toLocaleDateString()
+    };
+
+    complaints.push(complaint);
+    saveData();
+
+    alert("Complaint submitted! ID: " + complaint.id);
+
+    document.getElementById("complaintTitle").value = "";
+    document.getElementById("complaintDesc").value = "";
+    document.getElementById("complaintLocation").value = "";
+    document.getElementById("complaintFile").value = "";
+
+    showPage("myComplaints");
+}
+
+
+// MY COMPLAINTS
+
+function displayMyComplaints() {
+
+    if(!currentUser) {
+        document.getElementById("complaintList").innerHTML =
+            "Please login to view complaints.";
+        return;
+    }
+
+    let myList = complaints.filter(c => c.user === currentUser);
+
+    let output = "";
+
+    myList.forEach(function(c) {
+
+        let mapLink = "https://www.google.com/maps/search/?api=1&query=" +
+            encodeURIComponent(c.location);
+
+        output += `
+            <div class="box">
+                <h3>#${c.id} - ${c.title}</h3>
+                <p>Category: ${c.category}</p>
+                <p>Description: ${c.description}</p>
+                <p>Location: ${c.location}</p>
+                <p>Document: ${c.file}</p>
+                <p>Status: <span class="status">${c.status}</span></p>
+                <p>Officer Proof: ${c.proof || "Not updated"}</p>
+                <p>Feedback: ${c.feedback || "Not submitted"}</p>
+                <p><a href="${mapLink}" target="_blank">
+                    View Location in Google Maps
+                </a></p>
+            </div>
+        `;
+    });
+
+    document.getElementById("complaintList").innerHTML =
+        output || "No complaints submitted.";
+}
+
+
+// FEEDBACK
+
+function addFeedback() {
+
+    if(!currentUser) {
+        alert("Please login first");
+        return;
+    }
+
+    let id = Number(document.getElementById("feedbackId").value);
+    let feedback = document.getElementById("feedbackText").value.trim();
+
+    let complaint = complaints.find(c =>
+        c.id === id && c.user === currentUser
+    );
+
+    if(!complaint || !feedback) {
+        alert("Enter a valid complaint ID and feedback");
+        return;
+    }
+
+    complaint.feedback = feedback;
+
+    saveData();
+    displayMyComplaints();
+
+    document.getElementById("feedbackText").value = "";
+
+    alert("Feedback submitted");
+}
+
+
+// COMMON SOLUTIONS
+
+function displaySolutions() {
+
+    let search = document.getElementById("searchIssue").value.toLowerCase();
+
+    let solutions = [
+        {
+            issue: "Road Damage",
+            solution: "Report damaged roads with location details."
+        },
+        {
+            issue: "Water Supply",
+            solution: "Submit water shortage or leakage complaints."
+        },
+        {
+            issue: "Electricity",
+            solution: "Report power failures or streetlight issues."
+        },
+        {
+            issue: "Garbage Collection",
+            solution: "Report missed garbage collection services."
+        }
+    ];
+
+    let output = "";
+
+    solutions.filter(s =>
+        s.issue.toLowerCase().includes(search)
+    ).forEach(function(s) {
+        output += `
+            <div class="box">
+                <h3>${s.issue}</h3>
+                <p>${s.solution}</p>
+            </div>
+        `;
+    });
+
+    document.getElementById("solutionList").innerHTML =
+        output || "No matching solutions.";
+}
+
+
+// OFFICER LOGIN
+
+function officerLogin() {
+
+    let id = document.getElementById("officerId").value;
+    let password = document.getElementById("officerPass").value;
+
+    let officer = officers.find(o =>
+        o.id === id && o.password === password
+    );
+
+    if(officer) {
+        currentOfficer = id;
+        document.getElementById("officerPanel").style.display = "block";
+        displayOfficerComplaints();
+        alert("Officer login successful");
+    } else {
+        alert("Invalid officer details");
+    }
+}
+
+
+// OFFICER COMPLAINTS
+
+function displayOfficerComplaints() {
+
+    if(!currentOfficer) return;
+
+    let output = "";
+
+    complaints.forEach(function(c) {
+
+        output += `
+            <div class="box">
+                <h3>${c.title}</h3>
+                <p>ID: ${c.id}</p>
+                <p>Category: ${c.category}</p>
+                <p>Location: ${c.location}</p>
+                <p>Description: ${c.description}</p>
+                <p>Current Status: ${c.status}</p>
+
+                <select id="status${c.id}">
+                    <option>Pending</option>
+                    <option>In Progress</option>
+                    <option>Resolved</option>
+                </select>
+
+                <input id="proof${c.id}"
+                    placeholder="Enter work proof or remarks">
+
+                <button class="btn"
+                    onclick="updateStatus(${c.id})">
+                    Update Complaint
+                </button>
+            </div>
+        `;
+    });
+
+    document.getElementById("officerComplaints").innerHTML =
+        output || "No complaints available.";
+}
+
+
+// UPDATE STATUS
+
+function updateStatus(id) {
+
+    if(!currentOfficer) return;
+
+    let complaint = complaints.find(c => c.id === id);
+
+    complaint.status = document.getElementById("status" + id).value;
+
+    complaint.proof = document.getElementById("proof" + id).value;
+
+    saveData();
+
+    displayOfficerComplaints();
+
+    alert("Complaint status updated");
+}
+
+
+// ADMIN LOGIN
+
+function adminLogin() {
+
+    let id = document.getElementById("adminId").value;
+    let password = document.getElementById("adminPass").value;
+
+    if(id === "admin" && password === "admin123") {
+        adminActive = true;
+        document.getElementById("adminPanel").style.display = "block";
+        displayAdmin();
+        alert("Admin login successful");
+    } else {
+        alert("Invalid admin login");
+    }
+}
+
+
+// ADD OFFICER
+
+function addOfficer() {
+
+    if(!adminActive) return;
+
+    let name = document.getElementById("newOfficer").value.trim();
+    let id = document.getElementById("newOfficerId").value.trim();
+    let password = document.getElementById("newOfficerPass").value;
+
+    if(!name || !id || !password) {
+        alert("Enter all officer details");
+        return;
+    }
+
+    if(officers.some(o => o.id === id)) {
+        alert("Officer ID already exists");
+        return;
+    }
+
+    officers.push({name, id, password});
+
+    saveData();
+    displayAdmin();
+
+    alert("Officer account created");
+}
+
+
+// DELETE OFFICER
+
+function deleteOfficer(id) {
+
+    if(!adminActive) return;
+
+    if(confirm("Delete this officer?")) {
+        officers = officers.filter(o => o.id !== id);
+        saveData();
+        displayAdmin();
+    }
+}
+
+
+// ADMIN DASHBOARD
+
+function displayAdmin() {
+
+    if(!adminActive) return;
+
+    document.getElementById("totalUsers").innerText =
+        "Total Users: " + users.length;
+
+    document.getElementById("totalComplaints").innerText =
+        "Total Complaints: " + complaints.length;
+
+    document.getElementById("resolvedComplaints").innerText =
+        "Resolved Complaints: " +
+        complaints.filter(c => c.status === "Resolved").length;
+
+    let officerOutput = "";
+
+    officers.forEach(function(o) {
+        officerOutput += `
+            <div class="box">
+                <p>Name: ${o.name}</p>
+                <p>Officer ID: ${o.id}</p>
+                <button class="btn danger"
+                    onclick="deleteOfficer('${o.id}')">
+                    Delete
+                </button>
+            </div>
+        `;
+    });
+
+    document.getElementById("officerList").innerHTML =
+        officerOutput || "No officers registered.";
+
+    let complaintOutput = "";
+
+    complaints.forEach(function(c) {
+        complaintOutput += `
+            <div class="box">
+                <h3>${c.title}</h3>
+                <p>ID: ${c.id}</p>
+                <p>User: ${c.user}</p>
+                <p>Category: ${c.category}</p>
+                <p>Status: ${c.status}</p>
+                <p>Officer Proof: ${c.proof || "Pending"}</p>
+            </div>
+        `;
+    });
+
+    document.getElementById("adminComplaints").innerHTML =
+        complaintOutput || "No complaints found.";
+}
+
+
+// INITIAL LOAD
+
+displaySolutions();
+
+</script>
+
+</body>
+</html>

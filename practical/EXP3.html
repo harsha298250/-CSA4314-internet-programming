@@ -1,0 +1,213 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bus Ticket Booking System</title>
+</head>
+<body>
+
+    <h1>Bus Ticket Booking System</h1>
+    <hr>
+
+    <h2>User Registration</h2>
+    <form>
+        Name: <input type="text" required><br><br>
+        Email: <input type="email" required><br><br>
+        Password: <input type="password" required><br><br>
+        <input type="submit" value="Register">
+    </form>
+
+    <h2>User Login</h2>
+    <form>
+        Email: <input type="email"><br><br>
+        Password: <input type="password"><br><br>
+        <input type="submit" value="Login">
+    </form>
+
+    <h3>Change or Forgot Password</h3>
+    <form>
+        Email: <input type="email"><br><br>
+        New Password: <input type="password"><br><br>
+        <input type="submit" value="Change Password">
+    </form>
+
+    <hr>
+
+    <h2>Search Bus</h2>
+    <form>
+        From: <input type="text" required><br><br>
+        To: <input type="text" required><br><br>
+        Journey Date: <input type="date" required><br><br>
+        <input type="submit" value="Search Bus">
+    </form>
+
+    <h3>Available Buses</h3>
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>Bus No</th>
+            <th>Bus Name</th>
+            <th>Category</th>
+            <th>Departure</th>
+            <th>Price</th>
+            <th>Seats</th>
+        </tr>
+        <tr>
+            <td>101</td>
+            <td>Express</td>
+            <td>Volvo</td>
+            <td>9:00 AM</td>
+            <td>Rs. 500</td>
+            <td>20</td>
+        </tr>
+        <tr>
+            <td>102</td>
+            <td>City Travels</td>
+            <td>Sleeper Coach</td>
+            <td>10:00 PM</td>
+            <td>Rs. 800</td>
+            <td>15</td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h2>Book Ticket</h2>
+    <form>
+        Bus Number: <input type="text" required><br><br>
+        Passenger Name: <input type="text" required><br><br>
+        Age: <input type="number" min="1" required><br><br>
+        Journey Date: <input type="date" required><br><br>
+
+        Seat Number:
+        <select>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+        </select><br><br>
+
+        <input type="submit" value="Book Ticket">
+    </form>
+
+    <h2>Payment</h2>
+    <form>
+        Ticket Number: <input type="text"><br><br>
+        Amount: <input type="number"><br><br>
+        Payment Method:
+        <select>
+            <option>UPI</option>
+            <option>Debit Card</option>
+            <option>Credit Card</option>
+        </select><br><br>
+        <input type="submit" value="Pay Now">
+    </form>
+
+    <hr>
+
+    <h2>My Booking History</h2>
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>Ticket No</th>
+            <th>Bus Name</th>
+            <th>Journey Date</th>
+            <th>Status</th>
+        </tr>
+        <tr>
+            <td>T101</td>
+            <td>Express</td>
+            <td>25-10-2026</td>
+            <td>Confirmed</td>
+        </tr>
+    </table>
+
+    <h3>Cancel Ticket</h3>
+    <form>
+        Ticket Number: <input type="text"><br><br>
+        <input type="submit" value="Cancel Ticket">
+    </form>
+
+    <hr>
+
+    <h2>Admin Login</h2>
+    <form>
+        Username: <input type="text"><br><br>
+        Password: <input type="password"><br><br>
+        <input type="submit" value="Login">
+    </form>
+
+    <h2>Manage Bus Information</h2>
+    <form>
+        Bus Number: <input type="text"><br><br>
+        Bus Name: <input type="text"><br><br>
+
+        Bus Category:
+        <select>
+            <option>Volvo</option>
+            <option>Sleeper Coach</option>
+            <option>Seater Coach</option>
+        </select><br><br>
+
+        From: <input type="text"><br><br>
+        To: <input type="text"><br><br>
+        Available Seats: <input type="number"><br><br>
+        Ticket Price: <input type="number"><br><br>
+        Bus Description: <textarea rows="3" cols="25"></textarea><br><br>
+
+        Bus Photo: <input type="file"><br><br>
+
+        <input type="submit" value="Add Bus">
+        <input type="submit" value="Update Bus">
+        <input type="button" value="Delete Bus">
+    </form>
+
+    <h2>Manage Registered Users</h2>
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>User ID</th>
+            <th>Name</th>
+            <th>Email</th>
+        </tr>
+        <tr>
+            <td>U101</td>
+            <td>Arun</td>
+            <td>arun@example.com</td>
+        </tr>
+    </table>
+
+    <h2>Comments</h2>
+    <form>
+        Bus Name: <input type="text"><br><br>
+        Comment:<br>
+        <textarea rows="3" cols="30"></textarea><br><br>
+        <input type="submit" value="Post Comment">
+    </form>
+
+    <h2>Manage News</h2>
+    <form>
+        News Title: <input type="text"><br><br>
+        News Details:<br>
+        <textarea rows="3" cols="30"></textarea><br><br>
+        <input type="submit" value="Add News">
+    </form>
+
+    <h2>Generate Reports</h2>
+    <form>
+        Report Type:
+        <select>
+            <option>Booking Report</option>
+            <option>Bus Report</option>
+            <option>User Report</option>
+            <option>Cancellation Report</option>
+        </select><br><br>
+        <input type="submit" value="Generate Report">
+    </form>
+
+    <hr>
+
+    <h2>Contact Us</h2>
+    <p>Email: busbooking@example.com</p>
+    <p>Phone: 9876543210</p>
+
+</body>
+</html>

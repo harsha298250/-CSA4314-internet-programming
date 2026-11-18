@@ -1,0 +1,228 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cake Ordering System</title>
+</head>
+<body>
+
+    <h1 align="center">CAKE ORDERING SYSTEM</h1>
+    <p align="center">Order Your Favourite Cake Online</p>
+    <hr>
+
+    <h2>Student Registration</h2>
+    <form>
+        Name: <input type="text" required><br><br>
+        Email: <input type="email" required><br><br>
+        Password: <input type="password" required><br><br>
+        <input type="submit" value="Register">
+    </form>
+
+    <h2>User Login</h2>
+    <form>
+        Email: <input type="email"><br><br>
+        Password: <input type="password"><br><br>
+        <input type="submit" value="Login">
+    </form>
+
+    <hr>
+
+    <h2>Search Cakes</h2>
+    <form>
+        Cake Name: <input type="text"><br><br>
+
+        Category:
+        <select>
+            <option>Birthday Cake</option>
+            <option>Wedding Cake</option>
+            <option>Chocolate Cake</option>
+            <option>Black Forest Cake</option>
+        </select><br><br>
+
+        Price Range:
+        <select>
+            <option>Below Rs. 500</option>
+            <option>Rs. 500 - 1000</option>
+            <option>Above Rs. 1000</option>
+        </select><br><br>
+
+        <input type="submit" value="Search Cake">
+    </form>
+
+    <h2>Available Cakes</h2>
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Cake ID</th>
+            <th>Cake Name</th>
+            <th>Category</th>
+            <th>Price</th>
+        </tr>
+        <tr>
+            <td>C101</td>
+            <td>Chocolate Cake</td>
+            <td>Birthday</td>
+            <td>Rs. 500</td>
+        </tr>
+        <tr>
+            <td>C102</td>
+            <td>Black Forest Cake</td>
+            <td>Special Occasion</td>
+            <td>Rs. 700</td>
+        </tr>
+        <tr>
+            <td>C103</td>
+            <td>Vanilla Cake</td>
+            <td>Wedding</td>
+            <td>Rs. 900</td>
+        </tr>
+    </table>
+
+    <h3>View Cake Description</h3>
+    <p>Chocolate Cake - A delicious chocolate-flavoured cake.</p>
+    <p>Black Forest Cake - A cake with chocolate and cream.</p>
+
+    <hr>
+
+    <h2>Add to Cart and Place Order</h2>
+    <form>
+        Select Cake:
+        <select>
+            <option>Chocolate Cake</option>
+            <option>Black Forest Cake</option>
+            <option>Vanilla Cake</option>
+        </select><br><br>
+
+        Cake Size:
+        <select>
+            <option>Small</option>
+            <option>Medium</option>
+            <option>Large</option>
+        </select><br><br>
+
+        Flavour:
+        <select>
+            <option>Chocolate</option>
+            <option>Vanilla</option>
+            <option>Strawberry</option>
+        </select><br><br>
+
+        Cake Message:
+        <input type="text" placeholder="Happy Birthday"><br><br>
+
+        Quantity: <input type="number" min="1" value="1"><br><br>
+
+        <input type="submit" value="Add to Cart">
+        <input type="submit" value="Place Order">
+    </form>
+
+    <hr>
+
+    <h2>Shipping Address</h2>
+    <form>
+        Name: <input type="text" required><br><br>
+        Mobile: <input type="tel" required><br><br>
+        Address: <textarea rows="3" cols="30"></textarea><br><br>
+        City: <input type="text"><br><br>
+        Pincode: <input type="text"><br><br>
+        <input type="submit" value="Save Address">
+        <input type="submit" value="Update Address">
+    </form>
+
+    <hr>
+
+    <h2>Payment</h2>
+    <form>
+        Order ID: <input type="text"><br><br>
+        Amount: <input type="number"><br><br>
+
+        Payment Method:
+        <select>
+            <option>UPI</option>
+            <option>Debit Card</option>
+            <option>Credit Card</option>
+            <option>Cash on Delivery</option>
+        </select><br><br>
+
+        <input type="submit" value="Pay Now">
+    </form>
+
+    <hr>
+
+    <h2>My Orders</h2>
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Order ID</th>
+            <th>Cake Name</th>
+            <th>Price</th>
+            <th>Status</th>
+        </tr>
+        <tr>
+            <td>O101</td>
+            <td>Chocolate Cake</td>
+            <td>Rs. 500</td>
+            <td>Processing</td>
+        </tr>
+    </table>
+
+    <h3>View Shipping Status</h3>
+    <form>
+        Order ID: <input type="text">
+        <input type="submit" value="Check Status">
+    </form>
+
+    <hr>
+
+    <h2>Admin Login</h2>
+    <form>
+        Username: <input type="text"><br><br>
+        Password: <input type="password"><br><br>
+        <input type="submit" value="Login">
+    </form>
+
+    <h2>Manage Cake Products</h2>
+    <form>
+        Cake Name: <input type="text"><br><br>
+        Category: <input type="text"><br><br>
+        Price: <input type="number"><br><br>
+        Description: <textarea rows="3" cols="30"></textarea><br><br>
+        Upload Cake Image: <input type="file"><br><br>
+
+        <input type="submit" value="Add Cake">
+        <input type="submit" value="Update Cake">
+        <input type="button" value="Delete Cake">
+    </form>
+
+    <h2>Manage Orders</h2>
+    <form>
+        Order ID: <input type="text"><br><br>
+
+        Shipping Location: <input type="text"><br><br>
+
+        Order Status:
+        <select>
+            <option>Pending</option>
+            <option>Processing</option>
+            <option>Shipped</option>
+            <option>Delivered</option>
+            <option>Cancelled</option>
+        </select><br><br>
+
+        <input type="submit" value="Update Order">
+    </form>
+
+    <hr>
+
+    <h2>Contact Us</h2>
+    <form>
+        Name: <input type="text"><br><br>
+        Email: <input type="email"><br><br>
+        Message:<br>
+        <textarea rows="3" cols="30"></textarea><br><br>
+        <input type="submit" value="Send Message">
+    </form>
+
+    <hr>
+    <p align="center">Cake Ordering System - 2026</p>
+
+</body>
+</html>

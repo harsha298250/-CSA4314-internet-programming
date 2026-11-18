@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Beauty Parlour Appointment Booking</title>
+</head>
+<body>
+
+    <h1>Beauty Parlour Appointment Booking System</h1>
+    <hr>
+
+    <h2>1. Customer Registration</h2>
+    <form>
+        Name: <input type="text" required><br><br>
+        Email: <input type="email" required><br><br>
+        Phone: <input type="tel" required><br><br>
+        Password: <input type="password" required><br><br>
+        <input type="submit" value="Register">
+    </form>
+
+    <h2>2. Customer Login</h2>
+    <form>
+        Email: <input type="email"><br><br>
+        Password: <input type="password"><br><br>
+        <input type="submit" value="Login">
+    </form>
+
+    <hr>
+    <h2>3. Search Beauty Parlour</h2>
+    <form>
+        Salon Name or Location:
+        <input type="text" placeholder="Enter salon or location"><br><br>
+
+        Service:
+        <select>
+            <option>Haircut</option>
+            <option>Hair Styling</option>
+            <option>Facial</option>
+            <option>Makeup</option>
+            <option>Manicure</option>
+            <option>Pedicure</option>
+            <option>Bridal Package</option>
+        </select><br><br>
+
+        <input type="submit" value="Search Salon">
+    </form>
+
+    <h2>4. Available Services and Stylists</h2>
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Service</th>
+            <th>Stylist</th>
+            <th>Duration</th>
+            <th>Price</th>
+        </tr>
+        <tr>
+            <td>Haircut</td>
+            <td>Priya</td>
+            <td>30 minutes</td>
+            <td>Rs. 300</td>
+        </tr>
+        <tr>
+            <td>Facial</td>
+            <td>Anitha</td>
+            <td>45 minutes</td>
+            <td>Rs. 800</td>
+        </tr>
+        <tr>
+            <td>Makeup</td>
+            <td>Divya</td>
+            <td>60 minutes</td>
+            <td>Rs. 1500</td>
+        </tr>
+    </table>
+
+    <hr>
+    <h2>5. Book an Appointment</h2>
+    <form>
+        Customer Name: <input type="text" required><br><br>
+        Select Service:
+        <select>
+            <option>Haircut</option>
+            <option>Hair Styling</option>
+            <option>Facial</option>
+            <option>Makeup</option>
+            <option>Manicure</option>
+            <option>Pedicure</option>
+            <option>Bridal Package</option>
+        </select><br><br>
+
+        Select Stylist:
+        <select>
+            <option>Priya</option>
+            <option>Anitha</option>
+            <option>Divya</option>
+        </select><br><br>
+
+        Appointment Date:
+        <input type="date" required><br><br>
+
+        Appointment Time:
+        <input type="time" required><br><br>
+
+        Number of Services:
+        <input type="number" min="1" value="1"><br><br>
+
+        <input type="submit" value="Book Appointment">
+    </form>
+
+    <h2>6. Reservation Calendar</h2>
+    <form>
+        Select Date: <input type="date"><br><br>
+        View Important Information:
+        <select>
+            <option>Upcoming Appointments</option>
+            <option>Available Time Slots</option>
+            <option>Booked Time Slots</option>
+            <option>Unavailable Hours</option>
+            <option>Cancelled Appointments</option>
+        </select><br><br>
+        <input type="submit" value="View Calendar">
+    </form>
+
+    <h2>7. Make Payment</h2>
+    <form>
+        Appointment ID: <input type="text"><br><br>
+        Payment Type:
+        <select>
+            <option>Full Payment</option>
+            <option>Partial Deposit</option>
+        </select><br><br>
+
+        Payment Method:
+        <select>
+            <option>UPI</option>
+            <option>Credit Card</option>
+            <option>Debit Card</option>
+            <option>PayPal</option>
+            <option>Stripe</option>
+            <option>Cash</option>
+        </select><br><br>
+
+        Amount: <input type="number" min="0"><br><br>
+        <input type="submit" value="Pay Now">
+    </form>
+
+    <hr>
+    <h2>8. My Account</h2>
+    <ul>
+        <li>Personal Information</li>
+        <li>Upcoming Reservations</li>
+        <li>Reservation History</li>
+        <li>Reschedule Appointment</li>
+        <li>Cancel Appointment</li>
+        <li>Payment History</li>
+    </ul>
+
+    <h2>9. Appointment Management</h2>
+    <form>
+        Appointment ID: <input type="text"><br><br>
+        Action:
+        <select>
+            <option>Edit Appointment</option>
+            <option>Reschedule Appointment</option>
+            <option>Cancel Appointment</option>
+            <option>Check Booking Status</option>
+        </select><br><br>
+
+        New Date: <input type="date"><br><br>
+        New Time: <input type="time"><br><br>
+        <input type="submit" value="Update Appointment">
+    </form>
+
+    <h2>10. Feedback and Reviews</h2>
+    <form>
+        Customer Name: <input type="text"><br><br>
+        Select Rating:
+        <select>
+            <option>5 - Excellent</option>
+            <option>4 - Very Good</option>
+            <option>3 - Good</option>
+            <option>2 - Average</option>
+            <option>1 - Poor</option>
+        </select><br><br>
+
+        Comments:<br>
+        <textarea rows="4" cols="40"></textarea><br><br>
+        <input type="submit" value="Submit Feedback">
+    </form>
+
+    <hr>
+    <h2>11. Admin and Staff Login</h2>
+    <form>
+        Username: <input type="text"><br><br>
+        Password: <input type="password"><br><br>
+        <input type="submit" value="Login">
+    </form>
+
+    <h2>12. Admin and Staff Panel</h2>
+    <form>
+        Manage Service or Stylist:
+        <select>
+            <option>Add Service</option>
+            <option>Edit Service</option>
+            <option>Delete Service</option>
+            <option>Manage Stylist Profiles</option>
+            <option>Manage User Accounts</option>
+        </select><br><br>
+
+        Service or Stylist Name: <input type="text"><br><br>
+        Price: <input type="number"><br><br>
+        Description: <textarea rows="3" cols="30"></textarea><br><br>
+        Upload Image: <input type="file"><br><br>
+        <input type="submit" value="Save Details">
+    </form>
+
+    <h3>Manage Reservations</h3>
+    <form>
+        Appointment ID: <input type="text"><br><br>
+        Customer Phone: <input type="tel"><br><br>
+
+        Reservation Status:
+        <select>
+            <option>Confirmed</option>
+            <option>Pending Payment</option>
+            <option>Completed</option>
+            <option>Cancelled</option>
+        </select><br><br>
+
+        Unavailable Hours:
+        <input type="time"> to <input type="time"><br><br>
+
+        <input type="submit" value="Update Reservation">
+    </form>
+
+    <h3>Contact Customer</h3>
+    <form>
+        Customer Phone: <input type="tel"><br><br>
+        Message: <textarea rows="3" cols="30"></textarea><br><br>
+        <input type="submit" value="Send Reminder">
+        <input type="button" value="Call Customer">
+    </form>
+
+    <h2>13. Notifications and Reminders</h2>
+    <p>Appointment confirmation email</p>
+    <p>Appointment reminder by email or SMS</p>
+    <p>Payment confirmation</p>
+    <p>Cancellation and rescheduling notifications</p>
+
+    <h2>14. Automatic Cancellation</h2>
+    <p>Unpaid reservations can be cancelled automatically
+       after the payment deadline.</p>
+
+    <h2>15. Contact Us</h2>
+    <form>
+        Name: <input type="text"><br><br>
+        Email: <input type="email"><br><br>
+        Message: <textarea rows="4" cols="40"></textarea><br><br>
+        <input type="submit" value="Send Message">
+    </form>
+
+</body>
+</html>

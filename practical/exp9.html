@@ -1,0 +1,300 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TechSavvy Online Shopping System</title>
+</head>
+<body>
+
+    <h1>TechSavvy - Online Gadget Store</h1>
+    <p>Shop Smartphones, Laptops, Tablets and Accessories</p>
+    <hr>
+
+    <h2>1. User Registration</h2>
+    <form>
+        Name: <input type="text" required><br><br>
+        Email: <input type="email" required><br><br>
+        Password: <input type="password" required><br><br>
+        Phone: <input type="tel"><br><br>
+        Address: <textarea rows="3" cols="30"></textarea><br><br>
+        <input type="submit" value="Register">
+    </form>
+
+    <h2>2. User Login</h2>
+    <form>
+        Email: <input type="email"><br><br>
+        Password: <input type="password"><br><br>
+        <input type="submit" value="Login">
+    </form>
+
+    <hr>
+    <h2>3. Product Categories</h2>
+    <ul>
+        <li>Smartphones</li>
+        <li>Laptops</li>
+        <li>Tablets</li>
+        <li>Headphones and Speakers</li>
+        <li>Keyboards and Mouse</li>
+        <li>Chargers and Cables</li>
+        <li>Smart Watches</li>
+        <li>Gaming Accessories</li>
+    </ul>
+
+    <h2>4. Search and Filter Products</h2>
+    <form>
+        Search Product: <input type="text" placeholder="Enter product name"><br><br>
+
+        Category:
+        <select>
+            <option>All Categories</option>
+            <option>Smartphones</option>
+            <option>Laptops</option>
+            <option>Tablets</option>
+            <option>Accessories</option>
+        </select><br><br>
+
+        Minimum Price: <input type="number" min="0"><br><br>
+        Maximum Price: <input type="number" min="0"><br><br>
+
+        <input type="submit" value="Search Products">
+    </form>
+
+    <h2>5. Product List</h2>
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Product ID</th>
+            <th>Product Name</th>
+            <th>Category</th>
+            <th>Subcategory</th>
+            <th>Price</th>
+            <th>Availability</th>
+        </tr>
+        <tr>
+            <td>P101</td>
+            <td>Smartphone</td>
+            <td>Mobiles</td>
+            <td>Android Phone</td>
+            <td>Rs. 15000</td>
+            <td>Available</td>
+        </tr>
+        <tr>
+            <td>P102</td>
+            <td>Laptop</td>
+            <td>Computers</td>
+            <td>Personal Laptop</td>
+            <td>Rs. 45000</td>
+            <td>Available</td>
+        </tr>
+        <tr>
+            <td>P103</td>
+            <td>Tablet</td>
+            <td>Tablets</td>
+            <td>Android Tablet</td>
+            <td>Rs. 12000</td>
+            <td>Available</td>
+        </tr>
+        <tr>
+            <td>P104</td>
+            <td>Headphones</td>
+            <td>Accessories</td>
+            <td>Wireless Headphones</td>
+            <td>Rs. 2000</td>
+            <td>Available</td>
+        </tr>
+    </table>
+
+    <h2>6. Product Details</h2>
+    <form>
+        Product ID: <input type="text"><br><br>
+        Product Name: <input type="text"><br><br>
+        Description:<br>
+        <textarea rows="3" cols="35"></textarea><br><br>
+        Price: <input type="number"><br><br>
+        Product Image: <input type="file"><br><br>
+        <input type="submit" value="View Details">
+    </form>
+
+    <h2>7. Check Product Availability</h2>
+    <form>
+        Product Name: <input type="text"><br><br>
+        Quantity Required: <input type="number" min="1"><br><br>
+        <input type="submit" value="Check Availability">
+    </form>
+
+    <hr>
+    <h2>8. Shopping Cart</h2>
+    <form>
+        Product Name: <input type="text"><br><br>
+        Quantity: <input type="number" min="1" value="1"><br><br>
+        Action:
+        <select>
+            <option>Add Item</option>
+            <option>Edit Quantity</option>
+            <option>Remove Item</option>
+        </select><br><br>
+        <input type="submit" value="Update Cart">
+    </form>
+
+    <h3>Cart Items</h3>
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+        </tr>
+        <tr>
+            <td>Smartphone</td>
+            <td>Rs. 15000</td>
+            <td>1</td>
+            <td>Rs. 15000</td>
+        </tr>
+    </table>
+
+    <h2>9. Wishlist</h2>
+    <form>
+        Product Name: <input type="text"><br><br>
+        <input type="submit" value="Add to Wishlist">
+    </form>
+
+    <h2>10. Checkout and Payment</h2>
+    <form>
+        Customer Name: <input type="text" required><br><br>
+        Delivery Address: <textarea rows="3" cols="30"></textarea><br><br>
+        Phone Number: <input type="tel" required><br><br>
+
+        Payment Method:
+        <select>
+            <option>UPI</option>
+            <option>Debit Card</option>
+            <option>Credit Card</option>
+            <option>Net Banking</option>
+            <option>Cash on Delivery</option>
+        </select><br><br>
+
+        <input type="submit" value="Place Order">
+    </form>
+
+    <h2>11. Order Status</h2>
+    <form>
+        Order ID: <input type="text"><br><br>
+        <input type="submit" value="Check Order Status">
+    </form>
+
+    <p>Order Status: Pending / Confirmed / Shipped / Delivered / Cancelled</p>
+
+    <h2>12. Order History</h2>
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Order ID</th>
+            <th>Product</th>
+            <th>Amount</th>
+            <th>Status</th>
+        </tr>
+        <tr>
+            <td>ORD101</td>
+            <td>Smartphone</td>
+            <td>Rs. 15000</td>
+            <td>Delivered</td>
+        </tr>
+    </table>
+
+    <h2>13. Discounts and Offers</h2>
+    <ul>
+        <li>Special discounts on smartphones</li>
+        <li>Laptop festival offers</li>
+        <li>Discounts on selected accessories</li>
+        <li>Exclusive online shopping deals</li>
+    </ul>
+
+    <h2>14. Product Reviews</h2>
+    <form>
+        Product Name: <input type="text"><br><br>
+        Rating:
+        <select>
+            <option>5 - Excellent</option>
+            <option>4 - Very Good</option>
+            <option>3 - Good</option>
+            <option>2 - Average</option>
+            <option>1 - Poor</option>
+        </select><br><br>
+
+        Review:<br>
+        <textarea rows="4" cols="35"></textarea><br><br>
+        <input type="submit" value="Submit Review">
+    </form>
+
+    <hr>
+    <h2>15. Admin Login</h2>
+    <form>
+        Username: <input type="text"><br><br>
+        Password: <input type="password"><br><br>
+        <input type="submit" value="Admin Login">
+    </form>
+
+    <h2>16. Admin Product Management</h2>
+    <form>
+        Product ID: <input type="text"><br><br>
+        Product Name: <input type="text"><br><br>
+
+        Category:
+        <select>
+            <option>Smartphones</option>
+            <option>Laptops</option>
+            <option>Tablets</option>
+            <option>Accessories</option>
+        </select><br><br>
+
+        Subcategory: <input type="text"><br><br>
+        Price: <input type="number" min="0"><br><br>
+        Quantity Available: <input type="number" min="0"><br><br>
+
+        Description:<br>
+        <textarea rows="3" cols="35"></textarea><br><br>
+
+        Upload Product Image: <input type="file"><br><br>
+
+        Action:
+        <select>
+            <option>Add Product</option>
+            <option>Update Product</option>
+            <option>Change Price</option>
+            <option>Update Description</option>
+            <option>Remove Product</option>
+        </select><br><br>
+
+        <input type="submit" value="Save Product">
+    </form>
+
+    <h2>17. Admin Customer and Order Management</h2>
+    <form>
+        Customer Name: <input type="text"><br><br>
+        Customer Email: <input type="email"><br><br>
+        Order ID: <input type="text"><br><br>
+
+        Order Status:
+        <select>
+            <option>Pending</option>
+            <option>Confirmed</option>
+            <option>Processing</option>
+            <option>Shipped</option>
+            <option>Delivered</option>
+            <option>Cancelled</option>
+        </select><br><br>
+
+        <input type="submit" value="Update Order">
+    </form>
+
+    <h2>18. Personalized Recommendations</h2>
+    <p>Recommended products based on previous purchases and browsing history.</p>
+
+    <h2>19. Logout</h2>
+    <form>
+        <input type="submit" value="Logout">
+    </form>
+
+    <h2>20. Leave the Website</h2>
+    <p>Thank you for visiting TechSavvy Online Store!</p>
+
+</body>
+</html>

@@ -1,0 +1,1584 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>AgriMart - Agricultural Marketplace</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: #f5f3e9;
+    color: #344331;
+}
+
+header {
+    background: #244c35;
+    color: white;
+    padding: 20px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h2 {
+    color: #c5df91;
+}
+
+nav {
+    background: #dce8ca;
+    padding: 13px;
+    text-align: center;
+}
+
+nav button {
+    background: transparent;
+    color: #244c35;
+    border: none;
+    padding: 10px 13px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+nav button:hover {
+    background: #b7ce96;
+    border-radius: 5px;
+}
+
+.container {
+    width: 90%;
+    max-width: 1150px;
+    margin: 25px auto;
+}
+
+.page {
+    display: none;
+}
+
+.active {
+    display: block;
+}
+
+h2 {
+    color: #315d3c;
+    margin-bottom: 15px;
+}
+
+.box {
+    background: white;
+    padding: 22px;
+    margin: 15px 0;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px #dedfd0;
+}
+
+.hero {
+    background: linear-gradient(120deg, #315d3c, #8ba65c);
+    color: white;
+    padding: 45px 30px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+}
+
+.hero h1 {
+    font-size: 32px;
+    margin-bottom: 12px;
+}
+
+.hero p {
+    margin-bottom: 20px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0 15px;
+    border: 1px solid #d0d9c5;
+    border-radius: 5px;
+    background: #fbfcf8;
+}
+
+.btn {
+    background: #477a43;
+    color: white;
+    border: none;
+    padding: 11px 17px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 4px;
+}
+
+.btn:hover {
+    background: #315d3c;
+}
+
+.delete {
+    background: #c85a4a;
+}
+
+.card {
+    display: inline-block;
+    vertical-align: top;
+    background: white;
+    padding: 18px;
+    margin: 8px;
+    width: 30%;
+    min-width: 200px;
+    border-radius: 10px;
+    border-bottom: 4px solid #86a85d;
+    box-shadow: 0 3px 10px #dedfd0;
+}
+
+.card h3 {
+    color: #315d3c;
+}
+
+.product-image {
+    width: 100%;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 7px;
+    margin-bottom: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #e0e5d8;
+}
+
+th {
+    background: #315d3c;
+    color: white;
+}
+
+footer {
+    background: #244c35;
+    color: white;
+    text-align: center;
+    padding: 18px;
+    margin-top: 35px;
+}
+
+@media(max-width: 650px) {
+    header {
+        display: block;
+        text-align: center;
+    }
+
+    nav button {
+        padding: 8px;
+    }
+
+    .card {
+        width: 100%;
+    }
+
+    table {
+        font-size: 12px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h2>🌱 AgriMart</h2>
+    <p>Grow Better. Shop Smarter.</p>
+</header>
+
+<nav>
+    <button onclick="showPage('home')">Home</button>
+    <button onclick="showPage('products')">Products</button>
+    <button onclick="showPage('register')">Register</button>
+    <button onclick="showPage('login')">Login</button>
+    <button onclick="showPage('cart')">My Cart</button>
+    <button onclick="showPage('account')">My Account</button>
+    <button onclick="showPage('farmer')">Farmer Portal</button>
+</nav>
+
+<div class="container">
+
+<!-- HOME -->
+
+<div id="home" class="page active">
+
+    <div class="hero">
+        <h1>Everything Your Farm Needs</h1>
+        <p>
+            Explore quality seeds, fertilizers, pesticides
+            and farming equipment at one place.
+        </p>
+
+        <button class="btn" onclick="showPage('products')">
+            Explore Products
+        </button>
+    </div>
+
+    <h2>Product Categories</h2>
+
+    <div class="card">
+        <h3>🌾 Seeds</h3>
+        <p>Quality seeds for better cultivation.</p>
+    </div>
+
+    <div class="card">
+        <h3>🌿 Fertilizers</h3>
+        <p>Products to support healthy crop growth.</p>
+    </div>
+
+    <div class="card">
+        <h3>🚜 Equipment</h3>
+        <p>Tools and equipment for farming needs.</p>
+    </div>
+
+</div>
+
+
+<!-- PRODUCTS -->
+
+<div id="products" class="page">
+
+    <h2>Agricultural Products</h2>
+
+    <div class="box">
+
+        <input id="productSearch"
+               placeholder="Search products..."
+               oninput="displayProducts()">
+
+        <select id="categorySearch" onchange="displayProducts()">
+            <option value="All">All Categories</option>
+            <option>Seeds</option>
+            <option>Fertilizers</option>
+            <option>Pesticides</option>
+            <option>Equipment</option>
+            <option>Tools</option>
+        </select>
+
+    </div>
+
+    <div id="productList"></div>
+
+</div>
+
+
+<!-- REGISTER -->
+
+<div id="register" class="page">
+
+    <div class="box">
+
+        <h2>Create Account</h2>
+
+        <input id="regName" placeholder="Full Name">
+
+        <input id="regEmail" type="email" placeholder="Email">
+
+        <input id="regPassword" type="password" placeholder="Password">
+
+        <input id="regPhone" placeholder="Phone Number">
+
+        <label>Account Type</label>
+
+        <select id="regRole">
+            <option value="Customer">Customer</option>
+            <option value="Farmer">Farmer</option>
+        </select>
+
+        <button class="btn" onclick="registerUser()">
+            Register
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- LOGIN -->
+
+<div id="login" class="page">
+
+    <div class="box">
+
+        <h2>Login to AgriMart</h2>
+
+        <input id="loginEmail" type="email" placeholder="Email">
+
+        <input id="loginPassword" type="password" placeholder="Password">
+
+        <button class="btn" onclick="loginUser()">
+            Login
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- CART -->
+
+<div id="cart" class="page">
+
+    <h2>Shopping Cart</h2>
+
+    <div class="box">
+
+        <div id="cartList"></div>
+
+        <h3 id="cartTotal">Total: ₹0</h3>
+
+        <button class="btn" onclick="showPage('checkout')">
+            Continue to Checkout
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- CHECKOUT -->
+
+<div id="checkout" class="page">
+
+    <div class="box">
+
+        <h2>Shipping Address</h2>
+
+        <input id="shippingAddress" placeholder="Enter Delivery Address">
+
+        <button class="btn" onclick="saveAddress()">
+            Save Address
+        </button>
+
+        <h3>Payment Method</h3>
+
+        <select id="paymentMethod">
+            <option>Wallet</option>
+            <option>Cash on Delivery (Demo)</option>
+        </select>
+
+        <h3 id="checkoutTotal">Order Total: ₹0</h3>
+
+        <button class="btn" onclick="placeOrder()">
+            Place Order
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- CUSTOMER ACCOUNT -->
+
+<div id="account" class="page">
+
+    <h2>My Account</h2>
+
+    <div class="box">
+
+        <h3>Personal Details</h3>
+
+        <div id="profile"></div>
+
+        <input id="updateName" placeholder="Update Name">
+
+        <input id="updatePhone" placeholder="Update Phone">
+
+        <button class="btn" onclick="updateProfile()">
+            Update Details
+        </button>
+
+    </div>
+
+    <div class="box">
+
+        <h3>My Wallet</h3>
+
+        <h3 id="walletBalance">Balance: ₹0</h3>
+
+        <input id="walletAmount" type="number" placeholder="Enter Amount">
+
+        <button class="btn" onclick="addWallet()">
+            Add Demo Balance
+        </button>
+
+    </div>
+
+    <div class="box">
+
+        <h3>Shipping Address</h3>
+
+        <p id="savedAddress">No address saved.</p>
+
+    </div>
+
+    <div class="box">
+
+        <h3>My Orders</h3>
+
+        <div id="orderList"></div>
+
+    </div>
+
+    <button class="btn" onclick="logout()">
+        Logout
+    </button>
+
+</div>
+
+
+<!-- FARMER PORTAL -->
+
+<div id="farmer" class="page">
+
+    <div class="box">
+
+        <h2>Farmer Login</h2>
+
+        <input id="farmerEmail" type="email" placeholder="Farmer Email">
+
+        <input id="farmerPassword" type="password" placeholder="Password">
+
+        <button class="btn" onclick="farmerLogin()">
+            Login
+        </button>
+
+    </div>
+
+    <div id="farmerPanel" style="display:none;">
+
+        <div class="box">
+
+            <h2>Farmer Dashboard</h2>
+
+            <p id="farmerWelcome"></p>
+
+            <h3>My Sales</h3>
+
+            <p id="farmerSales"></p>
+
+        </div>
+
+        <div class="box">
+
+            <h3>Add New Product</h3>
+
+            <input id="newProduct" placeholder="Product Name">
+
+            <select id="newCategory">
+                <option>Seeds</option>
+                <option>Fertilizers</option>
+                <option>Pesticides</option>
+                <option>Equipment</option>
+                <option>Tools</option>
+            </select>
+
+            <input id="newPrice" type="number" placeholder="Price">
+
+            <input id="newStock" type="number" placeholder="Stock Quantity">
+
+            <input id="newImage" type="file" accept="image/*">
+
+            <button class="btn" onclick="addProduct()">
+                Add Product
+            </button>
+
+        </div>
+
+        <div class="box">
+
+            <h3>Manage My Products</h3>
+
+            <div id="farmerProducts"></div>
+
+        </div>
+
+        <div class="box">
+
+            <h3>Manage Customer Orders</h3>
+
+            <div id="farmerOrders"></div>
+
+        </div>
+
+        <button class="btn" onclick="logout()">
+            Logout
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+<footer>
+    AgriMart | Online Agricultural Shopping System
+</footer>
+
+
+<script>
+
+// INITIAL DATA
+
+let users = JSON.parse(localStorage.getItem("agUsers")) || [];
+
+let products = JSON.parse(localStorage.getItem("agProducts")) || [
+    {
+        id:1,
+        name:"Paddy Seeds",
+        category:"Seeds",
+        price:500,
+        stock:20,
+        farmer:"farmer@gmail.com",
+        image:""
+    },
+    {
+        id:2,
+        name:"Organic Fertilizer",
+        category:"Fertilizers",
+        price:350,
+        stock:30,
+        farmer:"farmer@gmail.com",
+        image:""
+    },
+    {
+        id:3,
+        name:"Crop Protection Spray",
+        category:"Pesticides",
+        price:600,
+        stock:15,
+        farmer:"farmer@gmail.com",
+        image:""
+    },
+    {
+        id:4,
+        name:"Garden Tools Kit",
+        category:"Tools",
+        price:900,
+        stock:10,
+        farmer:"farmer@gmail.com",
+        image:""
+    }
+];
+
+let carts = JSON.parse(localStorage.getItem("agCarts")) || {};
+
+let orders = JSON.parse(localStorage.getItem("agOrders")) || [];
+
+let currentUser = localStorage.getItem("agCurrentUser") || "";
+
+let currentFarmer = "";
+
+let savedAddresses = JSON.parse(localStorage.getItem("agAddresses")) || {};
+
+
+// SAVE DATA
+
+function saveData() {
+
+    localStorage.setItem("agUsers",JSON.stringify(users));
+
+    localStorage.setItem("agProducts",JSON.stringify(products));
+
+    localStorage.setItem("agCarts",JSON.stringify(carts));
+
+    localStorage.setItem("agOrders",JSON.stringify(orders));
+
+    localStorage.setItem("agAddresses",JSON.stringify(savedAddresses));
+
+}
+
+
+// PAGE NAVIGATION
+
+function showPage(page) {
+
+    document.querySelectorAll(".page").forEach(function(p) {
+        p.classList.remove("active");
+    });
+
+    document.getElementById(page).classList.add("active");
+
+    if(page === "products") displayProducts();
+
+    if(page === "cart") displayCart();
+
+    if(page === "account") displayAccount();
+
+    if(page === "farmer" && currentFarmer) displayFarmer();
+
+    if(page === "checkout") displayCheckout();
+
+}
+
+
+// REGISTER USER
+
+function registerUser() {
+
+    let name = document.getElementById("regName").value.trim();
+
+    let email = document.getElementById("regEmail").value.trim();
+
+    let password = document.getElementById("regPassword").value;
+
+    let phone = document.getElementById("regPhone").value;
+
+    let role = document.getElementById("regRole").value;
+
+    if(!name || !email || !password || !phone) {
+
+        alert("Please fill all fields");
+
+        return;
+
+    }
+
+    if(users.some(u => u.email === email)) {
+
+        alert("Email already registered");
+
+        return;
+
+    }
+
+    users.push({name,email,password,phone,role,wallet:0});
+
+    saveData();
+
+    alert("Registration successful");
+
+    showPage("login");
+
+}
+
+
+// LOGIN
+
+function loginUser() {
+
+    let email = document.getElementById("loginEmail").value;
+
+    let password = document.getElementById("loginPassword").value;
+
+    let user = users.find(u =>
+        u.email === email && u.password === password
+    );
+
+    if(!user) {
+
+        alert("Invalid login details");
+
+        return;
+
+    }
+
+    if(user.role === "Farmer") {
+
+        currentFarmer = email;
+
+        currentUser = "";
+
+        localStorage.removeItem("agCurrentUser");
+
+        alert("Farmer login successful");
+
+        showPage("farmer");
+
+        document.getElementById("farmerPanel").style.display = "block";
+
+        displayFarmer();
+
+    } else {
+
+        currentUser = email;
+
+        currentFarmer = "";
+
+        localStorage.setItem("agCurrentUser",email);
+
+        alert("Login successful");
+
+        showPage("account");
+
+    }
+
+}
+
+
+// LOGOUT
+
+function logout() {
+
+    currentUser = "";
+
+    currentFarmer = "";
+
+    localStorage.removeItem("agCurrentUser");
+
+    document.getElementById("farmerPanel").style.display = "none";
+
+    alert("Logged out successfully");
+
+    showPage("home");
+
+}
+
+
+// DISPLAY PRODUCTS
+
+function displayProducts() {
+
+    let search = document.getElementById("productSearch").value.toLowerCase();
+
+    let category = document.getElementById("categorySearch").value;
+
+    let result = products.filter(p =>
+
+        p.name.toLowerCase().includes(search) &&
+
+        (category === "All" || p.category === category)
+
+    );
+
+    let output = "";
+
+    result.forEach(function(p) {
+
+        output += `
+        <div class="card">
+
+            ${p.image ?
+                `<img class="product-image" src="${p.image}">` :
+                `<div class="product-image" style="background:#e4edda;display:flex;align-items:center;justify-content:center;">🌱</div>`
+            }
+
+            <h3>${p.name}</h3>
+
+            <p>Category: ${p.category}</p>
+
+            <p>Price: ₹${p.price}</p>
+
+            <p>Available Stock: ${p.stock}</p>
+
+            <button class="btn" onclick="addToCart(${p.id})">
+                Add to Cart
+            </button>
+
+        </div>
+        `;
+
+    });
+
+    document.getElementById("productList").innerHTML =
+        output || "No products found.";
+
+}
+
+
+// ADD TO CART
+
+function addToCart(id) {
+
+    if(!currentUser) {
+
+        alert("Please login as a customer first");
+
+        showPage("login");
+
+        return;
+
+    }
+
+    let product = products.find(p => p.id === id);
+
+    if(!product || product.stock <= 0) {
+
+        alert("Product is out of stock");
+
+        return;
+
+    }
+
+    if(!carts[currentUser]) carts[currentUser] = [];
+
+    let item = carts[currentUser].find(c => c.id === id);
+
+    if(item) {
+
+        if(item.quantity >= product.stock) {
+
+            alert("Maximum available stock reached");
+
+            return;
+
+        }
+
+        item.quantity++;
+
+    } else {
+
+        carts[currentUser].push({id:id,quantity:1});
+
+    }
+
+    saveData();
+
+    alert("Product added to cart");
+
+}
+
+
+// DISPLAY CART
+
+function displayCart() {
+
+    let area = document.getElementById("cartList");
+
+    if(!currentUser) {
+
+        area.innerHTML = "Please login first.";
+
+        document.getElementById("cartTotal").innerText = "Total: ₹0";
+
+        return;
+
+    }
+
+    let cart = carts[currentUser] || [];
+
+    let total = 0;
+
+    let output = "";
+
+    cart.forEach(function(item) {
+
+        let product = products.find(p => p.id === item.id);
+
+        if(!product) return;
+
+        let amount = product.price * item.quantity;
+
+        total += amount;
+
+        output += `
+        <div class="box">
+
+            <h3>${product.name}</h3>
+
+            <p>Price: ₹${product.price}</p>
+
+            <p>Quantity: ${item.quantity}</p>
+
+            <button class="btn" onclick="changeQuantity(${item.id},1)">
+                +
+            </button>
+
+            <button class="btn" onclick="changeQuantity(${item.id},-1)">
+                -
+            </button>
+
+            <button class="btn delete" onclick="removeCartItem(${item.id})">
+                Remove
+            </button>
+
+            <p>Amount: ₹${amount}</p>
+
+        </div>
+        `;
+
+    });
+
+    area.innerHTML = output || "Your cart is empty.";
+
+    document.getElementById("cartTotal").innerText =
+        "Total: ₹" + total;
+
+}
+
+
+// CHANGE QUANTITY
+
+function changeQuantity(id,change) {
+
+    let cart = carts[currentUser] || [];
+
+    let item = cart.find(c => c.id === id);
+
+    let product = products.find(p => p.id === id);
+
+    if(!item || !product) return;
+
+    if(change > 0 && item.quantity >= product.stock) {
+
+        alert("Maximum stock reached");
+
+        return;
+
+    }
+
+    item.quantity += change;
+
+    if(item.quantity <= 0) {
+
+        carts[currentUser] = cart.filter(c => c.id !== id);
+
+    }
+
+    saveData();
+
+    displayCart();
+
+}
+
+
+// REMOVE CART ITEM
+
+function removeCartItem(id) {
+
+    carts[currentUser] = (carts[currentUser] || []).filter(c => c.id !== id);
+
+    saveData();
+
+    displayCart();
+
+}
+
+
+// CHECKOUT
+
+function displayCheckout() {
+
+    if(!currentUser) {
+
+        alert("Please login first");
+
+        showPage("login");
+
+        return;
+
+    }
+
+    let cart = carts[currentUser] || [];
+
+    let total = 0;
+
+    cart.forEach(function(item) {
+
+        let p = products.find(p => p.id === item.id);
+
+        if(p) total += p.price * item.quantity;
+
+    });
+
+    document.getElementById("checkoutTotal").innerText =
+        "Order Total: ₹" + total;
+
+    document.getElementById("shippingAddress").value =
+        savedAddresses[currentUser] || "";
+
+}
+
+
+// SAVE ADDRESS
+
+function saveAddress() {
+
+    if(!currentUser) return;
+
+    let address = document.getElementById("shippingAddress").value.trim();
+
+    if(!address) {
+
+        alert("Enter shipping address");
+
+        return;
+
+    }
+
+    savedAddresses[currentUser] = address;
+
+    saveData();
+
+    alert("Shipping address saved");
+
+}
+
+
+// PLACE ORDER
+
+function placeOrder() {
+
+    if(!currentUser) {
+
+        alert("Please login first");
+
+        return;
+
+    }
+
+    let cart = carts[currentUser] || [];
+
+    if(cart.length === 0) {
+
+        alert("Your cart is empty");
+
+        return;
+
+    }
+
+    let address = document.getElementById("shippingAddress").value.trim();
+
+    let payment = document.getElementById("paymentMethod").value;
+
+    if(!address) {
+
+        alert("Enter shipping address");
+
+        return;
+
+    }
+
+    let total = 0;
+
+    for(let item of cart) {
+
+        let product = products.find(p => p.id === item.id);
+
+        if(!product || product.stock < item.quantity) {
+
+            alert("Insufficient stock for a product in your cart");
+
+            return;
+
+        }
+
+        total += product.price * item.quantity;
+
+    }
+
+    let user = users.find(u => u.email === currentUser);
+
+    if(payment === "Wallet" && user.wallet < total) {
+
+        alert("Insufficient wallet balance");
+
+        return;
+
+    }
+
+    if(payment === "Wallet") {
+
+        user.wallet -= total;
+
+    }
+
+    let order = {
+
+        id:Date.now(),
+
+        customer:currentUser,
+
+        items:cart.map(item => ({...item})),
+
+        total:total,
+
+        address:address,
+
+        payment:payment,
+
+        status:"Order Placed",
+
+        date:new Date().toLocaleDateString()
+
+    };
+
+    cart.forEach(function(item) {
+
+        let product = products.find(p => p.id === item.id);
+
+        product.stock -= item.quantity;
+
+    });
+
+    orders.push(order);
+
+    carts[currentUser] = [];
+
+    savedAddresses[currentUser] = address;
+
+    saveData();
+
+    alert("Order placed successfully!");
+
+    showPage("account");
+
+}
+
+
+// DISPLAY ACCOUNT
+
+function displayAccount() {
+
+    if(!currentUser) {
+
+        document.getElementById("profile").innerText =
+            "Please login first.";
+
+        document.getElementById("orderList").innerHTML = "";
+
+        return;
+
+    }
+
+    let user = users.find(u => u.email === currentUser);
+
+    document.getElementById("profile").innerHTML = `
+        <p>Name: ${user.name}</p>
+        <p>Email: ${user.email}</p>
+        <p>Phone: ${user.phone}</p>
+    `;
+
+    document.getElementById("walletBalance").innerText =
+        "Balance: ₹" + user.wallet;
+
+    document.getElementById("savedAddress").innerText =
+        savedAddresses[currentUser] || "No address saved.";
+
+    document.getElementById("updateName").value = user.name;
+
+    document.getElementById("updatePhone").value = user.phone;
+
+    let myOrders = orders.filter(o => o.customer === currentUser);
+
+    let output = "";
+
+    myOrders.forEach(function(o) {
+
+        output += `
+        <div class="box">
+
+            <h3>Order ID: ${o.id}</h3>
+
+            <p>Total: ₹${o.total}</p>
+
+            <p>Shipping Address: ${o.address}</p>
+
+            <p>Payment: ${o.payment}</p>
+
+            <p>Status: ${o.status}</p>
+
+            <p>Date: ${o.date}</p>
+
+        </div>
+        `;
+
+    });
+
+    document.getElementById("orderList").innerHTML =
+        output || "No orders placed.";
+
+}
+
+
+// UPDATE PROFILE
+
+function updateProfile() {
+
+    if(!currentUser) return;
+
+    let user = users.find(u => u.email === currentUser);
+
+    user.name = document.getElementById("updateName").value;
+
+    user.phone = document.getElementById("updatePhone").value;
+
+    saveData();
+
+    displayAccount();
+
+    alert("Profile updated");
+
+}
+
+
+// ADD WALLET BALANCE
+
+function addWallet() {
+
+    if(!currentUser) return;
+
+    let amount = Number(document.getElementById("walletAmount").value);
+
+    if(amount <= 0 || !Number.isFinite(amount)) {
+
+        alert("Enter a valid amount");
+
+        return;
+
+    }
+
+    let user = users.find(u => u.email === currentUser);
+
+    user.wallet += amount;
+
+    saveData();
+
+    displayAccount();
+
+    document.getElementById("walletAmount").value = "";
+
+    alert("Demo wallet balance added");
+
+}
+
+
+// FARMER LOGIN
+
+function farmerLogin() {
+
+    let email = document.getElementById("farmerEmail").value;
+
+    let password = document.getElementById("farmerPassword").value;
+
+    let farmer = users.find(u =>
+        u.email === email &&
+        u.password === password &&
+        u.role === "Farmer"
+    );
+
+    if(!farmer) {
+
+        alert("Invalid farmer login details");
+
+        return;
+
+    }
+
+    currentFarmer = email;
+
+    currentUser = "";
+
+    localStorage.removeItem("agCurrentUser");
+
+    document.getElementById("farmerPanel").style.display = "block";
+
+    displayFarmer();
+
+    alert("Farmer login successful");
+
+}
+
+
+// DISPLAY FARMER DASHBOARD
+
+function displayFarmer() {
+
+    let farmer = users.find(u => u.email === currentFarmer);
+
+    if(!farmer) return;
+
+    document.getElementById("farmerWelcome").innerText =
+        "Welcome, " + farmer.name;
+
+    let myProducts = products.filter(p => p.farmer === currentFarmer);
+
+    let output = "";
+
+    myProducts.forEach(function(p) {
+
+        output += `
+        <div class="box">
+
+            <h3>${p.name}</h3>
+
+            <p>Category: ${p.category}</p>
+
+            <p>Price: ₹${p.price}</p>
+
+            <p>Stock: ${p.stock}</p>
+
+            <button class="btn" onclick="editProduct(${p.id})">
+                Edit
+            </button>
+
+            <button class="btn delete" onclick="deleteProduct(${p.id})">
+                Delete
+            </button>
+
+        </div>
+        `;
+
+    });
+
+    document.getElementById("farmerProducts").innerHTML =
+        output || "No products added.";
+
+    let myOrders = orders.filter(o =>
+        o.items.some(item => {
+            let p = products.find(p => p.id === item.id);
+            return p && p.farmer === currentFarmer;
+        })
+    );
+
+    let sales = 0;
+
+    let orderOutput = "";
+
+    myOrders.forEach(function(o) {
+
+        let farmerItems = o.items.filter(item => {
+            let p = products.find(p => p.id === item.id);
+            return p && p.farmer === currentFarmer;
+        });
+
+        let amount = 0;
+
+        farmerItems.forEach(function(item) {
+            let p = products.find(p => p.id === item.id);
+            amount += p.price * item.quantity;
+        });
+
+        sales += amount;
+
+        orderOutput += `
+        <div class="box">
+
+            <h3>Order ID: ${o.id}</h3>
+
+            <p>Customer: ${o.customer}</p>
+
+            <p>Amount of Your Products: ₹${amount}</p>
+
+            <p>Shipping Address: ${o.address}</p>
+
+            <p>Status: ${o.status}</p>
+
+            <button class="btn"
+                onclick="updateOrder(${o.id})">
+                Update Shipping Status
+            </button>
+
+        </div>
+        `;
+
+    });
+
+    document.getElementById("farmerSales").innerText =
+        "Sales Value: ₹" + sales;
+
+    document.getElementById("farmerOrders").innerHTML =
+        orderOutput || "No orders received.";
+
+}
+
+
+// ADD PRODUCT
+
+function addProduct() {
+
+    if(!currentFarmer) {
+
+        alert("Please login as farmer");
+
+        return;
+
+    }
+
+    let name = document.getElementById("newProduct").value.trim();
+
+    let category = document.getElementById("newCategory").value;
+
+    let price = Number(document.getElementById("newPrice").value);
+
+    let stock = Number(document.getElementById("newStock").value);
+
+    let file = document.getElementById("newImage").files[0];
+
+    if(!name || price <= 0 || stock < 0) {
+
+        alert("Enter valid product details");
+
+        return;
+
+    }
+
+    let product = {
+
+        id:Date.now(),
+
+        name:name,
+
+        category:category,
+
+        price:price,
+
+        stock:stock,
+
+        farmer:currentFarmer,
+
+        image:""
+
+    };
+
+    if(file) {
+
+        let reader = new FileReader();
+
+        reader.onload = function(e) {
+
+            product.image = e.target.result;
+
+            products.push(product);
+
+            saveData();
+
+            displayFarmer();
+
+            alert("Product added successfully");
+
+        };
+
+        reader.readAsDataURL(file);
+
+    } else {
+
+        products.push(product);
+
+        saveData();
+
+        displayFarmer();
+
+        alert("Product added successfully");
+
+    }
+
+}
+
+
+// EDIT PRODUCT
+
+function editProduct(id) {
+
+    if(!currentFarmer) return;
+
+    let product = products.find(p =>
+        p.id === id && p.farmer === currentFarmer
+    );
+
+    if(!product) return;
+
+    let name = prompt("Enter product name:",product.name);
+
+    if(name === null || !name.trim()) return;
+
+    let price = Number(prompt("Enter price:",product.price));
+
+    if(price <= 0 || !Number.isFinite(price)) return;
+
+    let stock = Number(prompt("Enter stock quantity:",product.stock));
+
+    if(stock < 0 || !Number.isFinite(stock)) return;
+
+    product.name = name.trim();
+
+    product.price = price;
+
+    product.stock = stock;
+
+    saveData();
+
+    displayFarmer();
+
+    alert("Product updated");
+
+}
+
+
+// DELETE PRODUCT
+
+function deleteProduct(id) {
+
+    if(!currentFarmer) return;
+
+    if(!confirm("Delete this product?")) return;
+
+    let product = products.find(p =>
+        p.id === id && p.farmer === currentFarmer
+    );
+
+    if(!product) return;
+
+    products = products.filter(p => p.id !== id);
+
+    saveData();
+
+    displayFarmer();
+
+    alert("Product deleted");
+
+}
+
+
+// UPDATE ORDER SHIPPING STATUS
+
+function updateOrder(id) {
+
+    if(!currentFarmer) return;
+
+    let order = orders.find(o => o.id === id);
+
+    if(!order) return;
+
+    let hasProduct = order.items.some(item => {
+        let p = products.find(p => p.id === item.id);
+        return p && p.farmer === currentFarmer;
+    });
+
+    if(!hasProduct) return;
+
+    let status = prompt(
+        "Enter status: Processing, Shipped or Delivered",
+        order.status
+    );
+
+    if(!["Processing","Shipped","Delivered"].includes(status)) {
+
+        alert("Invalid shipping status");
+
+        return;
+
+    }
+
+    order.status = status;
+
+    saveData();
+
+    displayFarmer();
+
+    alert("Order status updated");
+
+}
+
+
+// INITIAL DISPLAY
+
+displayProducts();
+
+</script>
+
+</body>
+</html>

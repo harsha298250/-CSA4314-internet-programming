@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flight Reservation System</title>
+</head>
+<body>
+
+    <h1 align="center">FLIGHT RESERVATION SYSTEM</h1>
+    <p align="center">Book Your Flight Easily</p>
+    <hr>
+
+    <h2>Customer Registration</h2>
+    <form>
+        Name: <input type="text" required><br><br>
+        Email: <input type="email" required><br><br>
+        Password: <input type="password" required><br><br>
+        <input type="submit" value="Register">
+    </form>
+
+    <h2>User Login</h2>
+    <form>
+        Email: <input type="email"><br><br>
+        Password: <input type="password"><br><br>
+        <input type="submit" value="Login">
+    </form>
+
+    <h3>Forgot Password</h3>
+    <form>
+        Email: <input type="email"><br><br>
+        <input type="submit" value="Reset Password">
+    </form>
+
+    <hr>
+
+    <h2>Search Flight</h2>
+    <form>
+        From: <input type="text" required><br><br>
+        Destination: <input type="text" required><br><br>
+        Journey Date: <input type="date" required><br><br>
+
+        Class:
+        <select>
+            <option>Economy</option>
+            <option>Business</option>
+            <option>First Class</option>
+        </select><br><br>
+
+        Passengers: <input type="number" min="1" required><br><br>
+        <input type="submit" value="Search Flight">
+    </form>
+
+    <h3>Available Flights</h3>
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>Flight No</th>
+            <th>Airline</th>
+            <th>Departure</th>
+            <th>Arrival</th>
+            <th>Seats</th>
+            <th>Fare</th>
+        </tr>
+        <tr>
+            <td>AI101</td>
+            <td>Air India</td>
+            <td>09:00 AM</td>
+            <td>11:00 AM</td>
+            <td>20</td>
+            <td>Rs. 4500</td>
+        </tr>
+        <tr>
+            <td>6E202</td>
+            <td>IndiGo</td>
+            <td>02:00 PM</td>
+            <td>04:00 PM</td>
+            <td>15</td>
+            <td>Rs. 3800</td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h2>Book Ticket</h2>
+    <form>
+        Flight Number: <input type="text" required><br><br>
+        Passenger Name: <input type="text" required><br><br>
+        Age: <input type="number" min="1"><br><br>
+        Email: <input type="email" required><br><br>
+        Journey Date: <input type="date" required><br><br>
+
+        Seat Number:
+        <select>
+            <option>1A</option>
+            <option>1B</option>
+            <option>2A</option>
+            <option>2B</option>
+        </select><br><br>
+
+        <input type="submit" value="Book Ticket">
+    </form>
+
+    <hr>
+
+    <h2>Ticket Payment</h2>
+    <form>
+        Booking ID: <input type="text"><br><br>
+        Ticket Fare: <input type="number"><br><br>
+
+        Payment Method:
+        <select>
+            <option>UPI</option>
+            <option>Debit Card</option>
+            <option>Credit Card</option>
+            <option>Net Banking</option>
+        </select><br><br>
+
+        <input type="submit" value="Pay Now">
+    </form>
+
+    <hr>
+
+    <h2>My Ticket / Booking History</h2>
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>Booking ID</th>
+            <th>Flight</th>
+            <th>Passenger</th>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+        <tr>
+            <td>F101</td>
+            <td>Air India</td>
+            <td>Arun</td>
+            <td>25-10-2026</td>
+            <td>Confirmed</td>
+        </tr>
+    </table>
+
+    <h3>View Booking Status</h3>
+    <form>
+        Booking ID: <input type="text">
+        <input type="submit" value="Check Status">
+    </form>
+
+    <h3>Print Ticket</h3>
+    <button type="button" onclick="window.print()">Print Ticket</button>
+
+    <hr>
+
+    <h2>Cancel Ticket</h2>
+    <form>
+        Booking ID: <input type="text" required><br><br>
+        Passenger Name: <input type="text" required><br><br>
+        <input type="submit" value="Cancel Ticket">
+    </form>
+
+    <hr>
+
+    <h2>Customer Feedback</h2>
+    <form>
+        Name: <input type="text"><br><br>
+        Rating:
+        <select>
+            <option>5 Stars</option>
+            <option>4 Stars</option>
+            <option>3 Stars</option>
+            <option>2 Stars</option>
+            <option>1 Star</option>
+        </select><br><br>
+
+        Comments:<br>
+        <textarea rows="4" cols="30"></textarea><br><br>
+        <input type="submit" value="Submit Feedback">
+    </form>
+
+    <hr>
+
+    <h2>Administrator Login</h2>
+    <form>
+        Username: <input type="text"><br><br>
+        Password: <input type="password"><br><br>
+        <input type="submit" value="Admin Login">
+    </form>
+
+    <h2>Manage Flights</h2>
+    <form>
+        Flight Number: <input type="text"><br><br>
+        Airline Name: <input type="text"><br><br>
+        From: <input type="text"><br><br>
+        Destination: <input type="text"><br><br>
+        Departure Time: <input type="time"><br><br>
+        Arrival Time: <input type="time"><br><br>
+        Available Seats: <input type="number"><br><br>
+        Fare: <input type="number"><br><br>
+
+        <input type="submit" value="Add Flight">
+        <input type="submit" value="Update Flight">
+    </form>
+
+    <h2>Admin Reports</h2>
+    <form>
+        Report Type:
+        <select>
+            <option>Flight Report</option>
+            <option>Booking Report</option>
+            <option>Payment Report</option>
+            <option>Cancellation Report</option>
+            <option>Customer Report</option>
+        </select><br><br>
+        <input type="submit" value="Generate Report">
+    </form>
+
+    <hr>
+
+    <h2>Contact Us</h2>
+    <p>Email: flights@example.com</p>
+    <p>Phone: 9876543210</p>
+
+    <p align="center">Flight Reservation System - 2026</p>
+
+</body>
+</html>

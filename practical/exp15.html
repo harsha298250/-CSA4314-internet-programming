@@ -1,0 +1,571 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>EasyToll - Online Toll Payment</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #101820;
+    color: white;
+}
+
+header {
+    background: #182630;
+    padding: 20px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #00d9c5;
+}
+
+header h2 {
+    color: #00d9c5;
+}
+
+nav {
+    background: #202f3a;
+    padding: 13px;
+    text-align: center;
+}
+
+nav button {
+    background: transparent;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+nav button:hover {
+    color: #00d9c5;
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 25px auto;
+}
+
+.page {
+    display: none;
+}
+
+.active {
+    display: block;
+}
+
+h2 {
+    margin-bottom: 15px;
+}
+
+.box {
+    background: #1c2b36;
+    padding: 22px;
+    margin: 15px 0;
+    border-radius: 10px;
+    border: 1px solid #344753;
+}
+
+.hero {
+    background: linear-gradient(120deg, #006c70, #183d4b);
+    padding: 45px 30px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.hero h1 {
+    font-size: 32px;
+    margin-bottom: 12px;
+}
+
+.hero p {
+    color: #d6eeee;
+    margin-bottom: 18px;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0 15px;
+    border: 1px solid #52636d;
+    border-radius: 5px;
+    background: #101820;
+    color: white;
+}
+
+.btn {
+    background: #00d9c5;
+    color: #101820;
+    padding: 11px 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background: #f5c542;
+}
+
+.card {
+    display: inline-block;
+    background: #263944;
+    padding: 20px;
+    margin: 8px;
+    width: 30%;
+    min-width: 200px;
+    border-radius: 9px;
+    vertical-align: top;
+}
+
+.card h3 {
+    color: #f5c542;
+    margin-bottom: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #43545e;
+    text-align: left;
+}
+
+th {
+    color: #00d9c5;
+}
+
+footer {
+    background: #182630;
+    text-align: center;
+    padding: 18px;
+    margin-top: 35px;
+    color: #aebbc2;
+}
+
+@media(max-width: 650px) {
+    header {
+        display: block;
+        text-align: center;
+    }
+
+    nav button {
+        padding: 8px;
+    }
+
+    .card {
+        width: 100%;
+        margin: 8px 0;
+    }
+
+    table {
+        font-size: 13px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h2>⚡ EasyToll</h2>
+    <p>Smart • Fast • Cashless</p>
+</header>
+
+<nav>
+    <button onclick="showPage('home')">Home</button>
+    <button onclick="showPage('tolls')">Toll Plazas</button>
+    <button onclick="showPage('register')">Register</button>
+    <button onclick="showPage('login')">Login</button>
+    <button onclick="showPage('payment')">Pay Toll</button>
+    <button onclick="showPage('history')">History</button>
+    <button onclick="showPage('admin')">Admin</button>
+</nav>
+
+<div class="container">
+
+<!-- HOME -->
+<div id="home" class="page active">
+
+    <div class="hero">
+        <h1>Drive Through. Pay Instantly.</h1>
+        <p>Experience a simple and convenient digital toll payment system.</p>
+        <button class="btn" onclick="showPage('payment')">
+            Pay Your Toll
+        </button>
+    </div>
+
+    <h2>Why EasyToll?</h2>
+
+    <div class="card">
+        <h3>Fast Payment</h3>
+        <p>Make toll payments quickly without cash.</p>
+    </div>
+
+    <div class="card">
+        <h3>Digital Records</h3>
+        <p>View all your previous toll transactions.</p>
+    </div>
+
+    <div class="card">
+        <h3>Easy Access</h3>
+        <p>Access your toll payment details anytime.</p>
+    </div>
+</div>
+
+<!-- TOLL PLAZAS -->
+<div id="tolls" class="page">
+    <h2>Available Toll Plazas</h2>
+    <div id="tollList"></div>
+</div>
+
+<!-- REGISTER -->
+<div id="register" class="page">
+    <div class="box">
+        <h2>Create Account</h2>
+
+        <input id="regName" placeholder="Full Name">
+        <input id="regEmail" type="email" placeholder="Email">
+        <input id="regPassword" type="password" placeholder="Password">
+
+        <button class="btn" onclick="registerUser()">Register</button>
+    </div>
+</div>
+
+<!-- LOGIN -->
+<div id="login" class="page">
+    <div class="box">
+        <h2>User Login</h2>
+
+        <input id="loginEmail" type="email" placeholder="Email">
+        <input id="loginPassword" type="password" placeholder="Password">
+
+        <button class="btn" onclick="loginUser()">Login</button>
+        <p id="loginMessage"></p>
+    </div>
+</div>
+
+<!-- PAYMENT -->
+<div id="payment" class="page">
+    <div class="box">
+        <h2>Online Toll Payment</h2>
+
+        <label>Vehicle Number</label>
+        <input id="vehicle" placeholder="Example: TN01AB1234">
+
+        <label>Select Toll Plaza</label>
+        <select id="tollSelect"></select>
+
+        <label>Vehicle Type</label>
+        <select id="vehicleType" onchange="calculateAmount()">
+            <option value="50">Car - ₹50</option>
+            <option value="100">Bus - ₹100</option>
+            <option value="150">Truck - ₹150</option>
+            <option value="30">Bike - ₹30</option>
+        </select>
+
+        <h3 id="amount">Toll Amount: ₹50</h3>
+        <br>
+
+        <button class="btn" onclick="payToll()">Pay Now</button>
+    </div>
+</div>
+
+<!-- HISTORY -->
+<div id="history" class="page">
+    <h2>My Payment History</h2>
+    <div class="box">
+        <div id="historyList">Please log in to view your payments.</div>
+    </div>
+</div>
+
+<!-- ADMIN -->
+<div id="admin" class="page">
+    <div class="box">
+        <h2>Admin Login</h2>
+        <input id="adminUser" placeholder="Admin Username">
+        <input id="adminPass" type="password" placeholder="Admin Password">
+        <button class="btn" onclick="adminLogin()">Login</button>
+    </div>
+
+    <div id="adminPanel" style="display:none;">
+        <div class="box">
+            <h2>Admin Dashboard</h2>
+            <p id="totalPayments"></p>
+            <p id="totalRevenue"></p>
+        </div>
+
+        <div class="box">
+            <h2>Add Toll Plaza</h2>
+            <input id="newToll" placeholder="Toll Plaza Name">
+            <button class="btn" onclick="addToll()">Add Plaza</button>
+        </div>
+
+        <div class="box">
+            <h2>All Transactions</h2>
+            <div id="adminHistory"></div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<footer>
+    EasyToll Online Toll Payment System | Student Project
+</footer>
+
+<script>
+
+// Initial data
+let tolls = JSON.parse(localStorage.getItem("tolls")) || [
+    "Chennai Toll Plaza",
+    "Sriperumbudur Toll Plaza",
+    "Madurai Toll Plaza",
+    "Coimbatore Toll Plaza"
+];
+
+let users = JSON.parse(localStorage.getItem("users")) || [];
+let payments = JSON.parse(localStorage.getItem("payments")) || [];
+let currentUser = localStorage.getItem("currentUser") || "";
+
+// Page navigation
+function showPage(page) {
+    document.querySelectorAll(".page").forEach(function(p) {
+        p.classList.remove("active");
+    });
+
+    document.getElementById(page).classList.add("active");
+
+    if (page === "tolls") displayTolls();
+    if (page === "payment") displayTollOptions();
+    if (page === "history") displayHistory();
+}
+
+// Register
+function registerUser() {
+    let name = document.getElementById("regName").value;
+    let email = document.getElementById("regEmail").value;
+    let password = document.getElementById("regPassword").value;
+
+    if (!name || !email || !password) {
+        alert("Please fill all fields");
+        return;
+    }
+
+    if (users.some(u => u.email === email)) {
+        alert("Email already registered");
+        return;
+    }
+
+    users.push({name, email, password});
+    localStorage.setItem("users", JSON.stringify(users));
+
+    alert("Registration successful");
+    showPage("login");
+}
+
+// Login
+function loginUser() {
+    let email = document.getElementById("loginEmail").value;
+    let password = document.getElementById("loginPassword").value;
+
+    let user = users.find(u => u.email === email && u.password === password);
+
+    if (user) {
+        currentUser = email;
+        localStorage.setItem("currentUser", currentUser);
+        alert("Login successful");
+        showPage("home");
+    } else {
+        document.getElementById("loginMessage").innerText =
+            "Invalid email or password";
+    }
+}
+
+// Display toll plazas
+function displayTolls() {
+    let output = "";
+
+    tolls.forEach(function(toll) {
+        output += `
+            <div class="card">
+                <h3>${toll}</h3>
+                <p>Digital toll payment available</p>
+            </div>
+        `;
+    });
+
+    document.getElementById("tollList").innerHTML = output;
+}
+
+// Fill toll selection
+function displayTollOptions() {
+    let select = document.getElementById("tollSelect");
+    select.innerHTML = "";
+
+    tolls.forEach(function(toll) {
+        select.innerHTML += `<option>${toll}</option>`;
+    });
+}
+
+// Calculate toll amount
+function calculateAmount() {
+    let amount = document.getElementById("vehicleType").value;
+    document.getElementById("amount").innerText =
+        "Toll Amount: ₹" + amount;
+}
+
+// Make payment
+function payToll() {
+    if (!currentUser) {
+        alert("Please login before making payment");
+        showPage("login");
+        return;
+    }
+
+    let vehicle = document.getElementById("vehicle").value;
+    let toll = document.getElementById("tollSelect").value;
+    let type = document.getElementById("vehicleType");
+    let amount = type.value;
+
+    if (!vehicle) {
+        alert("Enter vehicle number");
+        return;
+    }
+
+    let payment = {
+        id: "ET" + Date.now(),
+        user: currentUser,
+        vehicle: vehicle.toUpperCase(),
+        toll: toll,
+        type: type.options[type.selectedIndex].text,
+        amount: amount,
+        date: new Date().toLocaleString()
+    };
+
+    payments.push(payment);
+    localStorage.setItem("payments", JSON.stringify(payments));
+
+    alert("Payment successful! Amount: ₹" + amount);
+    document.getElementById("vehicle").value = "";
+
+    showPage("history");
+}
+
+// Payment history
+function displayHistory() {
+    if (!currentUser) {
+        document.getElementById("historyList").innerHTML =
+            "Please log in to view your payments.";
+        return;
+    }
+
+    let myPayments = payments.filter(p => p.user === currentUser);
+
+    if (myPayments.length === 0) {
+        document.getElementById("historyList").innerHTML =
+            "No payment records found.";
+        return;
+    }
+
+    let output = "<table><tr><th>Vehicle</th><th>Toll Plaza</th><th>Amount</th><th>Date</th></tr>";
+
+    myPayments.forEach(function(p) {
+        output += `
+            <tr>
+                <td>${p.vehicle}</td>
+                <td>${p.toll}</td>
+                <td>₹${p.amount}</td>
+                <td>${p.date}</td>
+            </tr>
+        `;
+    });
+
+    output += "</table>";
+    document.getElementById("historyList").innerHTML = output;
+}
+
+// Admin login
+function adminLogin() {
+    let username = document.getElementById("adminUser").value;
+    let password = document.getElementById("adminPass").value;
+
+    if (username === "admin" && password === "admin123") {
+        document.getElementById("adminPanel").style.display = "block";
+        displayAdmin();
+        alert("Admin login successful");
+    } else {
+        alert("Invalid admin details");
+    }
+}
+
+// Admin dashboard
+function displayAdmin() {
+    let revenue = payments.reduce((sum, p) => sum + Number(p.amount), 0);
+
+    document.getElementById("totalPayments").innerText =
+        "Total Payments: " + payments.length;
+
+    document.getElementById("totalRevenue").innerText =
+        "Total Revenue: ₹" + revenue;
+
+    let output = "<table><tr><th>User</th><th>Vehicle</th><th>Toll</th><th>Amount</th></tr>";
+
+    payments.forEach(function(p) {
+        output += `
+            <tr>
+                <td>${p.user}</td>
+                <td>${p.vehicle}</td>
+                <td>${p.toll}</td>
+                <td>₹${p.amount}</td>
+            </tr>
+        `;
+    });
+
+    output += "</table>";
+
+    document.getElementById("adminHistory").innerHTML = output;
+}
+
+// Add toll plaza
+function addToll() {
+    let name = document.getElementById("newToll").value;
+
+    if (!name) {
+        alert("Enter toll plaza name");
+        return;
+    }
+
+    tolls.push(name);
+    localStorage.setItem("tolls", JSON.stringify(tolls));
+
+    document.getElementById("newToll").value = "";
+
+    displayTolls();
+    displayTollOptions();
+
+    alert("Toll plaza added successfully");
+    displayAdmin();
+}
+
+// Initial display
+displayTolls();
+displayTollOptions();
+calculateAmount();
+
+</script>
+
+</body>
+</html>

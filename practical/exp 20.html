@@ -1,0 +1,394 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RentRide - Vehicle Rental</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#10151d;color:#e9eef5}
+header{background:#171f2b;padding:20px 6%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;border-bottom:1px solid #293444}
+header h1{margin:0;color:#40a9ff}
+header p{margin:5px 0 0;color:#aab8c8;font-size:13px}
+nav{background:#1b2634;padding:12px 4%;display:flex;gap:8px;flex-wrap:wrap}
+button{border:0;padding:10px 15px;background:#2589df;color:white;border-radius:6px;cursor:pointer}
+button:hover{background:#0870c5}
+nav button{background:#293748;color:#dce8f5}
+nav button:hover{background:#2589df}
+.container{max-width:1100px;margin:25px auto;padding:0 16px}
+.page{display:none}
+.page.active{display:block}
+.card{background:#1b2634;border:1px solid #2b394b;border-radius:12px;padding:20px;margin:15px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:15px}
+h2,h3{color:#55b5ff}
+input,select,textarea{width:100%;padding:11px;margin:7px 0 14px;border:1px solid #394a5e;border-radius:6px;background:#111a25;color:white;font:inherit}
+textarea{min-height:85px}
+label{font-size:14px;font-weight:bold;color:#cbd8e6}
+.vehicle{overflow:hidden}
+.vehicle .photo{height:125px;background:#263b51;display:flex;align-items:center;justify-content:center;font-size:55px;border-radius:8px}
+.price{font-size:22px;color:#56c6ff;font-weight:bold}
+.tag{background:#29445c;color:#70c7ff;padding:5px 9px;border-radius:15px;font-size:12px}
+.small{font-size:13px;color:#aab8c8}
+table{width:100%;border-collapse:collapse;margin-top:12px}
+th,td{padding:10px;text-align:left;border-bottom:1px solid #344255;font-size:13px}
+footer{text-align:center;padding:20px;background:#171f2b;color:#aab8c8;margin-top:40px}
+</style>
+</head>
+<body>
+
+<header>
+ <div>
+  <h1>🚘 RentRide</h1>
+  <p>Your Journey. Your Vehicle. Your Choice.</p>
+ </div>
+ <div id="welcome">Welcome to RentRide</div>
+</header>
+
+<nav>
+ <button onclick="showPage('home')">Home</button>
+ <button onclick="showPage('vehicles')">Vehicles</button>
+ <button onclick="showPage('register')">Register</button>
+ <button onclick="showPage('login')">Login</button>
+ <button onclick="showPage('booking')">Book Vehicle</button>
+ <button onclick="showPage('mybookings')">My Bookings</button>
+ <button onclick="showPage('checkin')">Check-in</button>
+ <button onclick="showPage('history')">Rental History</button>
+ <button onclick="showPage('profile')">My Profile</button>
+ <button onclick="showPage('reviews')">Reviews</button>
+ <button onclick="showPage('admin')">Admin</button>
+ <button onclick="logout()">Logout</button>
+</nav>
+
+<div class="container">
+
+<section id="home" class="page active">
+ <div class="card">
+  <h2>Find Your Perfect Ride</h2>
+  <p>Explore cars, SUVs and trucks at affordable rental prices. Book your next journey with RentRide.</p>
+  <button onclick="showPage('vehicles')">Explore Vehicles</button>
+ </div>
+ <div class="grid">
+  <div class="card"><h3>🔍 Easy Search</h3><p>Search vehicles by category and location.</p></div>
+  <div class="card"><h3>📅 Simple Booking</h3><p>Choose your vehicle and rental dates.</p></div>
+  <div class="card"><h3>📋 Booking Management</h3><p>View your reservation status and rental history.</p></div>
+  <div class="card"><h3>⭐ Customer Reviews</h3><p>Share your rental experience.</p></div>
+ </div>
+</section>
+
+<section id="register" class="page">
+ <div class="card">
+  <h2>Customer Registration</h2>
+  <form onsubmit="register(event)">
+   <label>Full Name</label><input id="regname" required>
+   <label>Email</label><input id="regemail" type="email" required>
+   <label>Customer Number</label><input id="regphone" required>
+   <label>Address</label><textarea id="regaddress" required></textarea>
+   <label>Password</label><input id="regpass" type="password" required>
+   <button>Register</button>
+  </form>
+ </div>
+</section>
+
+<section id="login" class="page">
+ <div class="card">
+  <h2>Customer Login</h2>
+  <form onsubmit="login(event)">
+   <label>Email</label><input id="loginemail" type="email" required>
+   <label>Password</label><input id="loginpass" type="password" required>
+   <button>Login</button>
+  </form>
+  <p class="small">Admin demo: admin@rentride.com / admin123</p>
+ </div>
+</section>
+
+<section id="vehicles" class="page">
+ <h2>Available Vehicles</h2>
+ <div class="card">
+  <label>Search Vehicle</label><input id="search" placeholder="Search by vehicle name..." oninput="render()">
+  <div class="grid">
+   <div><label>Vehicle Type</label>
+    <select id="filtertype" onchange="render()">
+     <option value="">All Types</option><option>Car</option><option>SUV</option><option>Truck</option>
+    </select>
+   </div>
+   <div><label>Location</label><input id="filterlocation" placeholder="Enter location" oninput="render()"></div>
+  </div>
+ </div>
+ <div id="vehicleList" class="grid"></div>
+</section>
+
+<section id="booking" class="page">
+ <div class="card">
+  <h2>Book a Vehicle</h2>
+  <form onsubmit="bookVehicle(event)">
+   <label>Select Vehicle</label><select id="bookvehicle" required></select>
+   <label>Customer Name</label><input id="bookname" required>
+   <label>Customer Number</label><input id="bookphone" required>
+   <label>Address</label><textarea id="bookaddress" required></textarea>
+   <label>Rental Location</label><input id="booklocation" required>
+   <label>Start Date</label><input id="startdate" type="date" required>
+   <label>End Date</label><input id="enddate" type="date" required>
+   <button>Submit Booking</button>
+  </form>
+  <p class="small">Bookings are confirmed only after admin approval.</p>
+ </div>
+</section>
+
+<section id="mybookings" class="page">
+ <h2>My Booking Details</h2>
+ <div id="myBookingList"></div>
+</section>
+
+<section id="checkin" class="page">
+ <div class="card">
+  <h2>Vehicle Check-in Form</h2>
+  <form onsubmit="submitCheckin(event)">
+   <label>Select Approved Booking</label><select id="checkbooking" required></select>
+   <label>Vehicle Condition</label>
+   <select id="condition"><option>Good</option><option>Minor Damage</option><option>Needs Inspection</option></select>
+   <label>Fuel Level</label><select id="fuel"><option>Full</option><option>Half</option><option>Low</option></select>
+   <label>Additional Remarks</label><textarea id="remarks"></textarea>
+   <button>Submit Check-in</button>
+  </form>
+ </div>
+</section>
+
+<section id="history" class="page">
+ <h2>Past Rental History</h2>
+ <div id="historyList"></div>
+</section>
+
+<section id="profile" class="page">
+ <div class="card">
+  <h2>My Profile</h2>
+  <div id="profileInfo"></div>
+  <form onsubmit="updateProfile(event)">
+   <label>Full Name</label><input id="editname" required>
+   <label>Customer Number</label><input id="editphone" required>
+   <label>Address</label><textarea id="editaddress" required></textarea>
+   <button>Update Profile</button>
+  </form>
+ </div>
+</section>
+
+<section id="reviews" class="page">
+ <div class="card">
+  <h2>Customer Reviews</h2>
+  <form onsubmit="submitReview(event)">
+   <label>Rating</label>
+   <select id="rating"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select>
+   <label>Review</label><textarea id="reviewtext" required></textarea>
+   <button>Submit Review</button>
+  </form>
+ </div>
+ <div id="reviewList"></div>
+</section>
+
+<section id="admin" class="page">
+ <div class="card">
+  <h2>Admin Dashboard</h2>
+  <p class="small">Login with the admin account to manage vehicles and bookings.</p>
+  <div id="adminStats"></div>
+ </div>
+
+ <div class="card">
+  <h3>Add New Vehicle</h3>
+  <form onsubmit="addVehicle(event)">
+   <label>Vehicle Name</label><input id="vname" required>
+   <label>Vehicle Type</label><select id="vtype"><option>Car</option><option>SUV</option><option>Truck</option></select>
+   <label>Location</label><input id="vlocation" required>
+   <label>Price Per Day (₹)</label><input id="vprice" type="number" min="1" required>
+   <label>Vehicle Description</label><textarea id="vdesc" required></textarea>
+   <label>Vehicle Emoji / Symbol</label><input id="vimage" placeholder="🚗">
+   <button>Add Vehicle</button>
+  </form>
+ </div>
+
+ <div class="card">
+  <h3>Manage Vehicle Details</h3>
+  <div id="adminVehicles"></div>
+ </div>
+
+ <div class="card">
+  <h3>Manage Booking Details</h3>
+  <div id="adminBookings"></div>
+ </div>
+
+ <div class="card">
+  <h3>Customer Details</h3>
+  <div id="adminCustomers"></div>
+ </div>
+</section>
+
+</div>
+<footer>RentRide © 2026 | Online Vehicle Rental Management System</footer>
+
+<script>
+const get = key => JSON.parse(localStorage.getItem(key)||"[]");
+const put = (key,value) => localStorage.setItem(key,JSON.stringify(value));
+const current = () => JSON.parse(localStorage.getItem("rentUser")||"null");
+
+let vehicles=get("rentVehicles");
+if(!vehicles.length){
+ vehicles=[
+ {id:1,name:"Swift Dzire",type:"Car",location:"Chennai",price:1500,desc:"Comfortable and economical family car.",image:"🚗"},
+ {id:2,name:"Toyota Fortuner",type:"SUV",location:"Hyderabad",price:4000,desc:"Spacious premium SUV for long journeys.",image:"🚙"},
+ {id:3,name:"Mahindra Thar",type:"SUV",location:"Bangalore",price:3000,desc:"Powerful SUV for adventure and travel.",image:"🚘"},
+ {id:4,name:"Tata Ace",type:"Truck",location:"Chennai",price:2000,desc:"Useful compact truck for goods transport.",image:"🚚"},
+ {id:5,name:"Hyundai i20",type:"Car",location:"Hyderabad",price:1800,desc:"Modern hatchback with comfortable seating.",image:"🚗"}
+ ];
+ put("rentVehicles",vehicles);
+}
+
+function showPage(id){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ render();
+}
+function requireUser(){
+ let u=current();
+ if(!u||u.role!=="user"){alert("Please login as a customer first.");showPage("login");return false;}
+ return true;
+}
+function requireAdmin(){
+ let u=current();
+ if(!u||u.role!=="admin"){alert("Please login as admin first.");showPage("login");return false;}
+ return true;
+}
+function register(e){
+ e.preventDefault();
+ let users=get("rentUsers"),email=regemail.value.trim().toLowerCase();
+ if(users.some(u=>u.email===email)){alert("Email already registered");return;}
+ users.push({name:regname.value,email,phone:regphone.value,address:regaddress.value,password:regpass.value});
+ put("rentUsers",users);alert("Registration successful! Please login.");e.target.reset();showPage("login");
+}
+function login(e){
+ e.preventDefault();
+ let email=loginemail.value.trim().toLowerCase(),pass=loginpass.value;
+ if(email==="admin@rentride.com"&&pass==="admin123"){
+  localStorage.setItem("rentUser",JSON.stringify({name:"Administrator",email,role:"admin"}));
+  alert("Admin login successful");showPage("admin");return;
+ }
+ let u=get("rentUsers").find(x=>x.email===email&&x.password===pass);
+ if(u){localStorage.setItem("rentUser",JSON.stringify({...u,role:"user"}));alert("Login successful");showPage("home");}
+ else alert("Invalid email or password");
+ e.target.reset();
+}
+function logout(){localStorage.removeItem("rentUser");alert("Logged out");showPage("home");}
+
+function bookVehicle(e){
+ e.preventDefault();
+ if(!requireUser())return;
+ let id=Number(bookvehicle.value),v=get("rentVehicles").find(x=>x.id===id);
+ if(!v){alert("Select a vehicle");return;}
+ let start=new Date(startdate.value),end=new Date(enddate.value);
+ if(isNaN(start)||isNaN(end)||end<start){alert("Please select valid rental dates");return;}
+ let days=Math.ceil((end-start)/86400000)+1;
+ let bookings=get("rentBookings");
+ let overlap=bookings.some(b=>b.vehicleId===id&&["Pending","Approved"].includes(b.status)&&new Date(b.start)<=end&&new Date(b.end)>=start);
+ if(overlap){alert("This vehicle is already booked for the selected dates.");return;}
+ bookings.push({
+  id:"RR"+Date.now(),vehicleId:id,vehicle:v.name,customer:current().email,
+  name:bookname.value,phone:bookphone.value,address:bookaddress.value,
+  location:booklocation.value,start:startdate.value,end:enddate.value,
+  days,total:days*v.price,status:"Pending",date:new Date().toLocaleString()
+ });
+ put("rentBookings",bookings);alert("Booking submitted! Waiting for admin approval.");e.target.reset();showPage("mybookings");
+}
+function approveBooking(id,status){
+ if(!requireAdmin())return;
+ let list=get("rentBookings"),b=list.find(x=>x.id===id);
+ if(b)b.status=status;
+ put("rentBookings",list);render();
+}
+function deleteVehicle(id){
+ if(!requireAdmin())return;
+ if(!confirm("Delete this vehicle?"))return;
+ put("rentVehicles",get("rentVehicles").filter(v=>v.id!==id));render();
+}
+function addVehicle(e){
+ e.preventDefault();if(!requireAdmin())return;
+ let list=get("rentVehicles");
+ list.push({id:Date.now(),name:vname.value,type:vtype.value,location:vlocation.value,price:Number(vprice.value),desc:vdesc.value,image:vimage.value||"🚗"});
+ put("rentVehicles",list);e.target.reset();alert("Vehicle added");render();
+}
+function submitCheckin(e){
+ e.preventDefault();if(!requireUser())return;
+ let id=checkbooking.value;
+ let list=get("rentCheckins");
+ list.push({booking:id,user:current().email,condition:condition.value,fuel:fuel.value,remarks:remarks.value,date:new Date().toLocaleString()});
+ put("rentCheckins",list);alert("Check-in form submitted");e.target.reset();
+}
+function submitReview(e){
+ e.preventDefault();if(!requireUser())return;
+ let list=get("rentReviews");
+ list.push({user:current().email,name:current().name,rating:rating.value,text:reviewtext.value});
+ put("rentReviews",list);alert("Review submitted");e.target.reset();render();
+}
+function updateProfile(e){
+ e.preventDefault();if(!requireUser())return;
+ let list=get("rentUsers"),u=list.find(x=>x.email===current().email);
+ Object.assign(u,{name:editname.value,phone:editphone.value,address:editaddress.value});
+ put("rentUsers",list);localStorage.setItem("rentUser",JSON.stringify({...u,role:"user"}));
+ alert("Profile updated");render();
+}
+function render(){
+ let u=current();
+ welcome.textContent=u?"Logged in: "+u.name:"Welcome to RentRide";
+ vehicles=get("rentVehicles");
+ let term=(search?.value||"").toLowerCase(),type=filtertype?.value||"",loc=(filterlocation?.value||"").toLowerCase();
+ let filtered=vehicles.filter(v=>v.name.toLowerCase().includes(term)&&(!type||v.type===type)&&v.location.toLowerCase().includes(loc));
+ vehicleList.innerHTML=filtered.map(v=>`
+ <div class="card vehicle">
+ <div class="photo">${v.image}</div>
+ <h3>${v.name}</h3><span class="tag">${v.type}</span>
+ <p>${v.desc}</p><p>📍 ${v.location}</p>
+ <p class="price">₹${v.price} <span class="small">/ day</span></p>
+ <button onclick="selectVehicle(${v.id})">Book Now</button>
+ </div>`).join("")||"<p>No vehicles found.</p>";
+
+ bookvehicle.innerHTML='<option value="">Choose Vehicle</option>'+vehicles.map(v=>`<option value="${v.id}">${v.name} - ₹${v.price}/day</option>`).join("");
+
+ let bookings=get("rentBookings");
+ let mine=u&&u.role==="user"?bookings.filter(b=>b.customer===u.email):[];
+ myBookingList.innerHTML=mine.length?mine.map(b=>`
+ <div class="card"><h3>${b.vehicle}</h3><p>Booking ID: ${b.id}</p>
+ <p>${b.start} to ${b.end}</p><p>Duration: ${b.days} day(s)</p>
+ <p>Total: ₹${b.total}</p><p>Status: <span class="tag">${b.status}</span></p>
+ </div>`).join(""):"<p>No bookings found. Please login and book a vehicle.</p>";
+
+ let approved=mine.filter(b=>b.status==="Approved");
+ checkbooking.innerHTML=approved.map(b=>`<option value="${b.id}">${b.vehicle} - ${b.id}</option>`).join("");
+
+ let past=mine.filter(b=>b.status==="Completed"||new Date(b.end)<new Date());
+ historyList.innerHTML=past.length?past.map(b=>`<div class="card"><h3>${b.vehicle}</h3><p>${b.start} to ${b.end}</p><p>₹${b.total} | ${b.status}</p></div>`).join(""):"<p>No past rentals available.</p>";
+
+ profileInfo.innerHTML=u&&u.role==="user"?`<p>Name: ${u.name}</p><p>Email: ${u.email}</p><p>Phone: ${u.phone}</p><p>Address: ${u.address}</p>`:"Please login as a customer.";
+ if(u&&u.role==="user"){editname.value=u.name;editphone.value=u.phone;editaddress.value=u.address;bookname.value=u.name;bookphone.value=u.phone;bookaddress.value=u.address;}
+
+ reviewList.innerHTML=get("rentReviews").map(r=>`<div class="card"><b>${r.name}</b><p>Rating: ${"⭐".repeat(Number(r.rating))}</p><p>${r.text}</p></div>`).join("")||"<p>No reviews yet.</p>";
+
+ let isAdmin=u&&u.role==="admin";
+ adminStats.innerHTML=isAdmin?`<p>Total Vehicles: ${vehicles.length}</p><p>Total Bookings: ${bookings.length}</p><p>Total Customers: ${get("rentUsers").length}</p>`:"Please login as admin to access this dashboard.";
+
+ adminVehicles.innerHTML=isAdmin?vehicles.map(v=>`<p>${v.name} | ${v.type} | ₹${v.price}/day | ${v.location} <button onclick="deleteVehicle(${v.id})">Delete</button></p>`).join(""):"";
+ adminBookings.innerHTML=isAdmin?bookings.map(b=>`
+ <div class="card"><h3>${b.vehicle}</h3><p>Customer: ${b.name} (${b.customer})</p>
+ <p>Phone: ${b.phone}</p><p>Address: ${b.address}</p>
+ <p>Dates: ${b.start} to ${b.end}</p><p>Total: ₹${b.total}</p>
+ <p>Status: ${b.status}</p>
+ ${b.status==="Pending"?`<button onclick="approveBooking('${b.id}','Approved')">Approve</button> <button onclick="approveBooking('${b.id}','Rejected')">Reject</button>`:""}
+ <p>Check-in: ${get("rentCheckins").filter(x=>x.booking===b.id).map(x=>x.condition+" / "+x.fuel+" / "+x.remarks).join(", ")||"Not submitted"}</p>
+ <button onclick="approveBooking('${b.id}','Completed')">Mark Completed</button>
+ </div>`).join(""):"";
+ adminCustomers.innerHTML=isAdmin?get("rentUsers").map(x=>`<p>${x.name} | ${x.email} | ${x.phone} | ${x.address}</p>`).join(""):"";
+}
+function selectVehicle(id){
+ if(!requireUser())return;
+ bookvehicle.value=id;showPage("booking");bookvehicle.value=id;
+}
+render();
+</script>
+</body>
+</html>

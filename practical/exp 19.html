@@ -1,0 +1,382 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VetCure - Veterinary Healthcare</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f7f2;color:#26352d}
+header{background:#245b43;color:white;padding:20px 6%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+header h1{margin:0;font-size:27px}
+nav{background:#fff;padding:12px 5%;display:flex;gap:8px;flex-wrap:wrap;box-shadow:0 2px 8px #0001}
+button{border:0;padding:10px 15px;border-radius:7px;background:#347b58;color:white;cursor:pointer}
+button:hover{background:#245b43}
+nav button{background:#e8f1eb;color:#245b43}
+nav button:hover{background:#cfe3d5}
+.container{max-width:1100px;margin:25px auto;padding:0 16px}
+.page{display:none}
+.page.active{display:block}
+.card{background:white;padding:20px;margin:15px 0;border-radius:12px;box-shadow:0 3px 12px #0000000c}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px}
+h2{color:#245b43}
+input,select,textarea{width:100%;padding:11px;margin:7px 0 14px;border:1px solid #ccd8ce;border-radius:7px;font:inherit}
+textarea{min-height:85px;resize:vertical}
+label{font-weight:bold;font-size:14px}
+.small{font-size:13px;color:#68766d}
+.tag{display:inline-block;background:#e5f2e9;color:#245b43;padding:5px 9px;border-radius:20px;font-size:12px}
+table{width:100%;border-collapse:collapse;margin-top:12px}
+th,td{padding:10px;border-bottom:1px solid #e3e9e4;text-align:left;font-size:14px}
+footer{text-align:center;background:#245b43;color:white;padding:18px;margin-top:40px}
+.hidden{display:none}
+.media{max-width:180px;max-height:130px;display:block;margin:8px 0}
+</style>
+</head>
+<body>
+<header>
+  <div><h1>🐾 VetCure</h1><small>Veterinary Healthcare & Consultation Portal</small></div>
+  <div id="welcome">Welcome to VetCure</div>
+</header>
+<nav>
+  <button onclick="showPage('home')">Home</button>
+  <button onclick="showPage('doctors')">Doctors</button>
+  <button onclick="showPage('cures')">Animal Cures</button>
+  <button onclick="showPage('news')">News</button>
+  <button onclick="showPage('register')">Register</button>
+  <button onclick="showPage('login')">Login</button>
+  <button onclick="showPage('complaint')">Post Complaint</button>
+  <button onclick="showPage('mycomplaints')">My Complaints</button>
+  <button onclick="showPage('payment')">Payment</button>
+  <button onclick="showPage('reports')">Reports</button>
+  <button onclick="showPage('doctorpanel')">Doctor Panel</button>
+  <button onclick="showPage('profile')">Profile</button>
+  <button onclick="logout()">Logout</button>
+</nav>
+
+<div class="container">
+
+<section id="home" class="page active">
+  <div class="card">
+    <h2>Welcome to VetCure</h2>
+    <p>Connect farmers with veterinary doctors. Submit animal health complaints through text, images, audio or video and receive professional guidance.</p>
+    <button onclick="showPage('complaint')">Submit a Complaint</button>
+    <button onclick="showPage('doctors')">Find a Doctor</button>
+  </div>
+  <div class="grid">
+    <div class="card"><h3>📷 Multimedia Complaints</h3><p>Send animal symptoms through photos, audio, video or text.</p></div>
+    <div class="card"><h3>👨‍⚕️ Doctor Consultation</h3><p>Connect with government and private veterinary doctors.</p></div>
+    <div class="card"><h3>💊 Animal Cures</h3><p>Explore common animal diseases and their basic treatments.</p></div>
+    <div class="card"><h3>📊 Disease Reports</h3><p>View recorded complaints by disease and area.</p></div>
+  </div>
+</section>
+
+<section id="register" class="page">
+  <div class="card">
+    <h2>Farmer Registration</h2>
+    <form onsubmit="register(event)">
+      <label>Full Name</label><input id="regname" required>
+      <label>Email</label><input id="regemail" type="email" required>
+      <label>Phone Number</label><input id="regphone" required>
+      <label>Village / Area</label><input id="regarea" required>
+      <label>Password</label><input id="regpass" type="password" required>
+      <button>Register</button>
+    </form>
+    <p class="small">Registration creates a farmer account in this demo.</p>
+  </div>
+</section>
+
+<section id="login" class="page">
+  <div class="card">
+    <h2>Login</h2>
+    <form onsubmit="login(event)">
+      <label>Email</label><input id="loginemail" type="email" required>
+      <label>Password</label><input id="loginpass" type="password" required>
+      <button>Login</button>
+    </form>
+    <p class="small">Doctor demo: doctor@vetcure.com / 123</p>
+  </div>
+</section>
+
+<section id="doctors" class="page">
+  <h2>Veterinary Doctors</h2>
+  <div id="doctorList" class="grid"></div>
+</section>
+
+<section id="complaint" class="page">
+  <div class="card">
+    <h2>Submit Animal Health Complaint</h2>
+    <form onsubmit="postComplaint(event)">
+      <label>Animal Name</label><input id="animal" placeholder="e.g. Cow, Dog, Goat" required>
+      <label>Animal Type</label>
+      <select id="animaltype"><option>Cow</option><option>Buffalo</option><option>Goat</option><option>Sheep</option><option>Dog</option><option>Cat</option><option>Poultry</option><option>Other</option></select>
+      <label>Symptoms / Disease Description</label><textarea id="symptoms" required placeholder="Describe the animal's signs and symptoms"></textarea>
+      <label>Area / Village</label><input id="complaintarea" required>
+      <label>Preferred Doctor</label><select id="preferred"></select>
+      <label>Upload Image, Audio or Video (optional)</label>
+      <input id="evidence" type="file" accept="image/*,audio/*,video/*">
+      <p class="small">Demo upload limit: 2 MB. Large media should use server/cloud storage in a real application.</p>
+      <button>Submit Complaint</button>
+    </form>
+  </div>
+</section>
+
+<section id="mycomplaints" class="page">
+  <h2>My Complaint Status</h2>
+  <div id="myComplaintList"></div>
+</section>
+
+<section id="doctorpanel" class="page">
+  <div class="card">
+    <h2>Doctor Dashboard</h2>
+    <p class="small">Doctors can view complaints and send consultation responses.</p>
+    <div id="doctorComplaints"></div>
+  </div>
+  <div class="card">
+    <h3>Manage Cure Information</h3>
+    <form onsubmit="addCure(event)">
+      <label>Disease Name</label><input id="curedisease" required>
+      <label>Animal Type</label><input id="cureanimal" required>
+      <label>Symptoms</label><textarea id="curesymptoms" required></textarea>
+      <label>Basic Prescription / Guidance</label><textarea id="cureprescription" required></textarea>
+      <button>Add Cure</button>
+    </form>
+  </div>
+  <div class="card">
+    <h3>Manage News</h3>
+    <form onsubmit="addNews(event)">
+      <label>News Title</label><input id="newstitle" required>
+      <label>News Description</label><textarea id="newsdesc" required></textarea>
+      <button>Publish News</button>
+    </form>
+  </div>
+  <div class="card">
+    <h3>Doctor Bank and EasyPaisa Details</h3>
+    <form onsubmit="saveBank(event)">
+      <label>Bank Name</label><input id="bankname">
+      <label>Account Holder</label><input id="accountholder">
+      <label>Account Number</label><input id="accountnumber">
+      <label>EasyPaisa Number</label><input id="easypaisa">
+      <label>Private Consultation Fee (₹)</label><input id="doctorfee" type="number" min="0" value="200">
+      <button>Save Payment Details</button>
+    </form>
+  </div>
+  <div class="card">
+    <h3>Payment Details</h3><div id="doctorPayments"></div>
+    <h3>Farmer Details</h3><div id="farmerDetails"></div>
+    <h3>Feedback Details</h3><div id="doctorFeedback"></div>
+  </div>
+</section>
+
+<section id="payment" class="page">
+  <div class="card">
+    <h2>Consultation Payment</h2>
+    <form onsubmit="makePayment(event)">
+      <label>Select Complaint</label><select id="paycomplaint"></select>
+      <label>Payment Method</label>
+      <select id="paymethod"><option>Bank Transfer</option><option>EasyPaisa</option></select>
+      <div id="paymentInfo"></div>
+      <label>Transaction Reference / UTR</label><input id="transaction" required>
+      <button>Submit Payment Details</button>
+    </form>
+    <p class="small">Payment is recorded as pending until manually verified by the doctor. No real money is transferred by this demo.</p>
+    <div id="paymentHistory"></div>
+  </div>
+</section>
+
+<section id="cures" class="page">
+  <h2>Animal Diseases and Basic Cures</h2>
+  <div id="cureList" class="grid"></div>
+</section>
+
+<section id="news" class="page">
+  <h2>Veterinary News</h2>
+  <div id="newsList"></div>
+</section>
+
+<section id="reports" class="page">
+  <div class="card">
+    <h2>Area-wise Animal Disease Report</h2>
+    <p class="small">This report is generated from complaints recorded in this browser demo. It is not a confirmed disease outbreak report.</p>
+    <div id="reportData"></div>
+  </div>
+</section>
+
+<section id="profile" class="page">
+  <div class="card">
+    <h2>My Profile</h2>
+    <div id="profileInfo"></div>
+    <form onsubmit="updateProfile(event)">
+      <label>Name</label><input id="editname" required>
+      <label>Phone</label><input id="editphone" required>
+      <label>Area</label><input id="editarea" required>
+      <button>Update Profile</button>
+    </form>
+  </div>
+  <div class="card">
+    <h3>Post Feedback</h3>
+    <form onsubmit="postFeedback(event)">
+      <label>Feedback</label><textarea id="feedbacktext" required></textarea>
+      <button>Submit Feedback</button>
+    </form>
+  </div>
+</section>
+
+</div>
+<footer>VetCure | Veterinary Healthcare Consultation System</footer>
+
+<script>
+const get = key => JSON.parse(localStorage.getItem(key) || "[]");
+const put = (key,value) => localStorage.setItem(key,JSON.stringify(value));
+const current = () => JSON.parse(localStorage.getItem("vetUser") || "null");
+
+let doctors = get("vetDoctors");
+if(!doctors.length){
+ doctors=[
+ {name:"Dr. Kumar",email:"doctor@vetcure.com",password:"123",type:"Government",area:"Chennai",speciality:"General Veterinary",fee:0,bank:"",holder:"",account:"",easy:""},
+ {name:"Dr. Priya",email:"private@vetcure.com",password:"123",type:"Private",area:"Hyderabad",speciality:"Pet Specialist",fee:200,bank:"Demo Bank",holder:"Dr. Priya",account:"1234567890",easy:"9000000000"}
+ ];
+ put("vetDoctors",doctors);
+}
+
+let cures=get("vetCures");
+if(!cures.length){
+ cures=[
+ {disease:"Foot and Mouth Disease",animal:"Cattle",symptoms:"Fever, mouth blisters and foot lesions.",prescription:"Seek veterinary examination promptly. Isolate affected animals and follow the veterinarian's treatment and vaccination advice."},
+ {disease:"Mange",animal:"Dogs",symptoms:"Itching, hair loss and skin irritation.",prescription:"A veterinarian should confirm the cause and prescribe suitable treatment. Keep bedding clean."},
+ {disease:"Diarrhoea",animal:"Calves",symptoms:"Loose stools and possible dehydration.",prescription:"Seek veterinary advice, especially if weakness or dehydration occurs. Provide appropriate fluids as advised."}
+ ];
+ put("vetCures",cures);
+}
+let news=get("vetNews");
+if(!news.length){news=[{title:"Animal vaccination awareness",desc:"Farmers should consult local veterinary services about recommended animal vaccination schedules."}];put("vetNews",news);}
+
+function showPage(id){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ render();
+}
+function register(e){
+ e.preventDefault();
+ let users=get("vetUsers"),email=regemail.value.trim().toLowerCase();
+ if(users.some(u=>u.email===email)){alert("Email already registered");return;}
+ users.push({name:regname.value,email,phone:regphone.value,area:regarea.value,password:regpass.value});
+ put("vetUsers",users);alert("Registration successful. Please login.");e.target.reset();showPage("login");
+}
+function login(e){
+ e.preventDefault();
+ let email=loginemail.value.trim().toLowerCase(),pass=loginpass.value;
+ let user=get("vetUsers").find(u=>u.email===email&&u.password===pass);
+ let doctor=get("vetDoctors").find(d=>d.email===email&&d.password===pass);
+ if(user){localStorage.setItem("vetUser",JSON.stringify({...user,role:"farmer"}));alert("Farmer login successful");showPage("home");}
+ else if(doctor){localStorage.setItem("vetUser",JSON.stringify({...doctor,role:"doctor"}));alert("Doctor login successful");showPage("doctorpanel");}
+ else alert("Invalid email or password");
+ e.target.reset();
+}
+function logout(){localStorage.removeItem("vetUser");alert("Logged out");showPage("home");}
+function requireFarmer(){let u=current();if(!u||u.role!=="farmer"){alert("Please login as a farmer first.");showPage("login");return false;}return true;}
+function requireDoctor(){let u=current();if(!u||u.role!=="doctor"){alert("Please login as a doctor first.");showPage("login");return false;}return true;}
+
+async function postComplaint(e){
+ e.preventDefault();if(!requireFarmer())return;
+ let file=evidence.files[0],media="";
+ if(file){
+  if(file.size>2*1024*1024){alert("Please select a file below 2 MB.");return;}
+  media=await new Promise(resolve=>{let r=new FileReader();r.onload=()=>resolve(r.result);r.readAsDataURL(file);});
+ }
+ let u=current(),list=get("vetComplaints");
+ list.push({id:"VC"+Date.now(),farmer:u.email,farmerName:u.name,animal:animal.value,type:animaltype.value,symptoms:symptoms.value,area:complaintarea.value,doctor:preferred.value,media,mediaType:file?file.type:"",status:"Pending",response:"",date:new Date().toLocaleString()});
+ put("vetComplaints",list);alert("Complaint submitted successfully");e.target.reset();showPage("mycomplaints");
+}
+function respond(id){
+ if(!requireDoctor())return;
+ let answer=document.getElementById("response"+id).value;
+ if(!answer.trim()){alert("Enter a solution");return;}
+ let list=get("vetComplaints"),c=list.find(x=>x.id===id);
+ c.response=answer;c.status="Responded";c.respondedBy=current().email;
+ put("vetComplaints",list);alert("Solution sent to farmer");render();
+}
+function cancelComplaint(id){
+ if(!requireFarmer())return;
+ let list=get("vetComplaints"),c=list.find(x=>x.id===id);
+ if(c)c.status="Cancelled";
+ put("vetComplaints",list);render();
+}
+function addCure(e){
+ e.preventDefault();if(!requireDoctor())return;
+ let list=get("vetCures");list.push({disease:curedisease.value,animal:cureanimal.value,symptoms:curesymptoms.value,prescription:cureprescription.value});
+ put("vetCures",list);e.target.reset();alert("Cure information added");render();
+}
+function addNews(e){
+ e.preventDefault();if(!requireDoctor())return;
+ let list=get("vetNews");list.push({title:newstitle.value,desc:newsdesc.value});
+ put("vetNews",list);e.target.reset();alert("News published");render();
+}
+function saveBank(e){
+ e.preventDefault();if(!requireDoctor())return;
+ let list=get("vetDoctors"),d=list.find(x=>x.email===current().email);
+ Object.assign(d,{bank:bankname.value,holder:accountholder.value,account:accountnumber.value,easy:easypaisa.value,fee:Number(doctorfee.value)});
+ put("vetDoctors",list);alert("Payment details saved");render();
+}
+function makePayment(e){
+ e.preventDefault();if(!requireFarmer())return;
+ let c=get("vetComplaints").find(x=>x.id===paycomplaint.value&&x.farmer===current().email);
+ if(!c){alert("Select your complaint");return;}
+ let d=get("vetDoctors").find(x=>x.email===c.doctor);
+ if(!d){alert("No doctor selected for this complaint");return;}
+ if(d.type==="Government"){alert("Government veterinary consultations are free.");return;}
+ let p=get("vetPayments");
+ p.push({id:"VP"+Date.now(),complaint:c.id,farmer:current().email,doctor:d.email,method:paymethod.value,reference:transaction.value,amount:d.fee,status:"Pending verification",date:new Date().toLocaleString()});
+ put("vetPayments",p);alert("Payment details submitted for verification");e.target.reset();render();
+}
+function updateProfile(e){
+ e.preventDefault();if(!requireFarmer())return;
+ let users=get("vetUsers"),u=users.find(x=>x.email===current().email);
+ Object.assign(u,{name:editname.value,phone:editphone.value,area:editarea.value});put("vetUsers",users);
+ localStorage.setItem("vetUser",JSON.stringify({...u,role:"farmer"}));alert("Profile updated");render();
+}
+function postFeedback(e){
+ e.preventDefault();if(!requireFarmer())return;
+ let f=get("vetFeedback");f.push({farmer:current().email,text:feedbacktext.value,date:new Date().toLocaleString()});
+ put("vetFeedback",f);e.target.reset();alert("Feedback submitted");
+}
+function verifyPayment(id,status){
+ if(!requireDoctor())return;
+ let p=get("vetPayments"),x=p.find(y=>y.id===id&&y.doctor===current().email);
+ if(x){x.status=status;put("vetPayments",p);render();}
+}
+function render(){
+ let u=current();welcome.textContent=u?"Logged in: "+u.name+" ("+u.role+")":"Welcome to VetCure";
+ doctors=get("vetDoctors");
+ doctorList.innerHTML=doctors.map(d=>`<div class="card"><h3>${d.name}</h3><span class="tag">${d.type} Doctor</span><p>${d.speciality||"Veterinary Doctor"}</p><p>Area: ${d.area}</p><p>Consultation: ${d.type==="Government"?"Free":"₹"+d.fee}</p></div>`).join("");
+ preferred.innerHTML='<option value="">Select doctor</option>'+doctors.map(d=>`<option value="${d.email}">${d.name} - ${d.type}</option>`).join("");
+ let complaints=get("vetComplaints");
+ let mine=u&&u.role==="farmer"?complaints.filter(c=>c.farmer===u.email):[];
+ myComplaintList.innerHTML=mine.length?mine.map(c=>`<div class="card"><h3>${c.animal} - ${c.type}</h3><p>${c.symptoms}</p><p>Area: ${c.area}</p><p>Status: <span class="tag">${c.status}</span></p><p>Doctor: ${c.doctor||"Not selected"}</p>${c.media?`<p>Uploaded evidence:</p><a href="${c.media}" target="_blank">Open uploaded file</a>`:""}<p>Doctor response: ${c.response||"Waiting for response"}</p><p class="small">${c.date}</p>${c.status==="Pending"?`<button onclick="cancelComplaint('${c.id}')">Cancel Complaint</button>`:""}</div>`).join(""):"<p>No complaints found. Login as a farmer and submit a complaint.</p>";
+ let assigned=u&&u.role==="doctor"?complaints.filter(c=>c.doctor===u.email):[];
+ doctorComplaints.innerHTML=assigned.length?assigned.map(c=>`<div class="card"><h3>${c.animal} (${c.type})</h3><p>Farmer: ${c.farmerName} | Area: ${c.area}</p><p>Symptoms: ${c.symptoms}</p>${c.media?`<a href="${c.media}" target="_blank">View/Play uploaded evidence</a>`:""}<p>Status: ${c.status}</p><textarea id="response${c.id}" placeholder="Enter diagnosis and advice">${c.response||""}</textarea><button onclick="respond('${c.id}')">Send Solution</button></div>`).join(""):"<p>No complaints assigned to this doctor.</p>";
+ let myPay=u&&u.role==="farmer"?get("vetPayments").filter(p=>p.farmer===u.email):[];
+ paycomplaint.innerHTML=mine.filter(c=>c.doctor).map(c=>`<option value="${c.id}">${c.animal} - ${c.id}</option>`).join("");
+ paymentHistory.innerHTML=myPay.map(p=>`<p>${p.id} | ₹${p.amount} | ${p.method} | ${p.status}</p>`).join("");
+ let selected=doctors.find(d=>d.email===paycomplaint.value);
+ if(selected)paymentInfo.innerHTML=`<p>Doctor: ${selected.name} | Fee: ₹${selected.fee}</p><p>Bank: ${selected.bank||"Not provided"} | Account: ${selected.account||"Not provided"} | EasyPaisa: ${selected.easy||"Not provided"}</p>`;
+ else paymentInfo.innerHTML="<p class='small'>Select a complaint to view the assigned doctor's payment details.</p>";
+ cureList.innerHTML=get("vetCures").map(c=>`<div class="card"><h3>${c.disease}</h3><span class="tag">${c.animal}</span><p><b>Symptoms:</b> ${c.symptoms}</p><p><b>Basic guidance:</b> ${c.prescription}</p></div>`).join("");
+ newsList.innerHTML=get("vetNews").map(n=>`<div class="card"><h3>${n.title}</h3><p>${n.desc}</p></div>`).join("");
+ let counts={};complaints.forEach(c=>{let key=c.area+" - "+c.type;counts[key]=(counts[key]||0)+1;});
+ reportData.innerHTML=Object.keys(counts).length?Object.entries(counts).map(([k,v])=>`<p>${k}: <b>${v} complaint(s)</b></p>`).join(""):"No complaint data recorded yet.";
+ profileInfo.innerHTML=u?`<p>Name: ${u.name}</p><p>Email: ${u.email}</p><p>Role: ${u.role}</p>`:"Please login to view your profile.";
+ if(u&&u.role==="farmer"){editname.value=u.name;editphone.value=u.phone||"";editarea.value=u.area||"";}
+ let doctor=current()&&current().role==="doctor";
+ doctorPayments.innerHTML=doctor?get("vetPayments").filter(p=>p.doctor===current().email).map(p=>`<p>${p.id} | ₹${p.amount} | ${p.method} | ${p.reference} | ${p.status} <button onclick="verifyPayment('${p.id}','Verified')">Verify</button> <button onclick="verifyPayment('${p.id}','Rejected')">Reject</button></p>`).join(""):"Login as a doctor to view payments.";
+ farmerDetails.innerHTML=doctor?get("vetUsers").map(x=>`<p>${x.name} | ${x.email} | ${x.phone} | ${x.area}</p>`).join(""):"";
+ doctorFeedback.innerHTML=doctor?get("vetFeedback").map(x=>`<p>${x.farmer}: ${x.text}</p>`).join(""):"";
+ if(doctor){
+ let d=doctors.find(x=>x.email===current().email);
+ if(d){bankname.value=d.bank||"";accountholder.value=d.holder||"";accountnumber.value=d.account||"";easypaisa.value=d.easy||"";doctorfee.value=d.fee||0;}
+ }
+}
+render();
+</script>
+</body>
+</html>
