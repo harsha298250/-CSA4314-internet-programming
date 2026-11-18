@@ -1,0 +1,584 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Wanderlust Travels</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f5f7f6;color:#263b3b}
+header{background:#174c4b;color:white;padding:22px;text-align:center}
+header h1{margin:0;font-size:30px}
+nav{background:#103b3a;padding:12px;text-align:center}
+nav button{background:transparent;color:white;border:0;padding:11px 14px;cursor:pointer}
+nav button:hover{background:#28716c;border-radius:5px}
+.container{max-width:1100px;margin:25px auto;padding:15px}
+.page{display:none}
+.active{display:block}
+.box{background:white;padding:22px;margin:16px 0;border-radius:10px;box-shadow:0 3px 12px #0000000d}
+.hero{background:linear-gradient(120deg,#174c4b,#438c80);color:white;padding:45px 25px;border-radius:12px;text-align:center}
+.hero h2{font-size:32px}
+.hero button{background:#f4bd68;color:#263b3b}
+input,select,textarea{width:100%;padding:11px;margin:8px 0;border:1px solid #d4dddd;border-radius:5px}
+button.action{background:#28716c;color:white;border:0;padding:10px 16px;border-radius:5px;cursor:pointer;margin:5px}
+button.action:hover{background:#174c4b}
+button.gold{background:#d99a42;color:white}
+button.danger{background:#bd4c4c}
+.card{display:inline-block;vertical-align:top;background:white;width:30%;min-width:220px;margin:10px 1%;border-radius:10px;overflow:hidden;box-shadow:0 2px 10px #0001}
+.card img{width:100%;height:145px;object-fit:cover;background:#e8eeee}
+.card-content{padding:15px}
+.card h3{color:#174c4b;margin-top:3px}
+.tag{background:#e2f1ed;color:#24645c;padding:5px 9px;border-radius:20px;font-size:12px}
+table{width:100%;border-collapse:collapse;margin-top:12px;background:white}
+th,td{padding:11px;border:1px solid #dce4e1;text-align:left}
+th{background:#e7f1ed;color:#174c4b}
+footer{background:#103b3a;color:white;text-align:center;padding:20px;margin-top:35px}
+.message{color:#28716c}
+</style>
+</head>
+<body>
+
+<header>
+<h1>✈ Wanderlust Travels</h1>
+<p>Explore More. Travel Better. Create Memories.</p>
+</header>
+
+<nav>
+<button onclick="showPage('home')">Home</button>
+<button onclick="showPage('destinations')">Destinations</button>
+<button onclick="showPage('food')">Food</button>
+<button onclick="showPage('hotels')">Hotels & Hostels</button>
+<button onclick="showPage('routes')">Routes</button>
+<button onclick="showPage('register')">Register</button>
+<button onclick="showPage('login')">Login</button>
+<button onclick="showPage('myBookings')">My Bookings</button>
+<button onclick="showPage('admin')">Admin</button>
+</nav>
+
+<div class="container">
+
+<!-- HOME -->
+<section id="home" class="page active">
+<div class="hero">
+<h2>Discover Your Next Adventure</h2>
+<p>Find beautiful destinations, delicious food and comfortable accommodation.</p>
+<button class="action gold" onclick="showPage('destinations')">Explore Destinations</button>
+<button class="action" onclick="showPage('hotels')">Find Accommodation</button>
+</div>
+
+<div class="box">
+<h2>Welcome to Wanderlust Travels</h2>
+<p>Plan your journey with useful tourism information, accommodation details, food recommendations and travel routes.</p>
+<div class="card"><div class="card-content"><h3>🌍 Destinations</h3><p>Discover popular tourist places.</p></div></div>
+<div class="card"><div class="card-content"><h3>🍽 Food</h3><p>Explore local food options.</p></div></div>
+<div class="card"><div class="card-content"><h3>🏨 Accommodation</h3><p>Find hotels and hostels.</p></div></div>
+</div>
+</section>
+
+<!-- DESTINATIONS -->
+<section id="destinations" class="page">
+<h2>Tourism Destinations</h2>
+<div id="destinationList"></div>
+</section>
+
+<!-- FOOD -->
+<section id="food" class="page">
+<h2>Food Details</h2>
+<p>Discover popular local dishes and food options at your destination.</p>
+<div id="foodList"></div>
+</section>
+
+<!-- HOTELS -->
+<section id="hotels" class="page">
+<h2>Hotels and Hostels</h2>
+<p>Choose your preferred accommodation.</p>
+<div id="hotelList"></div>
+</section>
+
+<!-- ROUTES -->
+<section id="routes" class="page">
+<h2>Travel Routes</h2>
+<div class="box">
+<h3>Available Travel Routes</h3>
+<table>
+<thead><tr><th>Starting Point</th><th>Destination</th><th>Transport</th><th>Duration</th></tr></thead>
+<tbody id="routeTable"></tbody>
+</table>
+</div>
+</section>
+
+<!-- REGISTER -->
+<section id="register" class="page">
+<div class="box">
+<h2>User Registration</h2>
+<input id="regName" placeholder="Full Name">
+<input id="regEmail" type="email" placeholder="Email Address">
+<input id="regPassword" type="password" placeholder="Password">
+<input id="regPhone" placeholder="Phone Number">
+<button class="action" onclick="registerUser()">Create Account</button>
+<p id="regMsg" class="message"></p>
+</div>
+</section>
+
+<!-- LOGIN -->
+<section id="login" class="page">
+<div class="box">
+<h2>User / Admin Login</h2>
+<select id="loginRole">
+<option value="user">User</option>
+<option value="admin">Admin</option>
+</select>
+<input id="loginEmail" placeholder="Email / Username">
+<input id="loginPassword" type="password" placeholder="Password">
+<button class="action" onclick="loginUser()">Login</button>
+<p id="loginMsg"></p>
+<small>Demo Admin Login: admin / admin123</small>
+</div>
+</section>
+
+<!-- BOOK ACCOMMODATION -->
+<section id="booking" class="page">
+<div class="box">
+<h2>Book Accommodation</h2>
+<p id="selectedHotel"></p>
+<input id="bookingName" placeholder="Guest Name">
+<input id="bookingPhone" placeholder="Contact Number">
+<input id="checkIn" type="date">
+<input id="checkOut" type="date">
+<input id="guests" type="number" min="1" value="1" placeholder="Number of Guests">
+<button class="action" onclick="bookHotel()">Confirm Booking</button>
+<p id="bookingMsg" class="message"></p>
+</div>
+</section>
+
+<!-- MY BOOKINGS -->
+<section id="myBookings" class="page">
+<h2>My Accommodation Bookings</h2>
+<div class="box">
+<table>
+<thead><tr><th>Hotel / Hostel</th><th>Location</th><th>Check-in</th><th>Check-out</th><th>Guests</th><th>Status</th></tr></thead>
+<tbody id="myBookingTable"></tbody>
+</table>
+</div>
+</section>
+
+<!-- ADMIN -->
+<section id="admin" class="page">
+<h2>Administrator Dashboard</h2>
+
+<div class="box">
+<h3>System Overview</h3>
+<div class="card"><div class="card-content"><h3>Destinations</h3><h2 id="destCount">0</h2></div></div>
+<div class="card"><div class="card-content"><h3>Food Items</h3><h2 id="foodCount">0</h2></div></div>
+<div class="card"><div class="card-content"><h3>Hotels</h3><h2 id="hotelCount">0</h2></div></div>
+<div class="card"><div class="card-content"><h3>Bookings</h3><h2 id="bookingCount">0</h2></div></div>
+</div>
+
+<div class="box">
+<h3>Post Tourism Details</h3>
+<input id="destName" placeholder="Destination Name">
+<input id="destLocation" placeholder="Location">
+<textarea id="destDescription" placeholder="Description"></textarea>
+<input id="destImage" placeholder="Image URL (optional)">
+<button class="action" onclick="addDestination()">Add Destination</button>
+</div>
+
+<div class="box">
+<h3>Manage Food Details</h3>
+<input id="foodName" placeholder="Food Name">
+<input id="foodPlace" placeholder="Location">
+<input id="foodPrice" type="number" min="0" placeholder="Price">
+<button class="action" onclick="addFood()">Add Food</button>
+<table>
+<thead><tr><th>Food</th><th>Location</th><th>Price</th><th>Action</th></tr></thead>
+<tbody id="adminFoodTable"></tbody>
+</table>
+</div>
+
+<div class="box">
+<h3>Manage Hotel Details</h3>
+<input id="hotelName" placeholder="Hotel / Hostel Name">
+<input id="hotelLocation" placeholder="Location">
+<select id="hotelType">
+<option>Hotel</option>
+<option>Hostel</option>
+</select>
+<input id="hotelPrice" type="number" min="0" placeholder="Price per Night">
+<input id="hotelImage" placeholder="Image URL (optional)">
+<button class="action" onclick="addHotel()">Add Accommodation</button>
+<table>
+<thead><tr><th>Name</th><th>Location</th><th>Type</th><th>Price</th><th>Action</th></tr></thead>
+<tbody id="adminHotelTable"></tbody>
+</table>
+</div>
+
+<div class="box">
+<h3>Manage Route Details</h3>
+<input id="routeFrom" placeholder="Starting Point">
+<input id="routeTo" placeholder="Destination">
+<input id="routeTransport" placeholder="Transport (Bus / Train / Car)">
+<input id="routeDuration" placeholder="Travel Duration">
+<button class="action" onclick="addRoute()">Add Route</button>
+<table>
+<thead><tr><th>From</th><th>To</th><th>Transport</th><th>Duration</th><th>Action</th></tr></thead>
+<tbody id="adminRouteTable"></tbody>
+</table>
+</div>
+
+<div class="box">
+<h3>View Booking Details</h3>
+<table>
+<thead><tr><th>User</th><th>Accommodation</th><th>Check-in</th><th>Check-out</th><th>Guests</th><th>Status</th><th>Action</th></tr></thead>
+<tbody id="adminBookingTable"></tbody>
+</table>
+</div>
+</section>
+
+</div>
+
+<footer>
+<p>Wanderlust Travels - Your Journey Begins Here</p>
+<p>Explore the World, One Trip at a Time.</p>
+</footer>
+
+<script>
+const $=id=>document.getElementById(id);
+
+let users=JSON.parse(localStorage.getItem("wtUsers"))||[];
+let destinations=JSON.parse(localStorage.getItem("wtDestinations"))||[
+{id:1,name:"Ooty",location:"Tamil Nadu",description:"Enjoy the beautiful hills, gardens and pleasant climate of Ooty."},
+{id:2,name:"Munnar",location:"Kerala",description:"Explore green tea plantations and scenic mountain views."},
+{id:3,name:"Goa",location:"Goa",description:"Experience beautiful beaches and exciting tourist attractions."}
+];
+
+let foods=JSON.parse(localStorage.getItem("wtFoods"))||[
+{id:1,name:"South Indian Meals",place:"Chennai",price:150},
+{id:2,name:"Kerala Appam",place:"Munnar",price:100},
+{id:3,name:"Goan Fish Curry",place:"Goa",price:250}
+];
+
+let hotels=JSON.parse(localStorage.getItem("wtHotels"))||[
+{id:1,name:"Hill View Resort",location:"Ooty",type:"Hotel",price:2500},
+{id:2,name:"Green Valley Hostel",location:"Munnar",type:"Hostel",price:700},
+{id:3,name:"Beachside Stay",location:"Goa",type:"Hotel",price:3000}
+];
+
+let routes=JSON.parse(localStorage.getItem("wtRoutes"))||[
+{id:1,from:"Chennai",to:"Ooty",transport:"Bus",duration:"10 hours"},
+{id:2,from:"Coimbatore",to:"Munnar",transport:"Car",duration:"5 hours"},
+{id:3,from:"Mumbai",to:"Goa",transport:"Train",duration:"8 hours"}
+];
+
+let bookings=JSON.parse(localStorage.getItem("wtBookings"))||[];
+let currentUser=null;
+let currentRole=null;
+let selectedHotelId=null;
+
+function saveData(){
+localStorage.setItem("wtUsers",JSON.stringify(users));
+localStorage.setItem("wtDestinations",JSON.stringify(destinations));
+localStorage.setItem("wtFoods",JSON.stringify(foods));
+localStorage.setItem("wtHotels",JSON.stringify(hotels));
+localStorage.setItem("wtRoutes",JSON.stringify(routes));
+localStorage.setItem("wtBookings",JSON.stringify(bookings));
+}
+
+function escapeHTML(value){
+return String(value).replace(/[&<>"']/g,c=>({
+"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+}[c]));
+}
+
+function showPage(id){
+if(["booking","myBookings"].includes(id)&&currentRole!=="user"){
+alert("Please login as a user first.");
+id="login";
+}
+if(id==="admin"&&currentRole!=="admin"){
+alert("Please login as admin first.");
+id="login";
+}
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+$(id).classList.add("active");
+render();
+}
+
+function registerUser(){
+let name=$("regName").value.trim();
+let email=$("regEmail").value.trim().toLowerCase();
+let password=$("regPassword").value;
+let phone=$("regPhone").value.trim();
+
+if(!name||!email||!password||!phone){
+$("regMsg").innerText="Please fill all fields.";
+return;
+}
+if(users.some(u=>u.email===email)){
+$("regMsg").innerText="Email already registered.";
+return;
+}
+users.push({name,email,password,phone});
+saveData();
+$("regMsg").innerText="Registration successful. Please login.";
+$("regName").value="";
+$("regEmail").value="";
+$("regPassword").value="";
+$("regPhone").value="";
+}
+
+function loginUser(){
+let role=$("loginRole").value;
+let email=$("loginEmail").value.trim().toLowerCase();
+let password=$("loginPassword").value;
+
+if(role==="admin"&&email==="admin"&&password==="admin123"){
+currentUser={name:"Administrator",email:"admin"};
+currentRole="admin";
+showPage("admin");
+return;
+}
+
+if(role==="user"){
+let user=users.find(u=>u.email===email&&u.password===password);
+if(user){
+currentUser=user;
+currentRole="user";
+showPage("home");
+alert("Login successful. Welcome "+user.name+"!");
+return;
+}
+}
+$("loginMsg").innerText="Invalid login details.";
+}
+
+function addDestination(){
+if(!isAdmin())return;
+let name=$("destName").value.trim();
+let location=$("destLocation").value.trim();
+let description=$("destDescription").value.trim();
+let image=$("destImage").value.trim();
+
+if(!name||!location||!description){
+alert("Please fill destination details.");
+return;
+}
+destinations.push({id:Date.now(),name,location,description,image});
+saveData();
+$("destName").value=$("destLocation").value=$("destDescription").value=$("destImage").value="";
+render();
+alert("Tourism details added successfully.");
+}
+
+function addFood(){
+if(!isAdmin())return;
+let name=$("foodName").value.trim();
+let place=$("foodPlace").value.trim();
+let price=$("foodPrice").value;
+if(!name||!place||price===""||Number(price)<0){
+alert("Enter valid food details.");
+return;
+}
+foods.push({id:Date.now(),name,place,price:Number(price)});
+saveData();
+$("foodName").value=$("foodPlace").value=$("foodPrice").value="";
+render();
+}
+
+function addHotel(){
+if(!isAdmin())return;
+let name=$("hotelName").value.trim();
+let location=$("hotelLocation").value.trim();
+let type=$("hotelType").value;
+let price=$("hotelPrice").value;
+let image=$("hotelImage").value.trim();
+
+if(!name||!location||price===""||Number(price)<0){
+alert("Enter valid accommodation details.");
+return;
+}
+hotels.push({id:Date.now(),name,location,type,price:Number(price),image});
+saveData();
+$("hotelName").value=$("hotelLocation").value=$("hotelPrice").value=$("hotelImage").value="";
+render();
+}
+
+function addRoute(){
+if(!isAdmin())return;
+let from=$("routeFrom").value.trim();
+let to=$("routeTo").value.trim();
+let transport=$("routeTransport").value.trim();
+let duration=$("routeDuration").value.trim();
+
+if(!from||!to||!transport||!duration){
+alert("Fill all route details.");
+return;
+}
+routes.push({id:Date.now(),from,to,transport,duration});
+saveData();
+$("routeFrom").value=$("routeTo").value=$("routeTransport").value=$("routeDuration").value="";
+render();
+}
+
+function isAdmin(){
+if(currentRole!=="admin"){
+alert("Admin login required.");
+return false;
+}
+return true;
+}
+
+function deleteItem(type,id){
+if(!isAdmin())return;
+if(!confirm("Are you sure you want to delete this item?"))return;
+
+if(type==="food")foods=foods.filter(x=>x.id!==id);
+if(type==="hotel"){
+hotels=hotels.filter(x=>x.id!==id);
+bookings=bookings.map(b=>b.hotelId===id?{...b,status:"Cancelled"}:b);
+}
+if(type==="route")routes=routes.filter(x=>x.id!==id);
+if(type==="destination")destinations=destinations.filter(x=>x.id!==id);
+
+saveData();
+render();
+}
+
+function selectHotel(id){
+if(currentRole!=="user"){
+alert("Please login as a user to book accommodation.");
+showPage("login");
+return;
+}
+selectedHotelId=id;
+let hotel=hotels.find(h=>h.id===id);
+$("selectedHotel").innerText="Selected Accommodation: "+hotel.name+" - ₹"+hotel.price+" per night";
+$("bookingName").value=currentUser.name;
+$("bookingPhone").value=currentUser.phone;
+$("bookingMsg").innerText="";
+showPage("booking");
+}
+
+function bookHotel(){
+if(currentRole!=="user"||!currentUser){
+alert("Please login first.");
+return;
+}
+let hotel=hotels.find(h=>h.id===selectedHotelId);
+let name=$("bookingName").value.trim();
+let phone=$("bookingPhone").value.trim();
+let start=$("checkIn").value;
+let end=$("checkOut").value;
+let guests=Number($("guests").value);
+
+if(!hotel||!name||!phone||!start||!end||!Number.isInteger(guests)||guests<1){
+$("bookingMsg").innerText="Please enter all booking details correctly.";
+return;
+}
+if(new Date(end)<=new Date(start)){
+$("bookingMsg").innerText="Check-out must be after check-in.";
+return;
+}
+
+bookings.push({
+id:Date.now(),
+user:currentUser.email,
+guestName:name,
+phone,
+hotelId:hotel.id,
+hotelName:hotel.name,
+location:hotel.location,
+start,end,guests,
+status:"Confirmed"
+});
+
+saveData();
+$("bookingMsg").innerText="Booking confirmed successfully!";
+render();
+}
+
+function updateBooking(id,status){
+if(!isAdmin())return;
+let booking=bookings.find(b=>b.id===id);
+if(booking)booking.status=status;
+saveData();
+render();
+}
+
+function render(){
+$("destinationList").innerHTML=destinations.map(d=>`
+<div class="card">
+${d.image?`<img src="${escapeHTML(d.image)}" alt="${escapeHTML(d.name)}">`:""}
+<div class="card-content">
+<span class="tag">Tourism Destination</span>
+<h3>${escapeHTML(d.name)}</h3>
+<p>📍 ${escapeHTML(d.location)}</p>
+<p>${escapeHTML(d.description)}</p>
+${currentRole==="admin"?`<button class="action danger" onclick="deleteItem('destination',${d.id})">Delete</button>`:""}
+</div></div>`).join("");
+
+$("foodList").innerHTML=foods.map(f=>`
+<div class="card"><div class="card-content">
+<span class="tag">Local Food</span>
+<h3>${escapeHTML(f.name)}</h3>
+<p>📍 ${escapeHTML(f.place)}</p>
+<p>Price: ₹${f.price}</p>
+</div></div>`).join("");
+
+$("hotelList").innerHTML=hotels.map(h=>`
+<div class="card">
+${h.image?`<img src="${escapeHTML(h.image)}" alt="${escapeHTML(h.name)}">`:""}
+<div class="card-content">
+<span class="tag">${escapeHTML(h.type)}</span>
+<h3>${escapeHTML(h.name)}</h3>
+<p>📍 ${escapeHTML(h.location)}</p>
+<p>₹${h.price} per night</p>
+<button class="action" onclick="selectHotel(${h.id})">Book Now</button>
+</div></div>`).join("");
+
+$("routeTable").innerHTML=routes.map(r=>`
+<tr><td>${escapeHTML(r.from)}</td><td>${escapeHTML(r.to)}</td>
+<td>${escapeHTML(r.transport)}</td><td>${escapeHTML(r.duration)}</td></tr>`).join("");
+
+$("destCount").innerText=destinations.length;
+$("foodCount").innerText=foods.length;
+$("hotelCount").innerText=hotels.length;
+$("bookingCount").innerText=bookings.length;
+
+$("adminFoodTable").innerHTML=foods.map(f=>`
+<tr><td>${escapeHTML(f.name)}</td><td>${escapeHTML(f.place)}</td>
+<td>₹${f.price}</td><td><button class="action danger" onclick="deleteItem('food',${f.id})">Delete</button></td></tr>`).join("");
+
+$("adminHotelTable").innerHTML=hotels.map(h=>`
+<tr><td>${escapeHTML(h.name)}</td><td>${escapeHTML(h.location)}</td>
+<td>${escapeHTML(h.type)}</td><td>₹${h.price}</td>
+<td><button class="action danger" onclick="deleteItem('hotel',${h.id})">Delete</button></td></tr>`).join("");
+
+$("adminRouteTable").innerHTML=routes.map(r=>`
+<tr><td>${escapeHTML(r.from)}</td><td>${escapeHTML(r.to)}</td>
+<td>${escapeHTML(r.transport)}</td><td>${escapeHTML(r.duration)}</td>
+<td><button class="action danger" onclick="deleteItem('route',${r.id})">Delete</button></td></tr>`).join("");
+
+$("adminBookingTable").innerHTML=bookings.map(b=>`
+<tr><td>${escapeHTML(b.user)}</td><td>${escapeHTML(b.hotelName)}</td>
+<td>${escapeHTML(b.start)}</td><td>${escapeHTML(b.end)}</td>
+<td>${b.guests}</td><td>${escapeHTML(b.status)}</td>
+<td><button class="action" onclick="updateBooking(${b.id},'Confirmed')">Confirm</button>
+<button class="action danger" onclick="updateBooking(${b.id},'Cancelled')">Cancel</button></td></tr>`).join("");
+
+$("myBookingTable").innerHTML=bookings.filter(b=>currentUser&&b.user===currentUser.email).map(b=>`
+<tr><td>${escapeHTML(b.hotelName)}</td><td>${escapeHTML(b.location)}</td>
+<td>${escapeHTML(b.start)}</td><td>${escapeHTML(b.end)}</td>
+<td>${b.guests}</td><td>${escapeHTML(b.status)}</td></tr>`).join("");
+}
+
+function logout(){
+currentUser=null;
+currentRole=null;
+selectedHotelId=null;
+showPage("home");
+alert("You have logged out successfully.");
+}
+
+render();
+</script>
+</body>
+</html>

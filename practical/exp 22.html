@@ -1,0 +1,396 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>EcoTrack - Solid Waste Management</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial;background:#f4f6f2;color:#26352b}
+header{background:#244b3b;color:white;padding:20px;text-align:center}
+nav{background:#18382c;padding:12px;text-align:center}
+nav button{background:transparent;color:white;border:0;padding:10px 15px;cursor:pointer}
+nav button:hover{background:#3c7256;border-radius:5px}
+.container{max-width:1100px;margin:25px auto;padding:15px}
+.page{display:none}
+.active{display:block}
+.box{background:white;padding:20px;margin:15px 0;border-radius:10px;box-shadow:0 2px 8px #0001}
+input,select,textarea{width:100%;padding:11px;margin:8px 0;border:1px solid #ccc;border-radius:5px}
+button.action{background:#28734d;color:white;border:0;padding:10px 16px;border-radius:5px;cursor:pointer;margin:5px}
+button.danger{background:#bd4545}
+button.secondary{background:#526b60}
+.card{display:inline-block;background:#e8f3eb;padding:18px;margin:8px;border-radius:8px;min-width:180px}
+table{width:100%;border-collapse:collapse;margin-top:12px;background:white}
+th,td{padding:11px;border:1px solid #ddd;text-align:left}
+th{background:#e5eee7}
+small{color:#68756c}
+footer{text-align:center;padding:20px;background:#18382c;color:white;margin-top:30px}
+</style>
+</head>
+<body>
+
+<header>
+<h1>🌱 EcoTrack</h1>
+<p>Smart Solid Waste Management System</p>
+</header>
+
+<nav>
+<button onclick="showPage('home')">Home</button>
+<button onclick="showPage('register')">Register</button>
+<button onclick="showPage('login')">Login</button>
+<button onclick="showPage('admin')">Admin</button>
+<button onclick="showPage('public')">Public Dashboard</button>
+<button onclick="showPage('driver')">Driver Dashboard</button>
+</nav>
+
+<div class="container">
+
+<!-- HOME -->
+<section id="home" class="page active">
+<div class="box">
+<h2>Welcome to EcoTrack</h2>
+<p>EcoTrack helps manage waste collection, garbage bins, public complaints and driver routes.</p>
+<button class="action" onclick="showPage('register')">Get Started</button>
+</div>
+<div class="box">
+<h3>Our Services</h3>
+<div class="card">🗑️<h3>Bin Management</h3><p>Monitor garbage bins.</p></div>
+<div class="card">🚛<h3>Waste Collection</h3><p>Manage collection work.</p></div>
+<div class="card">📊<h3>Reports</h3><p>Monitor waste statistics.</p></div>
+</div>
+</section>
+
+<!-- REGISTER -->
+<section id="register" class="page">
+<div class="box">
+<h2>Public Registration</h2>
+<input id="regname" placeholder="Full Name">
+<input id="regemail" type="email" placeholder="Email">
+<input id="regpass" type="password" placeholder="Password">
+<button class="action" onclick="registerUser()">Register</button>
+<p id="regmsg"></p>
+</div>
+</section>
+
+<!-- LOGIN -->
+<section id="login" class="page">
+<div class="box">
+<h2>Login</h2>
+<select id="role">
+<option value="public">General Public</option>
+<option value="driver">Driver</option>
+<option value="admin">Administrator</option>
+</select>
+<input id="email" placeholder="Email / Username">
+<input id="password" type="password" placeholder="Password">
+<button class="action" onclick="loginUser()">Login</button>
+<p id="loginmsg"></p>
+<small>Admin: admin / admin123<br>
+Driver: driver@ecotrack.com / 123</small>
+</div>
+</section>
+
+<!-- ADMIN -->
+<section id="admin" class="page">
+<h2>Administrator Dashboard</h2>
+<div class="box">
+<h3>System Overview</h3>
+<div class="card">Total Bins<h2 id="totalBins">0</h2></div>
+<div class="card">Complaints<h2 id="totalComplaints">0</h2></div>
+<div class="card">Collected Load<h2 id="totalLoad">0 kg</h2></div>
+<div class="card">Drivers<h2 id="totalDrivers">1</h2></div>
+</div>
+
+<div class="box">
+<h3>Create Garbage Bin</h3>
+<input id="binname" placeholder="Bin Name / ID">
+<input id="binlocation" placeholder="Location">
+<select id="binstatus">
+<option>Empty</option>
+<option>Partially Filled</option>
+<option>Full</option>
+</select>
+<button class="action" onclick="addBin()">Add Bin</button>
+</div>
+
+<div class="box">
+<h3>Manage Garbage Bins</h3>
+<table>
+<thead><tr><th>Bin ID</th><th>Location</th><th>Status</th><th>Action</th></tr></thead>
+<tbody id="binTable"></tbody>
+</table>
+</div>
+
+<div class="box">
+<h3>Manage Drivers</h3>
+<input id="drivername" placeholder="Driver Name">
+<input id="driveremail" placeholder="Driver Email">
+<button class="action" onclick="addDriver()">Add Driver</button>
+<table>
+<thead><tr><th>Name</th><th>Email</th><th>Action</th></tr></thead>
+<tbody id="driverTable"></tbody>
+</table>
+</div>
+
+<div class="box">
+<h3>Assign Collection Route</h3>
+<select id="routeDriver"></select>
+<select id="routeBin"></select>
+<input id="dumping" placeholder="Dumping Site">
+<button class="action" onclick="assignRoute()">Assign Route</button>
+</div>
+
+<div class="box">
+<h3>Garbage Collection Reports</h3>
+<table>
+<thead><tr><th>Driver</th><th>Bin</th><th>Load</th><th>Date</th></tr></thead>
+<tbody id="reportTable"></tbody>
+</table>
+</div>
+
+<div class="box">
+<h3>Public Complaints</h3>
+<table>
+<thead><tr><th>Complaint</th><th>Location</th><th>Status</th><th>Action</th></tr></thead>
+<tbody id="adminComplaintTable"></tbody>
+</table>
+</div>
+</section>
+
+<!-- PUBLIC -->
+<section id="public" class="page">
+<h2>General Public Dashboard</h2>
+<div class="box">
+<h3>Register a Complaint</h3>
+<input id="complaintTitle" placeholder="Complaint Title">
+<input id="complaintLocation" placeholder="Location">
+<textarea id="complaintDesc" placeholder="Describe the garbage problem"></textarea>
+<button class="action" onclick="submitComplaint()">Submit Complaint</button>
+<p id="complaintMsg"></p>
+</div>
+<div class="box">
+<h3>My Complaints and Status</h3>
+<table>
+<thead><tr><th>Complaint</th><th>Location</th><th>Status</th></tr></thead>
+<tbody id="myComplaintTable"></tbody>
+</table>
+</div>
+</section>
+
+<!-- DRIVER -->
+<section id="driver" class="page">
+<h2>Driver Dashboard</h2>
+<div class="box">
+<h3>Daily Work Updates</h3>
+<p>View your assigned garbage collection routes below.</p>
+<table>
+<thead><tr><th>Garbage Bin</th><th>Location</th><th>Dumping Site</th><th>Action</th></tr></thead>
+<tbody id="driverRouteTable"></tbody>
+</table>
+</div>
+<div class="box">
+<h3>Update Garbage Load</h3>
+<select id="loadRoute"></select>
+<input id="garbageLoad" type="number" min="0" placeholder="Collected garbage in kg">
+<button class="action" onclick="updateLoad()">Submit Load</button>
+<p id="loadMsg"></p>
+</div>
+</section>
+
+</div>
+
+<footer>
+<p>EcoTrack - Solid Waste Management System</p>
+</footer>
+
+<script>
+let users=JSON.parse(localStorage.getItem("ecoUsers"))||[];
+let bins=JSON.parse(localStorage.getItem("ecoBins"))||[];
+let drivers=JSON.parse(localStorage.getItem("ecoDrivers"))||[
+{name:"Demo Driver",email:"driver@ecotrack.com",password:"123"}
+];
+let complaints=JSON.parse(localStorage.getItem("ecoComplaints"))||[];
+let routes=JSON.parse(localStorage.getItem("ecoRoutes"))||[];
+let reports=JSON.parse(localStorage.getItem("ecoReports"))||[];
+let currentUser=null;
+
+function save(){
+localStorage.setItem("ecoUsers",JSON.stringify(users));
+localStorage.setItem("ecoBins",JSON.stringify(bins));
+localStorage.setItem("ecoDrivers",JSON.stringify(drivers));
+localStorage.setItem("ecoComplaints",JSON.stringify(complaints));
+localStorage.setItem("ecoRoutes",JSON.stringify(routes));
+localStorage.setItem("ecoReports",JSON.stringify(reports));
+}
+
+function showPage(id){
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+render();
+}
+
+function registerUser(){
+let name=regname.value.trim();
+let email=regemail.value.trim().toLowerCase();
+let pass=regpass.value;
+if(!name||!email||!pass){regmsg.innerText="Please fill all fields.";return;}
+if(users.some(u=>u.email===email)){regmsg.innerText="Email already registered.";return;}
+users.push({name,email,password:pass});
+save();
+regmsg.innerText="Registration successful. Please login.";
+regname.value=regemail.value=regpass.value="";
+}
+
+function loginUser(){
+let r=role.value,e=email.value.trim().toLowerCase(),p=password.value;
+if(r==="admin"&&e==="admin"&&p==="admin123"){
+currentUser={role:"admin",email:"admin"};
+showPage("admin");return;
+}
+if(r==="driver"){
+let d=drivers.find(x=>x.email.toLowerCase()===e&&x.password===p);
+if(d){currentUser={role:"driver",email:d.email,name:d.name};showPage("driver");return;}
+}
+if(r==="public"){
+let u=users.find(x=>x.email===e&&x.password===p);
+if(u){currentUser={role:"public",email:u.email,name:u.name};showPage("public");return;}
+}
+loginmsg.innerText="Invalid login details.";
+}
+
+function addBin(){
+let name=binname.value.trim(),loc=binlocation.value.trim();
+if(!name||!loc){alert("Enter bin ID and location.");return;}
+if(bins.some(b=>b.name===name)){alert("Bin ID already exists.");return;}
+bins.push({id:Date.now(),name,loc,status:binstatus.value});
+binname.value=binlocation.value="";
+save();render();
+}
+
+function deleteBin(id){
+bins=bins.filter(b=>b.id!==id);
+routes=routes.filter(r=>r.binId!==id);
+save();render();
+}
+
+function addDriver(){
+let name=drivername.value.trim(),em=driveremail.value.trim().toLowerCase();
+if(!name||!em){alert("Enter driver details.");return;}
+if(drivers.some(d=>d.email.toLowerCase()===em)){alert("Driver already exists.");return;}
+drivers.push({name,email:em,password:"123"});
+drivername.value=driveremail.value="";
+save();render();
+}
+
+function deleteDriver(em){
+drivers=drivers.filter(d=>d.email!==em);
+routes=routes.filter(r=>r.driver!==em);
+save();render();
+}
+
+function assignRoute(){
+let driver=routeDriver.value,binId=Number(routeBin.value),dump=dumping.value.trim();
+let b=bins.find(x=>x.id===binId);
+if(!driver||!b||!dump){alert("Select driver, bin and dumping site.");return;}
+routes.push({id:Date.now(),driver,binId,binName:b.name,location:b.loc,dump});
+save();render();
+alert("Route assigned successfully.");
+}
+
+function submitComplaint(){
+if(!currentUser||currentUser.role!=="public"){alert("Please login as a public user first.");showPage("login");return;}
+let title=complaintTitle.value.trim(),loc=complaintLocation.value.trim(),desc=complaintDesc.value.trim();
+if(!title||!loc||!desc){alert("Fill all complaint details.");return;}
+complaints.push({id:Date.now(),email:currentUser.email,title,loc,desc,status:"Pending"});
+save();complaintTitle.value=complaintLocation.value=complaintDesc.value="";
+complaintMsg.innerText="Complaint submitted successfully.";
+render();
+}
+
+function updateComplaint(id,status){
+let c=complaints.find(x=>x.id===id);
+if(c)c.status=status;
+save();render();
+}
+
+function updateLoad(){
+if(!currentUser||currentUser.role!=="driver"){alert("Please login as a driver.");return;}
+let route=routes.find(r=>r.id===Number(loadRoute.value)&&r.driver===currentUser.email);
+let load=Number(garbageLoad.value);
+if(!route||!garbageLoad.value||!Number.isFinite(load)||load<=0){alert("Select a route and enter a valid load.");return;}
+reports.push({driver:currentUser.name,bin:route.binName,load,date:new Date().toLocaleDateString()});
+let b=bins.find(x=>x.id===route.binId);
+if(b)b.status="Empty";
+save();garbageLoad.value="";
+loadMsg.innerText="Garbage load updated successfully.";
+render();
+}
+
+function render(){
+totalBins.innerText=bins.length;
+totalComplaints.innerText=complaints.length;
+totalLoad.innerText=reports.reduce((s,r)=>s+r.load,0)+" kg";
+totalDrivers.innerText=drivers.length;
+
+binTable.innerHTML=bins.map(b=>
+`<tr><td>${b.name}</td><td>${b.loc}</td><td>${b.status}</td>
+<td><button class="action secondary" onclick="editBin(${b.id})">Edit</button>
+<button class="action danger" onclick="deleteBin(${b.id})">Delete</button></td></tr>`
+).join("");
+
+driverTable.innerHTML=drivers.map(d=>
+`<tr><td>${d.name}</td><td>${d.email}</td>
+<td><button class="action danger" onclick="deleteDriver('${d.email}')">Delete</button></td></tr>`
+).join("");
+
+routeDriver.innerHTML='<option value="">Select Driver</option>'+drivers.map(d=>
+`<option value="${d.email}">${d.name}</option>`).join("");
+
+routeBin.innerHTML='<option value="">Select Bin</option>'+bins.map(b=>
+`<option value="${b.id}">${b.name} - ${b.loc}</option>`).join("");
+
+reportTable.innerHTML=reports.map(r=>
+`<tr><td>${r.driver}</td><td>${r.bin}</td><td>${r.load} kg</td><td>${r.date}</td></tr>`
+).join("");
+
+adminComplaintTable.innerHTML=complaints.map(c=>
+`<tr><td>${c.title}</td><td>${c.loc}</td><td>${c.status}</td>
+<td><button class="action" onclick="updateComplaint(${c.id},'Resolved')">Resolve</button></td></tr>`
+).join("");
+
+myComplaintTable.innerHTML=complaints.filter(c=>currentUser&&c.email===currentUser.email).map(c=>
+`<tr><td>${c.title}</td><td>${c.loc}</td><td>${c.status}</td></tr>`
+).join("");
+
+let myRoutes=routes.filter(r=>currentUser&&r.driver===currentUser.email);
+driverRouteTable.innerHTML=myRoutes.map(r=>
+`<tr><td>${r.binName}</td><td>${r.location}</td><td>${r.dump}</td>
+<td><button class="action" onclick="selectRoute(${r.id})">Choose Route</button></td></tr>`
+).join("");
+
+loadRoute.innerHTML='<option value="">Select Route</option>'+myRoutes.map(r=>
+`<option value="${r.id}">${r.binName} - ${r.location}</option>`).join("");
+}
+
+function editBin(id){
+let b=bins.find(x=>x.id===id);
+if(!b)return;
+let name=prompt("Enter bin name:",b.name);
+if(name===null)return;
+let loc=prompt("Enter location:",b.loc);
+if(loc===null)return;
+let status=prompt("Enter status: Empty, Partially Filled, Full",b.status);
+if(!name.trim()||!loc.trim())return;
+if(!["Empty","Partially Filled","Full"].includes(status)){alert("Invalid status.");return;}
+b.name=name.trim();b.loc=loc.trim();b.status=status;
+save();render();
+}
+
+function selectRoute(id){
+loadRoute.value=id;
+garbageLoad.focus();
+}
+
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,385 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CareerConnect - Job Portal</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f5fa;color:#252b40}
+header{background:#20294b;color:white;padding:20px 6%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+header h1{margin:0;color:#79d8c5}
+header p{margin:5px 0 0;color:#c4cce0;font-size:13px}
+nav{background:white;padding:12px 4%;display:flex;gap:8px;flex-wrap:wrap;box-shadow:0 2px 8px #0001}
+button{border:0;border-radius:7px;padding:10px 15px;background:#287e70;color:white;cursor:pointer}
+button:hover{background:#1d6257}
+nav button{background:#eef1f8;color:#283354}
+nav button:hover{background:#dce6f5}
+.container{max-width:1100px;margin:25px auto;padding:0 16px}
+.page{display:none}
+.page.active{display:block}
+.card{background:white;padding:20px;margin:15px 0;border-radius:12px;box-shadow:0 3px 14px #2222220b}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:15px}
+h2,h3{color:#28375e}
+input,select,textarea{width:100%;padding:11px;margin:7px 0 14px;border:1px solid #d4dbea;border-radius:7px;font:inherit;background:#fff}
+textarea{min-height:85px}
+label{font-size:14px;font-weight:bold}
+.tag{display:inline-block;background:#e2f4ef;color:#226c5d;padding:5px 9px;border-radius:15px;font-size:12px}
+.small{font-size:13px;color:#778096}
+.hero{background:#28375e;color:white;padding:35px;border-radius:15px}
+.hero h2{color:#8be1ce;font-size:30px}
+.job{border-left:4px solid #42aa95}
+.job h3{margin-top:0}
+.job .salary{color:#287e70;font-weight:bold}
+.status{font-weight:bold;color:#287e70}
+table{width:100%;border-collapse:collapse;margin-top:12px}
+th,td{padding:10px;text-align:left;border-bottom:1px solid #e5e9f0;font-size:13px}
+footer{background:#20294b;color:white;text-align:center;padding:20px;margin-top:40px}
+</style>
+</head>
+<body>
+
+<header>
+ <div>
+  <h1>✦ CareerConnect</h1>
+  <p>Discover opportunities. Build your future.</p>
+ </div>
+ <div id="welcome">Welcome to CareerConnect</div>
+</header>
+
+<nav>
+ <button onclick="showPage('home')">Home</button>
+ <button onclick="showPage('jobs')">Find Jobs</button>
+ <button onclick="showPage('register')">Register</button>
+ <button onclick="showPage('login')">Login</button>
+ <button onclick="showPage('saved')">Saved Jobs</button>
+ <button onclick="showPage('applications')">My Applications</button>
+ <button onclick="showPage('notifications')">Notifications</button>
+ <button onclick="showPage('privacy')">Privacy</button>
+ <button onclick="showPage('director')">Director Panel</button>
+ <button onclick="showPage('admin')">Admin Panel</button>
+ <button onclick="logout()">Logout</button>
+</nav>
+
+<div class="container">
+
+<section id="home" class="page active">
+ <div class="hero">
+  <h2>Find the Right Job for Your Future</h2>
+  <p>Explore opportunities from different companies in one place. Search, save and apply for vacancies online.</p>
+  <button onclick="showPage('jobs')">Explore Vacancies</button>
+ </div>
+ <div class="grid">
+  <div class="card"><h3>🔎 Smart Job Search</h3><p>Find vacancies by job title, category and location.</p></div>
+  <div class="card"><h3>📄 Online Applications</h3><p>Submit applications and resumes online.</p></div>
+  <div class="card"><h3>🔖 Save Jobs</h3><p>Keep interesting vacancies for later.</p></div>
+  <div class="card"><h3>🔔 Updates</h3><p>View application and vacancy notifications.</p></div>
+ </div>
+</section>
+
+<section id="register" class="page">
+ <div class="card">
+  <h2>Create an Account</h2>
+  <form onsubmit="register(event)">
+   <label>Full Name</label><input id="regname" required>
+   <label>Email</label><input id="regemail" type="email" required>
+   <label>Phone Number</label><input id="regphone" required>
+   <label>Account Type</label>
+   <select id="regrole"><option value="user">Applicant</option><option value="director">Director</option></select>
+   <label>Company Name (for directors)</label><input id="company">
+   <label>Password</label><input id="regpass" type="password" required>
+   <button>Register</button>
+  </form>
+  <p class="small">Director accounts require administrator approval before login.</p>
+ </div>
+</section>
+
+<section id="login" class="page">
+ <div class="card">
+  <h2>Login</h2>
+  <form onsubmit="login(event)">
+   <label>Email</label><input id="loginemail" type="email" required>
+   <label>Password</label><input id="loginpass" type="password" required>
+   <button>Login</button>
+  </form>
+  <p class="small">Admin demo: admin@careerconnect.com / admin123</p>
+ </div>
+</section>
+
+<section id="jobs" class="page">
+ <h2>Explore Job Vacancies</h2>
+ <div class="card">
+  <label>Search by job title or company</label>
+  <input id="search" placeholder="Example: Software Developer" oninput="render()">
+  <div class="grid">
+   <div><label>Location</label><select id="locationFilter" onchange="render()">
+    <option value="">All Locations</option>
+    <option>Chennai</option><option>Bangalore</option><option>Hyderabad</option><option>Coimbatore</option><option>Remote</option>
+   </select></div>
+   <div><label>Category</label><select id="categoryFilter" onchange="render()">
+    <option value="">All Categories</option>
+    <option>IT</option><option>Marketing</option><option>Finance</option><option>Design</option><option>Engineering</option><option>Sales</option>
+   </select></div>
+  </div>
+ </div>
+ <div id="jobList" class="grid"></div>
+</section>
+
+<section id="apply" class="page">
+ <div class="card">
+  <h2>Apply for Job</h2>
+  <form onsubmit="applyJob(event)">
+   <label>Selected Vacancy</label><input id="applyjob" readonly>
+   <input id="applyid" type="hidden">
+   <label>Full Name</label><input id="appname" required>
+   <label>Email</label><input id="appemail" type="email" required>
+   <label>Phone Number</label><input id="appphone" required>
+   <label>Resume (PDF/DOC)</label><input id="resume" type="file" accept=".pdf,.doc,.docx" required>
+   <label>Cover Letter</label><textarea id="cover" placeholder="Tell the company why you are suitable for this role."></textarea>
+   <label>Resume Privacy</label>
+   <select id="appprivacy"><option value="selected">Only selected company</option><option value="all">All registered companies</option></select>
+   <button>Submit Application</button>
+  </form>
+  <p class="small">This demo records the resume filename. It does not upload the document to a server.</p>
+ </div>
+</section>
+
+<section id="saved" class="page">
+ <h2>My Saved Jobs</h2><div id="savedList"></div>
+</section>
+
+<section id="applications" class="page">
+ <h2>My Job Applications</h2><div id="applicationList"></div>
+</section>
+
+<section id="notifications" class="page">
+ <h2>Notifications</h2><div id="notificationList"></div>
+</section>
+
+<section id="privacy" class="page">
+ <div class="card">
+  <h2>Resume Privacy Settings</h2>
+  <p>Choose how companies can view your resume when you apply for jobs.</p>
+  <select id="privacySetting">
+   <option value="selected">Only companies I apply to</option>
+   <option value="all">All registered companies</option>
+  </select>
+  <button onclick="savePrivacy()">Save Privacy Settings</button>
+  <p class="small">Your application is still visible to the director of the vacancy you applied for.</p>
+ </div>
+</section>
+
+<section id="director" class="page">
+ <div class="card">
+  <h2>Director Dashboard</h2>
+  <div id="directorStats"></div>
+ </div>
+ <div class="card">
+  <h3>Post a New Vacancy</h3>
+  <form onsubmit="postJob(event)">
+   <label>Job Title</label><input id="jobtitle" required>
+   <label>Company Name</label><input id="jobcompany" required>
+   <label>Category</label>
+   <select id="jobcategory"><option>IT</option><option>Marketing</option><option>Finance</option><option>Design</option><option>Engineering</option><option>Sales</option></select>
+   <label>Location</label><input id="joblocation" required>
+   <label>Salary</label><input id="salary" placeholder="Example: ₹20,000 - ₹35,000">
+   <label>Contact Email</label><input id="jobcontact" type="email" required>
+   <label>Vacancy Image URL (optional)</label><input id="jobimage" type="url" placeholder="https://example.com/image.jpg">
+   <label>Job Description</label><textarea id="jobdescription" required></textarea>
+   <button>Post Vacancy</button>
+  </form>
+ </div>
+ <div class="card">
+  <h3>My Posted Vacancies</h3><div id="directorJobs"></div>
+ </div>
+ <div class="card">
+  <h3>Applied Candidates and Resumes</h3><div id="directorApplications"></div>
+ </div>
+</section>
+
+<section id="admin" class="page">
+ <div class="card">
+  <h2>Administrator Dashboard</h2><div id="adminStats"></div>
+ </div>
+ <div class="card">
+  <h3>Approve Director Accounts</h3><div id="directorApprovals"></div>
+ </div>
+ <div class="card">
+  <h3>Registered Users</h3><div id="userList"></div>
+ </div>
+ <div class="card">
+  <h3>Job Vacancy Report</h3><div id="report"></div>
+ </div>
+</section>
+
+</div>
+<footer>CareerConnect © 2026 | Online Job Recruitment Portal</footer>
+
+<script>
+const get=k=>JSON.parse(localStorage.getItem(k)||"[]");
+const put=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const current=()=>JSON.parse(localStorage.getItem("careerUser")||"null");
+
+let jobs=get("careerJobs");
+if(!jobs.length){
+ jobs=[
+ {id:1,title:"Frontend Developer",company:"Tech Solutions",category:"IT",location:"Chennai",salary:"₹25,000 - ₹40,000",contact:"hr@techsolutions.com",description:"Looking for a frontend developer with HTML, CSS and JavaScript knowledge.",director:"director@demo.com",image:"",date:new Date().toLocaleDateString()},
+ {id:2,title:"Graphic Designer",company:"Creative Studio",category:"Design",location:"Bangalore",salary:"₹20,000 - ₹30,000",contact:"jobs@creative.com",description:"Create visual designs for digital and print platforms.",director:"director@demo.com",image:"",date:new Date().toLocaleDateString()},
+ {id:3,title:"Marketing Executive",company:"Growth Media",category:"Marketing",location:"Hyderabad",salary:"₹18,000 - ₹28,000",contact:"hr@growth.com",description:"Assist with marketing campaigns and customer communication.",director:"director@demo.com",image:"",date:new Date().toLocaleDateString()},
+ {id:4,title:"Mechanical Engineer",company:"BuildTech",category:"Engineering",location:"Coimbatore",salary:"₹22,000 - ₹35,000",contact:"careers@buildtech.com",description:"Support engineering projects and technical operations.",director:"director@demo.com",image:"",date:new Date().toLocaleDateString()},
+ {id:5,title:"Remote Software Tester",company:"Digital Works",category:"IT",location:"Remote",salary:"₹25,000 - ₹38,000",contact:"jobs@digitalworks.com",description:"Test web applications and report software defects.",director:"director@demo.com",image:"",date:new Date().toLocaleDateString()}
+ ];
+ put("careerJobs",jobs);
+}
+
+function showPage(id){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ render();
+}
+function register(e){
+ e.preventDefault();
+ let users=get("careerUsers"),email=regemail.value.trim().toLowerCase();
+ if(users.some(u=>u.email===email)){alert("Email already registered");return;}
+ let role=regrole.value;
+ users.push({name:regname.value,email,phone:regphone.value,role,company:company.value,password:regpass.value,approved:role==="user",privacy:"selected"});
+ put("careerUsers",users);
+ alert(role==="director"?"Registration submitted. Wait for admin approval.":"Registration successful. Please login.");
+ e.target.reset();showPage("login");
+}
+function login(e){
+ e.preventDefault();
+ let email=loginemail.value.trim().toLowerCase(),pass=loginpass.value;
+ if(email==="admin@careerconnect.com"&&pass==="admin123"){
+  localStorage.setItem("careerUser",JSON.stringify({name:"Administrator",email,role:"admin"}));
+  alert("Admin login successful");showPage("admin");return;
+ }
+ let u=get("careerUsers").find(x=>x.email===email&&x.password===pass);
+ if(!u){alert("Invalid email or password");return;}
+ if(u.role==="director"&&!u.approved){alert("Your director account is awaiting admin approval.");return;}
+ localStorage.setItem("careerUser",JSON.stringify(u));
+ alert("Login successful");showPage(u.role==="director"?"director":"home");
+ e.target.reset();
+}
+function logout(){localStorage.removeItem("careerUser");alert("Logged out");showPage("home");}
+function requireRole(role){
+ let u=current();
+ if(!u||u.role!==role){alert("Please login with the correct account.");showPage("login");return false;}
+ return true;
+}
+function saveJob(id){
+ if(!requireRole("user"))return;
+ let list=get("careerSaved"),email=current().email;
+ if(list.some(x=>x.jobId===id&&x.user===email)){alert("Job already saved");return;}
+ list.push({jobId:id,user:email});put("careerSaved",list);
+ alert("Job saved successfully");render();
+}
+function unsaveJob(id){
+ if(!requireRole("user"))return;
+ put("careerSaved",get("careerSaved").filter(x=>!(x.jobId===id&&x.user===current().email)));render();
+}
+function openApply(id){
+ if(!requireRole("user"))return;
+ let j=get("careerJobs").find(x=>x.id===id);
+ if(!j)return;
+ applyjob.value=j.title+" - "+j.company;applyid.value=id;
+ appname.value=current().name;appemail.value=current().email;appphone.value=current().phone;
+ showPage("apply");applyjob.value=j.title+" - "+j.company;applyid.value=id;
+}
+function applyJob(e){
+ e.preventDefault();if(!requireRole("user"))return;
+ let file=resume.files[0];
+ if(!file){alert("Please select your resume");return;}
+ let id=Number(applyid.value),j=get("careerJobs").find(x=>x.id===id);
+ if(!j){alert("Vacancy not found");return;}
+ let list=get("careerApplications");
+ if(list.some(a=>a.jobId===id&&a.user===current().email)){alert("You have already applied for this job");return;}
+ list.push({id:Date.now(),jobId:id,title:j.title,company:j.company,director:j.director,user:current().email,name:appname.value,email:appemail.value,phone:appphone.value,resume:file.name,cover:cover.value,privacy:appprivacy.value,status:"Submitted",date:new Date().toLocaleString()});
+ put("careerApplications",list);
+ let n=get("careerNotifications");n.push({user:current().email,text:"Your application for "+j.title+" was submitted successfully.",date:new Date().toLocaleString()});put("careerNotifications",n);
+ alert("Job application submitted successfully");e.target.reset();showPage("applications");
+}
+function postJob(e){
+ e.preventDefault();if(!requireRole("director"))return;
+ let list=get("careerJobs");
+ list.push({id:Date.now(),title:jobtitle.value,company:jobcompany.value,category:jobcategory.value,location:joblocation.value,salary:salary.value,contact:jobcontact.value,image:jobimage.value,description:jobdescription.value,director:current().email,date:new Date().toLocaleDateString()});
+ put("careerJobs",list);e.target.reset();alert("Vacancy posted successfully");render();
+}
+function deleteJob(id){
+ if(!requireRole("director"))return;
+ let j=get("careerJobs").find(x=>x.id===id);
+ if(!j||j.director!==current().email){alert("You cannot delete this vacancy");return;}
+ if(!confirm("Delete this vacancy?"))return;
+ put("careerJobs",get("careerJobs").filter(x=>x.id!==id));render();
+}
+function updateApplication(id,status){
+ if(!requireRole("director"))return;
+ let list=get("careerApplications"),a=list.find(x=>x.id===id&&x.director===current().email);
+ if(!a)return;
+ a.status=status;put("careerApplications",list);
+ let n=get("careerNotifications");n.push({user:a.user,text:"Your application for "+a.title+" has been "+status.toLowerCase()+".",date:new Date().toLocaleString()});put("careerNotifications",n);
+ alert("Application status updated");render();
+}
+function approveDirector(email,approved){
+ if(!requireRole("admin"))return;
+ let users=get("careerUsers"),u=users.find(x=>x.email===email&&x.role==="director");
+ if(u){u.approved=approved;put("careerUsers",users);}
+ render();
+}
+function savePrivacy(){
+ if(!requireRole("user"))return;
+ let users=get("careerUsers"),u=users.find(x=>x.email===current().email);
+ u.privacy=privacySetting.value;put("careerUsers",users);
+ localStorage.setItem("careerUser",JSON.stringify(u));alert("Privacy settings saved");
+}
+function render(){
+ let u=current();
+ welcome.textContent=u?"Logged in: "+u.name+" ("+u.role+")":"Welcome to CareerConnect";
+ jobs=get("careerJobs");
+ let term=(search?.value||"").toLowerCase(),loc=locationFilter?.value||"",cat=categoryFilter?.value||"";
+ let filtered=jobs.filter(j=>(j.title+" "+j.company).toLowerCase().includes(term)&&(!loc||j.location===loc)&&(!cat||j.category===cat));
+ jobList.innerHTML=filtered.map(j=>`
+ <div class="card job">
+ ${j.image?`<img src="${j.image}" alt="Vacancy image" style="width:100%;max-height:120px;object-fit:cover;border-radius:8px">`:""}
+ <h3>${j.title}</h3><span class="tag">${j.category}</span>
+ <p><b>${j.company}</b></p><p>📍 ${j.location}</p>
+ <p class="salary">${j.salary||"Salary not specified"}</p>
+ <p>${j.description}</p><p class="small">Posted: ${j.date}</p>
+ <button onclick="openApply(${j.id})">Apply Now</button>
+ <button onclick="saveJob(${j.id})">♡ Save Job</button>
+ </div>`).join("")||"<p>No matching vacancies found.</p>";
+
+ let apps=get("careerApplications");
+ let mine=u&&u.role==="user"?apps.filter(a=>a.user===u.email):[];
+ applicationList.innerHTML=mine.length?mine.map(a=>`<div class="card"><h3>${a.title}</h3><p>${a.company}</p><p>Application ID: ${a.id}</p><p>Status: <span class="status">${a.status}</span></p><p>Resume: ${a.resume}</p><p class="small">${a.date}</p></div>`).join(""):"<p>No applications submitted yet.</p>";
+
+ let saved=u&&u.role==="user"?get("careerSaved").filter(x=>x.user===u.email):[];
+ savedList.innerHTML=saved.map(x=>{let j=jobs.find(v=>v.id===x.jobId);return j?`<div class="card"><h3>${j.title}</h3><p>${j.company} | ${j.location}</p><button onclick="openApply(${j.id})">Apply</button> <button onclick="unsaveJob(${j.id})">Remove</button></div>`:"";}).join("")||"<p>No saved jobs.</p>";
+
+ let notes=u&&u.role==="user"?get("careerNotifications").filter(n=>n.user===u.email):[];
+ notificationList.innerHTML=notes.length?notes.slice().reverse().map(n=>`<div class="card"><p>${n.text}</p><small>${n.date}</small></div>`).join(""):"<p>No notifications yet.</p>";
+
+ if(u&&u.role==="user")privacySetting.value=u.privacy||"selected";
+
+ let isDirector=u&&u.role==="director";
+ let ownJobs=isDirector?jobs.filter(j=>j.director===u.email):[];
+ directorStats.innerHTML=isDirector?`<p>My Vacancies: ${ownJobs.length}</p><p>Applications: ${apps.filter(a=>a.director===u.email).length}</p>`:"Please login as an approved director.";
+ directorJobs.innerHTML=isDirector?ownJobs.map(j=>`<div class="card"><h3>${j.title}</h3><p>${j.company} | ${j.location} | ${j.category}</p><button onclick="deleteJob(${j.id})">Delete Vacancy</button></div>`).join("")||"No vacancies posted yet.":"";
+ let directorApps=isDirector?apps.filter(a=>a.director===u.email):[];
+ directorApplications.innerHTML=isDirector?directorApps.map(a=>`
+ <div class="card"><h3>${a.name}</h3><p>Vacancy: ${a.title}</p><p>Email: ${a.email} | Phone: ${a.phone}</p><p>Resume filename: ${a.resume}</p><p>Privacy: ${a.privacy}</p><p>Cover letter: ${a.cover||"Not provided"}</p><p>Status: ${a.status}</p>
+ ${a.privacy==="all"||a.user===current().email?`<button onclick="updateApplication(${a.id},'Selected')">Select Candidate</button> <button onclick="updateApplication(${a.id},'Rejected')">Reject</button>`:""}
+ </div>`).join("")||"No applicants yet.":"";
+
+ let admin=u&&u.role==="admin";
+ let users=get("careerUsers"),directors=users.filter(x=>x.role==="director");
+ adminStats.innerHTML=admin?`<p>Total Users: ${users.filter(x=>x.role==="user").length}</p><p>Total Directors: ${directors.length}</p><p>Total Vacancies: ${jobs.length}</p><p>Total Applications: ${apps.length}</p>`:"Please login as administrator.";
+ directorApprovals.innerHTML=admin?directors.map(d=>`<div class="card"><b>${d.name}</b><p>${d.email} | ${d.company||"No company"}</p><p>Status: ${d.approved?"Approved":"Pending"}</p>${!d.approved?`<button onclick="approveDirector('${d.email}',true)">Approve</button>`:`<button onclick="approveDirector('${d.email}',false)">Revoke Approval</button>`}</div>`).join("")||"No directors registered.":"";
+ userList.innerHTML=admin?users.map(x=>`<p>${x.name} | ${x.email} | ${x.role}</p>`).join(""):"";
+ report.innerHTML=admin?`<p>Vacancies: ${jobs.length}</p><p>Applications: ${apps.length}</p><p>Selected candidates: ${apps.filter(a=>a.status==="Selected").length}</p><p>Rejected applications: ${apps.filter(a=>a.status==="Rejected").length}</p>`:"";
+}
+render();
+</script>
+</body>
+</html>

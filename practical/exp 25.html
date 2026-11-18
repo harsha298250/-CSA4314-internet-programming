@@ -1,0 +1,604 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>RoadAssist - Vehicle Breakdown Assistance</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f2f3f5;color:#252a31}
+header{background:#202832;color:white;text-align:center;padding:22px}
+header h1{margin:0}
+nav{background:#121820;padding:12px;text-align:center}
+nav button{background:transparent;color:white;border:0;padding:11px 13px;cursor:pointer}
+nav button:hover{background:#e87525;border-radius:5px}
+.container{max-width:1100px;margin:25px auto;padding:15px}
+.page{display:none}
+.active{display:block}
+.box{background:white;padding:22px;margin:16px 0;border-radius:10px;box-shadow:0 3px 12px #0000000d}
+.hero{background:linear-gradient(120deg,#202832,#46515d);color:white;padding:40px 25px;border-radius:12px;text-align:center}
+.hero h2{font-size:30px}
+input,select,textarea{width:100%;padding:11px;margin:8px 0;border:1px solid #d4d7da;border-radius:5px}
+button.action{background:#e87525;color:white;border:0;padding:10px 16px;border-radius:5px;cursor:pointer;margin:5px}
+button.action:hover{background:#c65c16}
+button.danger{background:#bd4141}
+button.secondary{background:#56616d}
+.card{display:inline-block;vertical-align:top;background:white;width:30%;min-width:220px;margin:10px 1%;padding:18px;border-radius:10px;box-shadow:0 2px 10px #0001}
+.card h3{color:#c65c16}
+.tag{background:#fff0e5;color:#c65c16;padding:5px 9px;border-radius:20px;font-size:12px}
+.status{font-weight:bold;color:#28784c}
+.pending{color:#c17a18}
+table{width:100%;border-collapse:collapse;margin-top:12px;background:white}
+th,td{padding:11px;border:1px solid #ddd;text-align:left}
+th{background:#eceff2}
+a.map{display:inline-block;background:#202832;color:white;text-decoration:none;padding:9px 12px;border-radius:5px;margin:5px 0}
+footer{background:#121820;color:white;text-align:center;padding:20px;margin-top:30px}
+small{color:#68717a}
+</style>
+</head>
+<body>
+
+<header>
+<h1>🚗 RoadAssist</h1>
+<p>Reliable On-Road Vehicle Breakdown Assistance</p>
+</header>
+
+<nav>
+<button onclick="showPage('home')">Home</button>
+<button onclick="showPage('register')">Register</button>
+<button onclick="showPage('login')">Login</button>
+<button onclick="showPage('search')">Find Mechanics</button>
+<button onclick="showPage('profile')">My Profile</button>
+<button onclick="showPage('mechanic')">Mechanic</button>
+<button onclick="showPage('admin')">Admin</button>
+</nav>
+
+<div class="container">
+
+<!-- HOME -->
+<section id="home" class="page active">
+<div class="hero">
+<h2>Vehicle Trouble? Help Is Nearby!</h2>
+<p>Find approved mechanics and get roadside assistance when you need it.</p>
+<button class="action" onclick="showPage('search')">Find a Mechanic</button>
+<button class="action" onclick="showPage('register')">Create Account</button>
+</div>
+
+<div class="box">
+<h2>Our Services</h2>
+<div class="card">
+<h3>🔧 Find Mechanics</h3>
+<p>Search approved mechanics by location.</p>
+</div>
+<div class="card">
+<h3>📍 Location Support</h3>
+<p>Open mechanic business locations using Google Maps.</p>
+</div>
+<div class="card">
+<h3>⭐ Customer Feedback</h3>
+<p>Share your experience with mechanics.</p>
+</div>
+</div>
+</section>
+
+<!-- REGISTER -->
+<section id="register" class="page">
+<div class="box">
+<h2>Account Registration</h2>
+<select id="regRole">
+<option value="user">Vehicle Owner / User</option>
+<option value="mechanic">Mechanic</option>
+</select>
+<input id="regName" placeholder="Full Name / Business Owner Name">
+<input id="regEmail" type="email" placeholder="Email Address">
+<input id="regPassword" type="password" placeholder="Password">
+<input id="regPhone" placeholder="Phone Number">
+<button class="action" onclick="registerAccount()">Register</button>
+<p id="regMsg"></p>
+<small>Mechanic accounts must be approved by the administrator before their businesses appear in search.</small>
+</div>
+</section>
+
+<!-- LOGIN -->
+<section id="login" class="page">
+<div class="box">
+<h2>Login</h2>
+<select id="loginRole">
+<option value="user">User</option>
+<option value="mechanic">Mechanic</option>
+<option value="admin">Administrator</option>
+</select>
+<input id="loginEmail" placeholder="Email / Username">
+<input id="loginPassword" type="password" placeholder="Password">
+<button class="action" onclick="loginAccount()">Login</button>
+<p id="loginMsg"></p>
+<small>Admin demo login: admin / admin123</small>
+</div>
+</section>
+
+<!-- SEARCH -->
+<section id="search" class="page">
+<h2>Find an Approved Mechanic</h2>
+<div class="box">
+<p>Search mechanics by location or business name.</p>
+<input id="searchLocation" placeholder="Enter city or location">
+<input id="searchBusiness" placeholder="Enter mechanic / business name">
+<button class="action" onclick="searchMechanics()">Search</button>
+<button class="action secondary" onclick="clearSearch()">Show All</button>
+<div id="mechanicResults"></div>
+</div>
+</section>
+
+<!-- USER PROFILE -->
+<section id="profile" class="page">
+<h2>My Profile</h2>
+<div class="box">
+<div id="profileDetails">Please login to view your profile.</div>
+<h3>Update Profile</h3>
+<input id="profileName" placeholder="Full Name">
+<input id="profilePhone" placeholder="Phone Number">
+<button class="action" onclick="updateProfile()">Save Changes</button>
+<p id="profileMsg"></p>
+</div>
+
+<div class="box">
+<h3>Post Feedback</h3>
+<select id="feedbackMechanic"></select>
+<select id="feedbackRating">
+<option value="5">5 - Excellent</option>
+<option value="4">4 - Very Good</option>
+<option value="3">3 - Good</option>
+<option value="2">2 - Average</option>
+<option value="1">1 - Poor</option>
+</select>
+<textarea id="feedbackText" placeholder="Write your feedback"></textarea>
+<button class="action" onclick="postFeedback()">Submit Feedback</button>
+<p id="feedbackMsg"></p>
+</div>
+<button class="action danger" onclick="logout()">Logout</button>
+</section>
+
+<!-- MECHANIC DASHBOARD -->
+<section id="mechanic" class="page">
+<h2>Mechanic Dashboard</h2>
+<div class="box">
+<h3>My Approval Status</h3>
+<p id="approvalStatus"></p>
+</div>
+
+<div class="box">
+<h3>Post / Manage Business</h3>
+<input id="businessName" placeholder="Business Name">
+<input id="businessLocation" placeholder="Business Address / Location">
+<input id="businessPhone" placeholder="Business Contact Number">
+<select id="businessService">
+<option>Car Repair</option>
+<option>Engine Repair</option>
+<option>Tyre Repair</option>
+<option>Battery Service</option>
+<option>Vehicle Electrical Repair</option>
+<option>General Roadside Assistance</option>
+</select>
+<textarea id="businessDescription" placeholder="Describe your services and experience"></textarea>
+<input id="licenseNumber" placeholder="Mechanic License Number">
+<button class="action" onclick="saveBusiness()">Save Business Details</button>
+<p id="businessMsg"></p>
+</div>
+
+<div class="box">
+<h3>My Business Details</h3>
+<div id="myBusiness"></div>
+</div>
+
+<div class="box">
+<h3>Customer Feedback</h3>
+<div id="mechanicFeedback"></div>
+</div>
+<button class="action danger" onclick="logout()">Logout</button>
+</section>
+
+<!-- ADMIN DASHBOARD -->
+<section id="admin" class="page">
+<h2>Administrator Dashboard</h2>
+
+<div class="box">
+<h3>System Overview</h3>
+<div class="card">Registered Users<h2 id="userCount">0</h2></div>
+<div class="card">Mechanics<h2 id="mechanicCount">0</h2></div>
+<div class="card">Approved Mechanics<h2 id="approvedCount">0</h2></div>
+<div class="card">Feedback<h2 id="feedbackCount">0</h2></div>
+</div>
+
+<div class="box">
+<h3>Mechanic Registration Approvals</h3>
+<table>
+<thead>
+<tr><th>Mechanic</th><th>Email</th><th>Phone</th><th>Status</th><th>Action</th></tr>
+</thead>
+<tbody id="approvalTable"></tbody>
+</table>
+</div>
+
+<div class="box">
+<h3>Manage Approved Mechanics</h3>
+<table>
+<thead>
+<tr><th>Business</th><th>Owner</th><th>Location</th><th>Status</th><th>Action</th></tr>
+</thead>
+<tbody id="adminBusinessTable"></tbody>
+</table>
+</div>
+
+<div class="box">
+<h3>Registered Users</h3>
+<table>
+<thead><tr><th>Name</th><th>Email</th><th>Phone</th></tr></thead>
+<tbody id="userTable"></tbody>
+</table>
+</div>
+
+<div class="box">
+<h3>All Customer Feedback</h3>
+<div id="adminFeedback"></div>
+</div>
+
+<button class="action danger" onclick="logout()">Logout</button>
+</section>
+
+</div>
+
+<footer>
+<p>RoadAssist - On-Road Vehicle Breakdown Assistance System</p>
+<p>Helping Drivers Get Back on the Road.</p>
+</footer>
+
+<script>
+const $=id=>document.getElementById(id);
+
+let accounts=JSON.parse(localStorage.getItem("raAccounts"))||[];
+let businesses=JSON.parse(localStorage.getItem("raBusinesses"))||[];
+let feedback=JSON.parse(localStorage.getItem("raFeedback"))||[];
+let currentUser=null;
+let currentRole=null;
+
+function saveData(){
+localStorage.setItem("raAccounts",JSON.stringify(accounts));
+localStorage.setItem("raBusinesses",JSON.stringify(businesses));
+localStorage.setItem("raFeedback",JSON.stringify(feedback));
+}
+
+function escapeHTML(value){
+return String(value).replace(/[&<>"']/g,c=>({
+"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+}[c]));
+}
+
+function showPage(id){
+let protectedPages=["profile","mechanic","admin"];
+if(protectedPages.includes(id)){
+let required=id==="profile"?"user":id;
+if(!currentUser||currentRole!==required){
+alert("Please login with the correct account first.");
+id="login";
+}
+}
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+$(id).classList.add("active");
+render();
+}
+
+function registerAccount(){
+let role=$("regRole").value;
+let name=$("regName").value.trim();
+let email=$("regEmail").value.trim().toLowerCase();
+let password=$("regPassword").value;
+let phone=$("regPhone").value.trim();
+
+if(!name||!email||!password||!phone){
+$("regMsg").innerText="Please fill all fields.";
+return;
+}
+if(email==="admin"||accounts.some(a=>a.email===email)){
+$("regMsg").innerText="This email is already registered.";
+return;
+}
+
+accounts.push({id:Date.now(),role,name,email,password,phone});
+saveData();
+$("regMsg").innerText=role==="mechanic"
+?"Mechanic registration submitted. Wait for admin approval."
+:"Registration successful. Please login.";
+
+$("regName").value="";
+$("regEmail").value="";
+$("regPassword").value="";
+$("regPhone").value="";
+}
+
+function loginAccount(){
+let role=$("loginRole").value;
+let email=$("loginEmail").value.trim().toLowerCase();
+let password=$("loginPassword").value;
+
+if(role==="admin"&&email==="admin"&&password==="admin123"){
+currentUser={name:"Administrator",email:"admin"};
+currentRole="admin";
+showPage("admin");
+return;
+}
+
+let account=accounts.find(a=>a.role===role&&a.email===email&&a.password===password);
+if(!account){
+$("loginMsg").innerText="Invalid login details.";
+return;
+}
+
+if(role==="mechanic"&&!account.approved){
+$("loginMsg").innerText="Your mechanic account is awaiting admin approval.";
+return;
+}
+
+currentUser=account;
+currentRole=role;
+showPage(role==="mechanic"?"mechanic":role==="user"?"profile":"admin");
+}
+
+function saveBusiness(){
+if(currentRole!=="mechanic"||!currentUser){
+alert("Please login as an approved mechanic.");
+return;
+}
+
+let name=$("businessName").value.trim();
+let location=$("businessLocation").value.trim();
+let phone=$("businessPhone").value.trim();
+let service=$("businessService").value;
+let description=$("businessDescription").value.trim();
+let license=$("licenseNumber").value.trim();
+
+if(!name||!location||!phone||!description||!license){
+alert("Please fill all business details.");
+return;
+}
+
+let existing=businesses.find(b=>b.owner===currentUser.email);
+if(existing){
+Object.assign(existing,{name,location,phone,service,description,license});
+}else{
+businesses.push({
+id:Date.now(),owner:currentUser.email,
+name,location,phone,service,description,license
+});
+}
+
+saveData();
+$("businessMsg").innerText="Business information saved successfully.";
+render();
+}
+
+function searchMechanics(){
+let location=$("searchLocation").value.trim().toLowerCase();
+let business=$("searchBusiness").value.trim().toLowerCase();
+
+let result=businesses.filter(b=>{
+let owner=accounts.find(a=>a.email===b.owner);
+return owner&&owner.approved&&
+(!location||b.location.toLowerCase().includes(location))&&
+(!business||b.name.toLowerCase().includes(business));
+});
+
+displayMechanics(result);
+}
+
+function clearSearch(){
+$("searchLocation").value="";
+$("searchBusiness").value="";
+displayMechanics(businesses.filter(b=>{
+let owner=accounts.find(a=>a.email===b.owner);
+return owner&&owner.approved;
+}));
+}
+
+function displayMechanics(list){
+$("mechanicResults").innerHTML=list.map(b=>`
+<div class="card">
+<span class="tag">✓ Approved Mechanic</span>
+<h3>${escapeHTML(b.name)}</h3>
+<p><b>Location:</b> ${escapeHTML(b.location)}</p>
+<p><b>Service:</b> ${escapeHTML(b.service)}</p>
+<p>${escapeHTML(b.description)}</p>
+<p><b>Contact:</b> ${escapeHTML(b.phone)}</p>
+<a class="map" target="_blank" rel="noopener"
+href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(b.name+", "+b.location)}">📍 View Google Maps</a>
+</div>`).join("")||"<p>No approved mechanics found. Try another location.</p>";
+}
+
+function updateProfile(){
+if(currentRole!=="user"||!currentUser){
+alert("Please login as a user.");
+return;
+}
+let name=$("profileName").value.trim();
+let phone=$("profilePhone").value.trim();
+if(!name||!phone){
+$("profileMsg").innerText="Enter your name and phone number.";
+return;
+}
+let account=accounts.find(a=>a.email===currentUser.email);
+account.name=name;
+account.phone=phone;
+currentUser=account;
+saveData();
+$("profileMsg").innerText="Profile updated successfully.";
+render();
+}
+
+function postFeedback(){
+if(currentRole!=="user"||!currentUser){
+alert("Please login as a user.");
+return;
+}
+let mechanic=$("feedbackMechanic").value;
+let rating=Number($("feedbackRating").value);
+let message=$("feedbackText").value.trim();
+
+if(!mechanic||!message){
+alert("Select a mechanic and enter feedback.");
+return;
+}
+feedback.push({
+id:Date.now(),user:currentUser.email,
+mechanic,rating,message
+});
+saveData();
+$("feedbackText").value="";
+$("feedbackMsg").innerText="Feedback submitted successfully.";
+render();
+}
+
+function approveMechanic(id){
+if(currentRole!=="admin")return;
+let account=accounts.find(a=>a.id===id);
+if(account){
+account.approved=true;
+saveData();
+render();
+}
+}
+
+function rejectMechanic(id){
+if(currentRole!=="admin")return;
+let account=accounts.find(a=>a.id===id);
+if(account){
+accounts=accounts.filter(a=>a.id!==id);
+businesses=businesses.filter(b=>b.owner!==account.email);
+saveData();
+render();
+}
+}
+
+function removeBusiness(id){
+if(currentRole!=="admin")return;
+businesses=businesses.filter(b=>b.id!==id);
+saveData();
+render();
+}
+
+function revokeApproval(email){
+if(currentRole!=="admin")return;
+let account=accounts.find(a=>a.email===email);
+if(account)account.approved=false;
+saveData();
+render();
+}
+
+function render(){
+if(currentRole==="user"&&currentUser){
+let a=accounts.find(x=>x.email===currentUser.email);
+if(a){
+$("profileDetails").innerHTML=`
+<p><b>Name:</b> ${escapeHTML(a.name)}</p>
+<p><b>Email:</b> ${escapeHTML(a.email)}</p>
+<p><b>Phone:</b> ${escapeHTML(a.phone)}</p>`;
+$("profileName").value=a.name;
+$("profilePhone").value=a.phone;
+}
+let approved=businesses.filter(b=>{
+let owner=accounts.find(a=>a.email===b.owner);
+return owner&&owner.approved;
+});
+$("feedbackMechanic").innerHTML=approved.map(b=>
+`<option value="${escapeHTML(b.owner)}">${escapeHTML(b.name)}</option>`
+).join("");
+}
+
+if(currentRole==="mechanic"&&currentUser){
+let account=accounts.find(a=>a.email===currentUser.email);
+let business=businesses.find(b=>b.owner===currentUser.email);
+
+$("approvalStatus").innerHTML=account&&account.approved
+?'<span class="status">Approved – Your business can appear in mechanic searches.</span>'
+:'<span class="pending">Awaiting administrator approval.</span>';
+
+$("myBusiness").innerHTML=business?`
+<h3>${escapeHTML(business.name)}</h3>
+<p>Location: ${escapeHTML(business.location)}</p>
+<p>Service: ${escapeHTML(business.service)}</p>
+<p>Phone: ${escapeHTML(business.phone)}</p>
+<p>License: ${escapeHTML(business.license)}</p>
+<p>${escapeHTML(business.description)}</p>
+`:"No business details have been posted yet.";
+
+$("businessName").value=business?.name||"";
+$("businessLocation").value=business?.location||"";
+$("businessPhone").value=business?.phone||"";
+$("businessService").value=business?.service||"Car Repair";
+$("businessDescription").value=business?.description||"";
+$("licenseNumber").value=business?.license||"";
+
+let mine=feedback.filter(f=>f.mechanic===currentUser.email);
+$("mechanicFeedback").innerHTML=mine.map(f=>`
+<div class="box">
+<p><b>Customer:</b> ${escapeHTML(f.user)}</p>
+<p><b>Rating:</b> ${f.rating}/5</p>
+<p>${escapeHTML(f.message)}</p>
+</div>`).join("")||"<p>No feedback received yet.</p>";
+}
+
+if(currentRole==="admin"){
+let mechanics=accounts.filter(a=>a.role==="mechanic");
+let users=accounts.filter(a=>a.role==="user");
+
+$("userCount").innerText=users.length;
+$("mechanicCount").innerText=mechanics.length;
+$("approvedCount").innerText=mechanics.filter(a=>a.approved).length;
+$("feedbackCount").innerText=feedback.length;
+
+$("approvalTable").innerHTML=mechanics.map(a=>`
+<tr>
+<td>${escapeHTML(a.name)}</td>
+<td>${escapeHTML(a.email)}</td>
+<td>${escapeHTML(a.phone)}</td>
+<td>${a.approved?'<span class="status">Approved</span>':'<span class="pending">Pending</span>'}</td>
+<td>${a.approved
+?'<span class="status">Active</span>'
+:`<button class="action" onclick="approveMechanic(${a.id})">Approve</button>
+<button class="action danger" onclick="rejectMechanic(${a.id})">Reject</button>`}
+</td></tr>`).join("");
+
+$("adminBusinessTable").innerHTML=businesses.map(b=>{
+let owner=accounts.find(a=>a.email===b.owner);
+return `<tr>
+<td>${escapeHTML(b.name)}</td>
+<td>${escapeHTML(owner?.name||"Unknown")}</td>
+<td>${escapeHTML(b.location)}</td>
+<td>${owner?.approved?"Approved":"Pending"}</td>
+<td>${owner?.approved?`<button class="action secondary" onclick="revokeApproval('${b.owner}')">Revoke Approval</button>`:""}
+<button class="action danger" onclick="removeBusiness(${b.id})">Delete</button>
+</td></tr>`;
+}).join("");
+
+$("userTable").innerHTML=users.map(u=>`
+<tr><td>${escapeHTML(u.name)}</td><td>${escapeHTML(u.email)}</td><td>${escapeHTML(u.phone)}</td></tr>`
+).join("");
+
+$("adminFeedback").innerHTML=feedback.map(f=>`
+<div class="box">
+<p><b>Mechanic:</b> ${escapeHTML(f.mechanic)}</p>
+<p><b>Customer:</b> ${escapeHTML(f.user)}</p>
+<p><b>Rating:</b> ${f.rating}/5</p>
+<p>${escapeHTML(f.message)}</p>
+</div>`).join("")||"<p>No feedback available.</p>";
+}
+}
+
+function logout(){
+currentUser=null;
+currentRole=null;
+showPage("home");
+alert("Logged out successfully.");
+}
+
+render();
+</script>
+</body>
+</html>
